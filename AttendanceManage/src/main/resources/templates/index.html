@@ -1,34 +1,33 @@
-<!DOCTYPE HTML>
-<html>
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" >
 <head>
-	<meta sharset="utf-8">
-	<title>勤怠管理</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>勤怠</title>
+	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<script th:src="@{/js/script.js}"></script>
 </head>
-    <body>
-		<form action="http://localhost:8080/index" method="post">
-		<a href="attendance.html">勤怠入力</a>
-		<a href="attendance_place.html">勤怠場所登録</a>
-		<a href="attendance_registr.html">連絡先登録</a>
-		<a href="attendance_historylist">勤怠履歴一覧表示</a>
-		<a href="attendance_situationlist.html">勤怠状況一覧表示</a>
-		<a href="login.html">ログアウト</a></br>
-		<h10>こんにちは、ななしさん。</h10></br>
-		<p11>状態:未出勤</p11>
-
-		<p id="RealtimeDateArea">※ここに日付が表示されます。</p>
-		<p id="RealtimeClockArea">※ここに時計が表示されます。</p>
-
-			</br></br>
-			<input type="submit" value="出勤" onclick="Attendance1()"/>
-			</br></br>
-			<input type="submit" value="退勤" onclick="Attendance2()"/>
-			</br></br>
-			<input type="submit" value="休憩開始" onclick="Attendance3()"/>
-			</br></br>
-			<input type="submit" value="休憩終了" onclick="Attendance4()"/>
-
-		</form>
-		<script src="time.js"></script>
-    	<script src="indexAreat.js"></script>
-    </body>
+<body>
+<nav>
+	<ul>
+		<li><a href="index" class="current">勤怠入力</a></li>
+		<li><a href="#">勤務場所登録</a></li>
+		<li><a href="#">連絡先登録</a></li>
+		<li><a href="#">勤怠履歴一覧表示</a></li>
+		<li><a href="attendanceList">勤怠状況一覧表示</a></li>
+		<li><a href="login">ログアウト</a></li>
+	</ul>
+</nav>
+<div class="admin_form">
+	<p class="name"><span>こんにちは、</span>〇〇<span>さん</span></p>
+	<p class="status">状態：<span>未出勤</span></p>
+	<span class="clock" id="view_clock"></span>
+	<form action="" th:action="@{/attendanceInput}" method="post">
+		<button type="submit" onclick="atwork()">出勤</button>
+		<button type="submit" onclick="lework()">退勤</button>
+		<button type="submit" onclick="start()">休憩開始</button>
+		<button type="submit" onclick="end()">休憩終了</button>
+	</form>
+</div>
+</body>
 </html>

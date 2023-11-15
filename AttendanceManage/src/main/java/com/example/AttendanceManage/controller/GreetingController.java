@@ -22,7 +22,7 @@ public class GreetingController {
         return "login";
 
     }
-    @PostMapping("index")
+    @RequestMapping("index")
     public String index(){
         return "index";
     }
