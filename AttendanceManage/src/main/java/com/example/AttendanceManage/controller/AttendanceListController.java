@@ -7,12 +7,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.Map;
 
 
 @Controller
 public class AttendanceListController {
-
-    List anser;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -20,9 +19,9 @@ public class AttendanceListController {
     @GetMapping("/attendanceList")
     public String index(Model model){
         String sql = "SELECT * FROM attendances";
-
-        System.out.println(jdbcTemplate.queryForList(sql));
-        anser = jdbcTemplate.queryForList(sql);
+        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
+        System.out.println(sql);
+        model.addAttribute("attendancelist", list);
         return "attendance_list";
     }
 
