@@ -19,18 +19,42 @@ public class GreetingController {
         model.addAttribute("name", name);
         //String sql = "SELECT * FROM attendances";
         //System.out.println(jdbcTemplate.queryForList(sql));
-        return "login";
-
-    }
-    @RequestMapping("index")
-    public String index(){
         return "index";
+
     }
 
-    @RequestMapping("attendance_historylist")
-    public String HistoryList(){
-        return "attendance_historylist";
+
+    @RequestMapping("/manage")
+    public String ManageMenu(){
+        return "manager_menu";
     }
+
+    @RequestMapping("/manage/userEdit")
+    public String UserEdit(){
+        return "user_edit";
+    }
+
+    @RequestMapping("/manage/workTime")
+    public String WorkTimeList(){
+        return "worktime_list";
+    }
+
+    @RequestMapping("/user")
+    public String UserMenu(){
+        return "user_menu";
+    }
+
+    @RequestMapping("/user/workerList")
+    public String WorkerList(){
+        return "workers_list";
+    }
+
+    @RequestMapping("/user/addressChange")
+    public String AddressChange(){
+        return "address_change";
+    }
+
+
 
 }
 
