@@ -24,37 +24,38 @@ public class GreetingController {
     }
 
 
-    @RequestMapping("/manage")
+    @GetMapping("/manage")
     public String ManageMenu(){
         return "manager_menu";
     }
 
-    @RequestMapping("/manage/userEdit")
+    @GetMapping("/manage/userEdit")
     public String UserEdit(){
         return "user_edit";
     }
 
-    @RequestMapping("/manage/workTime")
+    @GetMapping("/manage/workTime")
     public String WorkTimeList(){
         return "worktime_list";
     }
 
-    @RequestMapping("/user")
+    @GetMapping("/user")
     public String UserMenu(){
         return "user_menu";
     }
 
-    @RequestMapping("/user/workerList")
+    @GetMapping("/user/workerList")
     public String WorkerList(){
         return "workers_list";
     }
 
-    @RequestMapping("/user/addressChange")
+    @GetMapping("/user/addressChange")
     public String AddressChange(){
         return "address_change";
     }
-
-
-
+/*
+    @PostMapping()
+    public String
+*/
 }
 
