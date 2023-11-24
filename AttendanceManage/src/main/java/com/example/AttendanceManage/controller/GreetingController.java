@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.*;
 // http://localhost:8080/
 // http://localhost:8080/
 //接続時にPlease Sign in か Loginのどっちか書いてあるか確認してからやれ
+
+//error時の動き決めて無いっけ？
 @Controller
 public class GreetingController {
 
@@ -19,14 +21,9 @@ public class GreetingController {
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        System.out.println("test");
-        return "index";
-
-    }
-
-    @GetMapping("/login")
-    public String login_test(){
-        return "index";
+        //接続確認用
+        //System.out.println("test");
+        return "login";
     }
 
     @GetMapping("/manage")
@@ -59,12 +56,15 @@ public class GreetingController {
         return "address_change";
     }
 
+    @GetMapping("/user/attendance")
+    public String Attendance(){ return "index";}
+/*
     @PostMapping("/user")
-    public String confirm(/*@RequestParam String message,String password,Model model*/) {
+    public String confirm(@RequestParam String message,String password,Model model) {
         System.out.println("hello");
 
         return"user_menu";
     }
-
+*/
 }
 

@@ -1,21 +1,33 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ja">
+<html xmlns:th="http://www.thymeleaf.org" lang="ja" >
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>ログイン</title>
+	<title>勤怠</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<script th:src="@{/js/script.js}"></script>
 </head>
 <body>
-
-<div class="container">
-	<form th:action="@{/user}" method = "post">
-		<p class="fsize">Login</p>
-		<input type="text" placeholder="Username"/>
-		<input type="password" placeholder="Password"/>
-		<button type="submit">Login</button>
+<nav>
+	<ul>
+		<li><a href="index" class="current">勤怠入力</a></li>
+		<li><a href="#">勤務場所登録</a></li>
+		<li><a href="#">連絡先登録</a></li>
+		<li><a href="#">勤怠履歴一覧表示</a></li>
+		<li><a href="attendanceList">勤怠状況一覧表示</a></li>
+		<li><a href="login">ログアウト</a></li>
+	</ul>
+</nav>
+<div class="admin_form">
+	<p class="name"><span>こんにちは、</span>〇〇<span>さん</span></p>
+	<p class="status">状態：<span>未出勤</span></p>
+	<span class="clock" id="view_clock"></span>
+	<form action="" th:action="@{/attendanceInput}" method="post">
+		<button type="submit" onclick="atwork()">出勤</button>
+		<button type="submit" onclick="lework()">退勤</button>
+		<button type="submit" onclick="start()">休憩開始</button>
+		<button type="submit" onclick="end()">休憩終了</button>
 	</form>
 </div>
 </body>
 </html>
-
