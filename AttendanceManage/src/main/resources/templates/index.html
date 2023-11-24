@@ -7,8 +7,9 @@
 	<link rel="stylesheet" th:href="@{/css/style.css}">
 </head>
 <body>
+
 <div class="container">
-	<form>
+	<form th:action="@{/user}" method = "post">
 		<p class="fsize">Login</p>
 		<input type="text" placeholder="Username"/>
 		<input type="password" placeholder="Password"/>

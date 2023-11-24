@@ -8,6 +8,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 // http://localhost:8080/
+// http://localhost:8080/
+//接続時にPlease Sign in か Loginのどっちか書いてあるか確認してからやれ
 @Controller
 public class GreetingController {
 
@@ -17,12 +19,15 @@ public class GreetingController {
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
-        //String sql = "SELECT * FROM attendances";
-        //System.out.println(jdbcTemplate.queryForList(sql));
+        System.out.println("test");
         return "index";
 
     }
 
+    @GetMapping("/login")
+    public String login_test(){
+        return "index";
+    }
 
     @GetMapping("/manage")
     public String ManageMenu(){
@@ -53,9 +58,13 @@ public class GreetingController {
     public String AddressChange(){
         return "address_change";
     }
-/*
-    @PostMapping()
-    public String
-*/
+
+    @PostMapping("/user")
+    public String confirm(/*@RequestParam String message,String password,Model model*/) {
+        System.out.println("hello");
+
+        return"user_menu";
+    }
+
 }
 
