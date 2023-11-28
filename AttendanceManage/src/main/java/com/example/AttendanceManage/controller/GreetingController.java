@@ -38,7 +38,7 @@ public class GreetingController {
 
     @GetMapping("/manage/workTime")
     public String WorkTimeList(){
-        return "worktime_list";
+        return "attendance_list";
     }
 
     @GetMapping("/user")
