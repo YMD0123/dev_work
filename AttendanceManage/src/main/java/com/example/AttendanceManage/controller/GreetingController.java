@@ -21,6 +21,7 @@ public class GreetingController {
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
         model.addAttribute("name", name);
+        //ログイン
         //接続確認用
         //System.out.println("test");
         return "login";
@@ -28,27 +29,35 @@ public class GreetingController {
 
     @GetMapping("/manage")
     public String ManageMenu(){
+        //管理者メイン
         return "manager_menu";
     }
 
     @GetMapping("/manage/userEdit")
     public String UserEdit(){
+        //ユーザー編集
+        //編集後の処理は何処に？
         return "user_edit";
     }
 
     @GetMapping("/manage/workTime")
     public String WorkTimeList(){
-        return "attendance_list";
+        //勤務時間一覧
+        //一覧の情報を受け取って(関数名)ページ表示
+        return "workers_list";
+
     }
 
     @GetMapping("/user")
     public String UserMenu(){
+        //ユーザーメニュー
         return "user_menu";
     }
 
-    @GetMapping("/user/workerList")
+    @GetMapping("/user/attendanceList")
     public String WorkerList(){
-        return "workers_list";
+        //勤務状況一覧
+        return "attendance_list";
     }
 
     @GetMapping("/user/addressChange")
