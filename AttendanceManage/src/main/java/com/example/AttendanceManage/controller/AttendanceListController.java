@@ -1,5 +1,7 @@
 package com.example.AttendanceManage.controller;
 
+import com.example.AttendanceManage.Repository.AttendanceRepository;
+import com.example.AttendanceManage.model.Attendance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
@@ -15,12 +17,11 @@ public class AttendanceListController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    private AttendanceRepository attendanceRepository;
 
     @GetMapping("/attendanceList")
     public String index(Model model){
-        String sql = "SELECT * FROM attendances";
-        List<Map<String, Object>> list = jdbcTemplate.queryForList(sql);
-        System.out.println(sql);
+        List<Attendance> list = attendanceRepository.getAllAttendance("100");
         model.addAttribute("attendancelist", list);
         return "attendance_list";
     }

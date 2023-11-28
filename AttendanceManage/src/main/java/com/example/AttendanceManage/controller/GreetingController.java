@@ -27,10 +27,5 @@ public class GreetingController {
         return "index";
     }
 
-    @RequestMapping("attendance_historylist")
-    public String HistoryList(){
-        return "attendance_historylist";
-    }
-
 }
 
