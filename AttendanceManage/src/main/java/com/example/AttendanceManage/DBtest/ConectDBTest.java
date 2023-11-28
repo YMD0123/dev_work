@@ -9,7 +9,7 @@ public class ConectDBTest {
     public static void main(String[] args) {
         // データソースの設定
         DataSource dataSource = new DriverManagerDataSource(
-                "jdbc:postgresql://localhost:5432/akbc", "postgres", "postgres");
+                "jdbc:postgresql://localhost:5432/akbc", "ishikawakoki", "");
 
         // JdbcTemplateのインスタンス化
         JdbcTemplate jdbcTemplate = new JdbcTemplate(dataSource);
