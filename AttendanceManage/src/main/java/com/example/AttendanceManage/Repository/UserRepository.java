@@ -25,6 +25,8 @@ public class UserRepository {
         } catch (Exception e) {
             return false;
         }
+        System.out.println("result      : " + result);
+        System.out.println("getPassword : " + getPassword);
 
         // passwordとpostされたgetPasswordを比較
         if (result.equals(getPassword)) {

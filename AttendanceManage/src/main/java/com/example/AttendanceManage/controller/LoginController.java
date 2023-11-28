@@ -26,8 +26,6 @@ public class LoginController {
 
         boolean loginResult = userRepository.Login(userId, password);
 
-        System.out.println(loginResult);
-
         if (loginResult) {
             // ログイン成功の場合、index.html に遷移
             return "redirect:/index";
