@@ -34,7 +34,7 @@ public class UserRepository {
         }
     }
 
-    // passwordをハッシュ化
+    // passwordハッシュ化
     private String getMD5Hash(String stringToHash) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
