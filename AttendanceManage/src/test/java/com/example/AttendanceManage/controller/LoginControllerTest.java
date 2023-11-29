@@ -35,7 +35,7 @@ class LoginControllerTest {
         assertEquals("redirect:/index", result);
     }
 
-    // 成功時テスト
+    // ログイン成功時テスト
     @Test
     void loginSuccess() {
         when(userRepository.Login(1, "users")).thenReturn(true);
@@ -43,7 +43,7 @@ class LoginControllerTest {
         assertEquals("redirect:/index", result);
     }
 
-    // 失敗時テスト
+    // ログイン失敗時テスト
     @Test
     void loginFailure() {
         when(userRepository.Login(1, "admin")).thenReturn(false);

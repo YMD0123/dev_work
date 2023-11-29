@@ -26,13 +26,9 @@ public class LoginController {
 
         boolean loginResult = userRepository.Login(userId, password);
 
-        System.out.println(loginResult);
-
         if (loginResult) {
-            // ログイン成功の場合、index.html に遷移
             return "redirect:/index";
         } else {
-            // ログイン失敗の場合、ログイン画面にエラーメッセージを表示
             model.addAttribute("error", "ユーザー名またはパスワードが違います。");
             return "login";
         }
@@ -40,7 +36,6 @@ public class LoginController {
 
     @RequestMapping("/index")
     public String indexPage() {
-        // ログイン成功時の画面
         return "index";
     }
 }
