@@ -17,6 +17,7 @@ public class AttendanceListController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+    @Autowired
     private AttendanceRepository attendanceRepository;
 
     @GetMapping("/attendanceList")
