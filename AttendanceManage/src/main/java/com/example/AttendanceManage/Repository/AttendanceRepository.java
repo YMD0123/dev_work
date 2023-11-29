@@ -53,7 +53,6 @@ public class AttendanceRepository {
         if (sqlTime != null) {attendance.setEndTime(sqlTime.toLocalTime());}
 
         attendance.setBreakDuration((Integer)row.get("break_duration"));
-
         return null;
     }
 }
