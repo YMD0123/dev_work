@@ -1,0 +1,108 @@
+body {
+    font-family: 'Hiragino Kaku Gothic Pro','Meiryo',sans-serif,Arial;
+    font-size: 15px;
+    text-align: center;
+    background-color: #f7f7f7;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    margin: 0;
+}
+
+p {
+    font-size: 20px;
+}
+
+nav {
+    text-align: center;
+    margin-top: 30px;
+}
+nav ul {
+    margin: 0 ;
+    padding: 0 ;
+}
+nav li {
+    list-style: none;
+    display: inline-block;
+    width: 10%;
+    min-width: 90px;
+}
+nav li:not(:last-child){
+    border-right:2px solid #ddd;
+}
+nav a {
+    text-decoration: none;
+    color: #333;
+}
+nav a.current {
+    color: #007bff;
+    border-bottom:2px solid #007bff;
+}
+nav a:hover {
+    color:#F7CB4D;
+    border-bottom:2px solid #F7CB4D;
+}
+
+/* 時計表示 */
+.clock {
+    font-size: 30px;
+    margin-bottom: 20px;
+}
+
+.admin_form {
+    margin-top: 70px;
+    text-align: center;
+}
+
+form {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    grid-gap: 10px;
+    max-width: 400px;
+    width: 100%;
+    margin: 0 auto;
+}
+
+.place {
+    grid-column: span 2;
+}
+
+select {
+    width: 50%;
+    padding: 10px;
+    font-size: 16px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #fff;
+    cursor: pointer;
+    outline: none;
+    text-align-last: center;
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    text-indent: 1px;
+    text-overflow: '';
+}
+
+select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+select option {
+    padding: 10px;
+}
+
+button {
+    width: 100%;
+    padding: 20px;
+    font-size: 16px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    outline: none;
+    margin-top: 10px;
+}
