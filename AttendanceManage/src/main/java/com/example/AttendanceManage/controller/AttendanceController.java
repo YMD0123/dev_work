@@ -1,0 +1,43 @@
+package com.example.AttendanceManage.controller;
+
+import com.example.AttendanceManage.Repository.AttendanceRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Controller
+public class AttendanceController {
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
+
+    @PostMapping("/clockingIn")
+    public String clockinginput(@RequestParam("place") String place, Model model) {
+
+        boolean Result = attendanceRepository.clockingIn(place);
+
+        if (Result) {
+            return "index";
+        } else {
+            // 登録エラーメッセージアラート表示
+            model.addAttribute("errorMsg", "登録エラー");
+            return "index";
+        }
+    }
+
+    @PostMapping("clockingOut")
+    public String clockingout(Model model) {
+
+        boolean Result = attendanceRepository.clockingOut();
+
+        if (Result) {
+            model.addAttribute("ClockOutMsg", "本日もお疲れ様でした!");
+            return "index";
+        } else {
+            model.addAttribute("errorMsg", "登録エラー");
+            return "index";
+        }
+    }
+}
