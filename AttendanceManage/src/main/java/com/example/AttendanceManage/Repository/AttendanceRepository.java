@@ -5,6 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -41,13 +42,13 @@ public class AttendanceRepository {
 
         // 出勤日付取得
         LocalDate days = LocalDate.now();
-        System.out.println("出勤日時:" + days);
-        System.out.println("勤務場所:" + place);
+        System.out.println("出勤日付　　　:" + days);
+        System.out.println("勤務場所　　　:" + place);
 
         try {
             // 現在時間取得
             getClockInTime = getNowTime();
-            System.out.println("出勤時間:" + getClockInTime);
+            System.out.println("出勤時刻　　　:" + getClockInTime);
             jdbcTemplate.update(sql, user_id, days, getClockInTime, getClockInTime, place);
         } catch (Exception e) {
             return false;
@@ -57,14 +58,13 @@ public class AttendanceRepository {
 
     public boolean clockingOut(int user_id) {
 
-        //退勤ボタンが押されたとき
         String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
         String getClockOutTime;
 
         try {
             // 現在時間取得
             getClockOutTime = getNowTime();
-            System.out.println("退勤時間:" + getClockOutTime);
+            System.out.println("退勤時刻　　　:" + getClockOutTime);
             jdbcTemplate.update(sql, getClockOutTime, user_id);
         } catch (Exception e) {
             return false;
@@ -72,29 +72,75 @@ public class AttendanceRepository {
         return true;
     }
 
-    public boolean startBreak() {
+    public boolean startBreak(int user_id) {
 
-        //休憩入りボタンが押されたとき
-        // TODO 休憩開始ボタン押されてから休憩週力ボタンを押されてからに時間を格納
+        String sql = "UPDATE attendance SET break_start_time = ?::time WHERE id = ?";
+        String getStartBreak;
 
+        try {
+            // 現在時間取得
+            getStartBreak = getNowTime();
+            System.out.println("休憩開始時刻　:" + getStartBreak);
+            jdbcTemplate.update(sql, getStartBreak, user_id);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
 
-    public boolean endBreak() {
+    public boolean endBreak(int user_id) {
 
-        //休憩終わりボタンが押されたとき
+        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE id = ?";
+        String getEndBreak;
 
+        try {
+            // 現在時間取得
+            getEndBreak = getNowTime();
+            System.out.println("休憩終了時刻　:" + getEndBreak);
+            jdbcTemplate.update(sql, getEndBreak, user_id);
+            // 休憩時間取得しDB格納
+            getBreakTime(getEndBreak, user_id);
+        } catch (Exception e) {
+            return false;
+        }
         return true;
     }
-
 
     public String getNowTime() {
+
         Date nowDate = new Date();
         // フォーマット指定
         SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
-        String nowTime = sdf.format(nowDate);
 
-        return nowTime;
+        return sdf.format(nowDate);
+    }
+
+    public void getBreakTime(String getEndBreak, int user_id) {
+
+        String getBreakTimeSql = "SELECT break_start_time FROM attendance WHERE id = ?";
+        String sql = "UPDATE attendance SET break_duration = ? WHERE id = ?";
+        String getStartTime;
+        Time BreakTime;
+
+        try {
+            getStartTime = jdbcTemplate.queryForObject(getBreakTimeSql, String.class, user_id);
+            // フォーマット指定
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+            Date endBreakTime = format.parse(getEndBreak);
+            Date startBreakTime = format.parse(getStartTime);
+            // 休憩開始と終了差分計算
+            long getTime = endBreakTime.getTime() - startBreakTime.getTime();
+            // 差分をTime型に変換
+            BreakTime = new Time(getTime);
+            // HHを満たさない場合00で埋める
+            String getBreakTime = new SimpleDateFormat("HH:mm:ss").format(BreakTime);
+            getBreakTime = "00" + getBreakTime.substring(2);
+
+            System.out.println("休憩時間　　　:" + getBreakTime);
+            jdbcTemplate.update(sql, Time.valueOf(getBreakTime), user_id);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+        }
     }
 
     private Attendance mapToAttendance(Map<String, Object> row) {
