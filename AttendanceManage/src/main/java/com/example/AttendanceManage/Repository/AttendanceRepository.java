@@ -48,7 +48,7 @@ public class AttendanceRepository {
             // 現在時間取得
             getClockInTime = getNowTime();
             System.out.println("出勤時間:" + getClockInTime);
-            jdbcTemplate.update(sql, user_id,days, getClockInTime, getClockInTime, place);
+            jdbcTemplate.update(sql, user_id, days, getClockInTime, getClockInTime, place);
         } catch (Exception e) {
             return false;
         }
