@@ -33,10 +33,10 @@ public class AttendanceRepository {
         return null;
     }
 
-    public boolean clockingIn(String place) {
+    public boolean clockingIn(String place, int user_id) {
 
         String sql = "INSERT INTO attendance (user_id, date, start_time, end_time, location) " +
-                "VALUES (1, ?, ?::time, ?::time, ?)";
+                "VALUES (?, ?, ?::time, ?::time, ?)";
         String getClockInTime;
 
         // 出勤日付取得
@@ -48,24 +48,24 @@ public class AttendanceRepository {
             // 現在時間取得
             getClockInTime = getNowTime();
             System.out.println("出勤時間:" + getClockInTime);
-            jdbcTemplate.update(sql, days, getClockInTime, getClockInTime, place);
+            jdbcTemplate.update(sql, user_id,days, getClockInTime, getClockInTime, place);
         } catch (Exception e) {
             return false;
         }
-        return false;
+        return true;
     }
 
-    public boolean clockingOut() {
+    public boolean clockingOut(int user_id) {
 
         //退勤ボタンが押されたとき
-        String sql = "UPDATE attendance SET end_time = ?::time WHERE id = 7";
+        String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
         String getClockOutTime;
 
         try {
             // 現在時間取得
             getClockOutTime = getNowTime();
             System.out.println("退勤時間:" + getClockOutTime);
-            jdbcTemplate.update(sql, getClockOutTime);
+            jdbcTemplate.update(sql, getClockOutTime, user_id);
         } catch (Exception e) {
             return false;
         }

@@ -16,7 +16,9 @@ public class AttendanceController {
     @PostMapping("/clockingIn")
     public String clockinginput(@RequestParam("place") String place, Model model) {
 
-        boolean Result = attendanceRepository.clockingIn(place);
+        int user_id = 1;
+
+        boolean Result = attendanceRepository.clockingIn(place, user_id);
 
         if (Result) {
             return "index";
@@ -30,7 +32,9 @@ public class AttendanceController {
     @PostMapping("clockingOut")
     public String clockingout(Model model) {
 
-        boolean Result = attendanceRepository.clockingOut();
+        int user_id = 1;
+
+        boolean Result = attendanceRepository.clockingOut(user_id);
 
         if (Result) {
             model.addAttribute("ClockOutMsg", "本日もお疲れ様でした!");
