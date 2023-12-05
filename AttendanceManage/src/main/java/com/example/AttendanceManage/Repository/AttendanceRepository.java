@@ -120,11 +120,12 @@ public class AttendanceRepository {
         String getBreakTimeSql = "SELECT break_start_time FROM attendance WHERE id = ?";
         String sql = "UPDATE attendance SET break_duration = ? WHERE id = ?";
         String getStartTime;
-        Time BreakTime;
+        String getBreakTime;
+        Time   BreakTime;
 
         try {
             getStartTime = jdbcTemplate.queryForObject(getBreakTimeSql, String.class, user_id);
-            // フォーマット指定
+            // フォーマット指定,date変換
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
             Date endBreakTime = format.parse(getEndBreak);
             Date startBreakTime = format.parse(getStartTime);
@@ -133,7 +134,7 @@ public class AttendanceRepository {
             // 差分をTime型に変換
             BreakTime = new Time(getTime);
             // HHを満たさない場合00で埋める
-            String getBreakTime = new SimpleDateFormat("HH:mm:ss").format(BreakTime);
+            getBreakTime = new SimpleDateFormat("HH:mm:ss").format(BreakTime);
             getBreakTime = "00" + getBreakTime.substring(2);
 
             System.out.println("休憩時間　　　:" + getBreakTime);
