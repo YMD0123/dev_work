@@ -64,10 +64,6 @@ public class GreetingController {
 
     @GetMapping("/user/attendanceList")
     public String WorkerList(HttpSession session,Model model){
-        System.out.println("userid          : " + session.getAttribute("userid"));
-        System.out.println("username        : " + session.getAttribute("username"));
-        System.out.println("role            : " + session.getAttribute("role"));
-        System.out.println("department_code : " + session.getAttribute("department_code"));
         //勤務状況一覧
         List<Attendance> list = attendanceRepository.getAllAttendance((String) session.getAttribute("department_code"));
         model.addAttribute("attendancelist", list);
