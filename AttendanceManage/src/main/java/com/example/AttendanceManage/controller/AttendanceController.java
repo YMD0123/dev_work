@@ -1,6 +1,7 @@
 package com.example.AttendanceManage.controller;
 
 import com.example.AttendanceManage.Repository.AttendanceRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,11 +15,9 @@ public class AttendanceController {
     private AttendanceRepository attendanceRepository;
 
     @PostMapping("/clockingIn")
-    public String clockinginput(@RequestParam("place") String place, Model model) {
+    public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
 
-        int user_id = 1;
-
-        boolean Result = attendanceRepository.clockingIn(place, user_id);
+        boolean Result = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
 
         if (Result) {
             model.addAttribute("InOutMsg", "今日も頑張りましょう！！");
@@ -31,11 +30,9 @@ public class AttendanceController {
     }
 
     @PostMapping("clockingOut")
-    public String clockingout(Model model) {
+    public String clockingout(HttpSession session, Model model) {
 
-        int user_id = 1;
-
-        boolean Result = attendanceRepository.clockingOut(user_id);
+        boolean Result = attendanceRepository.clockingOut((int)session.getAttribute( "userId"));
 
         if (Result) {
             model.addAttribute("InOutMsg", "本日もお疲れ様でした！！");
@@ -47,11 +44,10 @@ public class AttendanceController {
     }
 
     @PostMapping("startBreak")
-    public String startBreak(Model model) {
+    public String startBreak(HttpSession session, Model model) {
 
-        int user_id = 1;
 
-        boolean Result = attendanceRepository.startBreak(user_id);
+        boolean Result = attendanceRepository.startBreak((int)session.getAttribute( "userId"));
 
         if (Result) {
             model.addAttribute("BreakMsg", "休憩開始！！");
@@ -63,11 +59,9 @@ public class AttendanceController {
     }
 
     @PostMapping("endBreak")
-    public String endBreak(Model model) {
+    public String endBreak(HttpSession session, Model model) {
 
-        int user_id = 1;
-
-        boolean Result = attendanceRepository.endBreak(user_id);
+        boolean Result = attendanceRepository.endBreak((int)session.getAttribute( "userId"));
 
         if (Result) {
             model.addAttribute("BreakMsg", "休憩終了！！");
