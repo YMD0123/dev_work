@@ -1,4 +1,7 @@
 package com.example.AttendanceManage.controller;
+import com.example.AttendanceManage.Repository.AttendanceRepository;
+import com.example.AttendanceManage.model.Attendance;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.core.JdbcOperations;
@@ -6,6 +9,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 // http://localhost:8080/
 // http://localhost:8080/
@@ -17,6 +22,9 @@ public class GreetingController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private AttendanceRepository attendanceRepository;
 
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -55,8 +63,14 @@ public class GreetingController {
     }
 
     @GetMapping("/user/attendanceList")
-    public String WorkerList(){
+    public String WorkerList(HttpSession session,Model model){
+        System.out.println("userid          : " + session.getAttribute("userid"));
+        System.out.println("username        : " + session.getAttribute("username"));
+        System.out.println("role            : " + session.getAttribute("role"));
+        System.out.println("department_code : " + session.getAttribute("department_code"));
         //勤務状況一覧
+        List<Attendance> list = attendanceRepository.getAllAttendance((String) session.getAttribute("department_code"));
+        model.addAttribute("attendancelist", list);
         return "attendance_list";
     }
 

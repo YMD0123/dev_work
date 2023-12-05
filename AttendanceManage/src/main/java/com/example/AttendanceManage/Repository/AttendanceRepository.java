@@ -107,7 +107,7 @@ public class AttendanceRepository {
         // Time型からLocalTime型への変換
         attendance.setStartTime(((java.sql.Time)row.get("start_time")).toLocalTime());
         attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
-        attendance.setBreakDuration((Integer)row.get("break_duration"));
+        if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
     }
 }

@@ -14,5 +14,5 @@ public class Attendance {
     private LocalDate date;
     private LocalTime startTime;
     private LocalTime endTime;
-    private int breakDuration;
+    private LocalTime breakDuration;
 }
