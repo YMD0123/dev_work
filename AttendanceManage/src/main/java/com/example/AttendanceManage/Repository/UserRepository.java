@@ -15,7 +15,7 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public boolean Login(int userid, String password) {
+    public boolean Login(int userId, String password) {
 
         String sql = "SELECT password FROM users WHERE id = ?";
         String getPassword;
@@ -23,7 +23,7 @@ public class UserRepository {
 
         try {
             result = getMD5Hash(password);
-            getPassword = jdbcTemplate.queryForObject(sql, String.class, userid);
+            getPassword = jdbcTemplate.queryForObject(sql, String.class, userId);
         } catch (Exception e) {
             return false;
         }
@@ -38,9 +38,9 @@ public class UserRepository {
         }
     }
 
-    public User getUserInfo(int userid){
+    public User getUserInfo(int userId){
         String sql = "SELECT * FROM users WHERE id = ?";
-        Map<String,Object> user_map = jdbcTemplate.queryForMap(sql,userid);
+        Map<String,Object> user_map = jdbcTemplate.queryForMap(sql, userId);
         User user = mapToUser(user_map);
         return user;
     }
