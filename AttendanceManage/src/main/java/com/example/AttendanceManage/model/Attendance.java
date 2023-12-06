@@ -8,34 +8,73 @@ import java.time.LocalTime;
 @Getter
 @Setter
 public class Attendance {
-    private int id;
-    private int userId;
-    private String departmentCode;
-    private LocalDate date;
-    private LocalTime startTime;
-    private LocalTime endTime;
-    private int breakDuration;
-
-
-
-    public void setId(Integer id) {
+    public int getId() {
+        return id;
     }
 
-    public void setUserId(Integer userId) {
+    public void setId(int id) {
+        this.id = id;
+    }
+
+    private int id;
+
+    public int getUserId() {
+        return userId;
+    }
+
+    public void setUserId(int userId) {
+        this.userId = userId;
+    }
+
+    private int userId;
+
+    public String getDepartmentCode() {
+        return departmentCode;
     }
 
     public void setDepartmentCode(String departmentCode) {
+        this.departmentCode = departmentCode;
+    }
+
+    private String departmentCode;
+
+    public LocalDate getDate() {
+        return date;
     }
 
     public void setDate(LocalDate date) {
+        this.date = date;
+    }
+
+    private LocalDate date;
+
+    public LocalTime getStartTime() {
+        return startTime;
     }
 
     public void setStartTime(LocalTime startTime) {
+        this.startTime = startTime;
+    }
+
+    private LocalTime startTime;
+
+    public LocalTime getEndTime() {
+        return endTime;
     }
 
     public void setEndTime(LocalTime endTime) {
+        this.endTime = endTime;
     }
 
-    public void setBreakDuration(Integer breakDuration) {
+    private LocalTime endTime;
+
+    public int getBreakDuration() {
+        return breakDuration;
     }
+
+    public void setBreakDuration(int breakDuration) {
+        this.breakDuration = breakDuration;
+    }
+
+    private int breakDuration;
 }

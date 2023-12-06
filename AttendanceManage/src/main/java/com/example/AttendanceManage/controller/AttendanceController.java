@@ -1,6 +1,7 @@
 package com.example.AttendanceManage.controller;
 
 import com.example.AttendanceManage.Repository.AttendanceRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,13 +15,12 @@ public class AttendanceController {
     private AttendanceRepository attendanceRepository;
 
     @PostMapping("/clockingIn")
-    public String clockinginput(@RequestParam("place") String place, Model model) {
+    public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
 
-        int user_id = 1;
-
-        boolean Result = attendanceRepository.clockingIn(place, user_id);
+        boolean Result = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
 
         if (Result) {
+            model.addAttribute("InOutMsg", "今日も頑張りましょう！！");
             return "index";
         } else {
             // 登録エラーメッセージアラート表示
@@ -30,14 +30,41 @@ public class AttendanceController {
     }
 
     @PostMapping("clockingOut")
-    public String clockingout(Model model) {
+    public String clockingout(HttpSession session, Model model) {
 
-        int user_id = 1;
-
-        boolean Result = attendanceRepository.clockingOut(user_id);
+        boolean Result = attendanceRepository.clockingOut((int)session.getAttribute( "userId"));
 
         if (Result) {
-            model.addAttribute("ClockOutMsg", "本日もお疲れ様でした!");
+            model.addAttribute("InOutMsg", "本日もお疲れ様でした！！");
+            return "index";
+        } else {
+            model.addAttribute("errorMsg", "登録エラー");
+            return "index";
+        }
+    }
+
+    @PostMapping("startBreak")
+    public String startBreak(HttpSession session, Model model) {
+
+
+        boolean Result = attendanceRepository.startBreak((int)session.getAttribute( "userId"));
+
+        if (Result) {
+            model.addAttribute("BreakMsg", "休憩開始！！");
+            return "index";
+        } else {
+            model.addAttribute("errorMsg", "登録エラー");
+            return "index";
+        }
+    }
+
+    @PostMapping("endBreak")
+    public String endBreak(HttpSession session, Model model) {
+
+        boolean Result = attendanceRepository.endBreak((int)session.getAttribute( "userId"));
+
+        if (Result) {
+            model.addAttribute("BreakMsg", "休憩終了！！");
             return "index";
         } else {
             model.addAttribute("errorMsg", "登録エラー");

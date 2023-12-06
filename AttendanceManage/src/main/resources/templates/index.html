@@ -11,9 +11,13 @@
 		if (errorMsg != null) {
         	alert(errorMsg);
 		}
-			const outMsg = /*[[${ClockOutMsg}]]*/"";
-		if (outMsg != null) {
-        	alert(outMsg);
+			const InOutMsg = /*[[${InOutMsg}]]*/"";
+		if (InOutMsg != null) {
+        	alert(InOutMsg);
+		}
+		const BreakMsg = /*[[${BreakMsg}]]*/"";
+		if (BreakMsg != null) {
+			alert(BreakMsg);
 		}
 	</script>
 </head>
@@ -44,8 +48,8 @@
 		</div>
 		<button type="submit" th:formaction="@{/clockingIn}" onclick="atwork()">出勤</button>
 		<button type="submit" th:formaction="@{/clockingOut}" onclick="lework()">退勤</button>
-		<button type="submit" th:formaction="@{#}" onclick="start()">休憩開始</button>
-		<button type="submit" th:formaction="@{#}" onclick="end()">休憩終了</button>
+		<button type="submit" th:formaction="@{/startBreak}" onclick="start()">休憩開始</button>
+		<button type="submit" th:formaction="@{/endBreak}" onclick="end()">休憩終了</button>
 	</form>
 </div>
 </body>
