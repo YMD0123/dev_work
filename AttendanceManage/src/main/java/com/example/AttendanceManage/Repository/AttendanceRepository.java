@@ -42,13 +42,13 @@ public class AttendanceRepository {
 
         // 出勤日付取得
         LocalDate days = LocalDate.now();
-        System.out.println("出勤日付　　　:" + days);
-        System.out.println("勤務場所　　　:" + place);
+        System.out.println("出勤日付　　　:　" + days);
+        System.out.println("勤務場所　　　:　" + place);
 
         try {
             // 現在時間取得
             getClockInTime = getNowTime();
-            System.out.println("出勤時刻　　　:" + getClockInTime);
+            System.out.println("出勤時刻　　　:　" + getClockInTime);
             jdbcTemplate.update(sql, userId, days, getClockInTime, getClockInTime, place);
         } catch (Exception e) {
             return false;
@@ -58,13 +58,13 @@ public class AttendanceRepository {
 
     public boolean clockingOut(int userId) {
 
-        String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
+        String sql = "UPDATE attendance SET end_time = ?::time WHERE user_id = ?";
         String getClockOutTime;
 
         try {
             // 現在時間取得
             getClockOutTime = getNowTime();
-            System.out.println("退勤時刻　　　:" + getClockOutTime);
+            System.out.println("退勤時刻　　　:　" + getClockOutTime);
             jdbcTemplate.update(sql, getClockOutTime, userId);
         } catch (Exception e) {
             return false;
@@ -74,13 +74,13 @@ public class AttendanceRepository {
 
     public boolean startBreak(int userId) {
 
-        String sql = "UPDATE attendance SET break_start_time = ?::time WHERE id = ?";
+        String sql = "UPDATE attendance SET break_start_time = ?::time WHERE user_id = ?";
         String getStartBreak;
 
         try {
             // 現在時間取得
             getStartBreak = getNowTime();
-            System.out.println("休憩開始時刻　:" + getStartBreak);
+            System.out.println("休憩開始時刻　:　" + getStartBreak);
             jdbcTemplate.update(sql, getStartBreak, userId);
         } catch (Exception e) {
             return false;
@@ -90,13 +90,13 @@ public class AttendanceRepository {
 
     public boolean endBreak(int userId) {
 
-        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE id = ?";
+        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE user_id = ?";
         String getEndBreak;
 
         try {
             // 現在時間取得
             getEndBreak = getNowTime();
-            System.out.println("休憩終了時刻　:" + getEndBreak);
+            System.out.println("休憩終了時刻　:　" + getEndBreak);
             jdbcTemplate.update(sql, getEndBreak, userId);
             // 休憩時間取得しDB格納
             getBreakTime(getEndBreak, userId);
@@ -117,8 +117,8 @@ public class AttendanceRepository {
 
     public void getBreakTime(String getEndBreak, int userId) {
 
-        String getBreakTimeSql = "SELECT break_start_time FROM attendance WHERE id = ?";
-        String sql = "UPDATE attendance SET break_duration = ? WHERE id = ?";
+        String getBreakTimeSql = "SELECT break_start_time FROM attendance WHERE user_id = ?";
+        String sql = "UPDATE attendance SET break_duration = ? WHERE user_id = ?";
         String getStartTime;
         String getBreakTime;
         Time   BreakTime;
@@ -137,7 +137,7 @@ public class AttendanceRepository {
             getBreakTime = new SimpleDateFormat("HH:mm:ss").format(BreakTime);
             getBreakTime = "00" + getBreakTime.substring(2);
 
-            System.out.println("休憩時間　　　:" + getBreakTime);
+            System.out.println("休憩時間　　　:　" + getBreakTime);
             jdbcTemplate.update(sql, Time.valueOf(getBreakTime), userId);
         } catch (Exception e) {
             System.out.println("DATABASE_ERROR");

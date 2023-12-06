@@ -6,26 +6,11 @@
 	<title>勤怠</title>
 	<link rel="stylesheet" th:href="@{/css/index.css}">
 	<script th:src="@{/js/script.js}"></script>
-	<script th:inline="javascript">
-			const errorMsg = /*[[${errorMsg}]]*/"";
-		if (errorMsg != null) {
-        	alert(errorMsg);
-		}
-			const InOutMsg = /*[[${InOutMsg}]]*/"";
-		if (InOutMsg != null) {
-        	alert(InOutMsg);
-		}
-		const BreakMsg = /*[[${BreakMsg}]]*/"";
-		if (BreakMsg != null) {
-			alert(BreakMsg);
-		}
-	</script>
 </head>
 <body>
 <nav>
 	<ul>
 		<li><a href="index" class="current">勤怠入力</a></li>
-		<li><a href="#">勤務場所登録</a></li>
 		<li><a href="#">連絡先登録</a></li>
 		<li><a href="#">勤怠履歴一覧表示</a></li>
 		<li><a href="attendanceList">勤怠状況一覧表示</a></li>
@@ -35,8 +20,11 @@
 <div class="admin_form">
 	<p class="clock" id="view_clock"></p>
 	<div class="user_status">
-		<p class="status">状態：<span>未出勤</span></p>
-		<p class="name"><span>こんにちは、</span>〇〇<span>さん</span></p>
+		<p class="status">状態：
+			<span th:if="${working == null or !working}">未出勤</span>
+			<span th:if="${working}">出勤中</span>
+		</p>
+		<p class="name">こんにちは、<span th:text="${username}"></span>さん</p>
 	</div>
 	<form action=""  method="post">
 		<div class="place">
