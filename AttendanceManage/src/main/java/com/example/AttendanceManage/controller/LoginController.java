@@ -35,13 +35,13 @@ public class LoginController {
             User user = userRepository.getUserInfo(userId);
 
             //session処理
-            session.setAttribute("userid",user.getId());
+            session.setAttribute("userId",user.getId());
             session.setAttribute("username",user.getUsername());
             session.setAttribute("role",user.getRole());
             session.setAttribute("department_code",user.getDepartmentCode());
 
             //仮出力
-            System.out.println("userid          : " + session.getAttribute("userid"));
+            System.out.println("userid          : " + session.getAttribute("userId"));
             System.out.println("username        : " + session.getAttribute("username"));
             System.out.println("role            : " + session.getAttribute("role"));
             System.out.println("department_code : " + session.getAttribute("department_code"));
