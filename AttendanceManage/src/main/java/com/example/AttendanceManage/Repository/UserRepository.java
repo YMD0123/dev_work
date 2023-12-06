@@ -38,7 +38,7 @@ public class UserRepository {
         }
     }
 
-    public User getUserInfo(int userId){
+    public User getUserInfo(int userId) {
         String sql = "SELECT * FROM users WHERE id = ?";
         Map<String,Object> user_map = jdbcTemplate.queryForMap(sql, userId);
         User user = mapToUser(user_map);
@@ -60,7 +60,7 @@ public class UserRepository {
         }
     }
 
-    private User mapToUser(Map user_map){
+    private User mapToUser(Map user_map) {
         User user = new User();
         user.setId((int)user_map.get("id"));
         user.setUsername((String) user_map.get("username"));
