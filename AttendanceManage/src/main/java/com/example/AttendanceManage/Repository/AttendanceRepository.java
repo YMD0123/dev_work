@@ -90,7 +90,7 @@ public class AttendanceRepository {
 
     public boolean endBreak(int userId) {
 
-        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE user_id = ?";
+        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE id = ?";
         String getEndBreak;
 
         try {
