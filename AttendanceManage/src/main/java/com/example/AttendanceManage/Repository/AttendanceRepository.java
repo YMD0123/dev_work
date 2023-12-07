@@ -18,7 +18,7 @@ public class AttendanceRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Attendance> getAllAttendance(String department_code){
+    public List<Attendance> getAllAttendance(String department_code) {
         String sql = "SELECT * FROM attendance WHERE department_code = ?;";
         List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,department_code);
         System.out.println(att_map);
@@ -30,7 +30,7 @@ public class AttendanceRepository {
         return attendances;
     }
 
-    public Attendance getAttendanceById(){
+    public Attendance getAttendanceById() {
         return null;
     }
 
@@ -38,7 +38,7 @@ public class AttendanceRepository {
 
         String sql = "INSERT INTO attendance (user_id, date, start_time, end_time, location) " +
                 "VALUES (?, ?, ?::time, ?::time, ?)";
-        String getClockInTime;
+        String clockInTime;
 
         // 出勤日付取得
         LocalDate days = LocalDate.now();
@@ -47,9 +47,9 @@ public class AttendanceRepository {
 
         try {
             // 現在時間取得
-            getClockInTime = getNowTime();
-            System.out.println("出勤時刻　　　:　" + getClockInTime);
-            jdbcTemplate.update(sql, userId, days, getClockInTime, getClockInTime, place);
+            clockInTime = getNowTime();
+            System.out.println("出勤時刻　　　:　" + clockInTime);
+            jdbcTemplate.update(sql, userId, days, clockInTime, clockInTime, place);
         } catch (Exception e) {
             return false;
         }
@@ -59,13 +59,13 @@ public class AttendanceRepository {
     public boolean clockingOut(int userId) {
 
         String sql = "UPDATE attendance SET end_time = ?::time WHERE user_id = ?";
-        String getClockOutTime;
+        String clockOutTime;
 
         try {
             // 現在時間取得
-            getClockOutTime = getNowTime();
-            System.out.println("退勤時刻　　　:　" + getClockOutTime);
-            jdbcTemplate.update(sql, getClockOutTime, userId);
+            clockOutTime = getNowTime();
+            System.out.println("退勤時刻　　　:　" + clockOutTime);
+            jdbcTemplate.update(sql, clockOutTime, userId);
         } catch (Exception e) {
             return false;
         }
@@ -75,13 +75,13 @@ public class AttendanceRepository {
     public boolean startBreak(int userId) {
 
         String sql = "UPDATE attendance SET break_start_time = ?::time WHERE user_id = ?";
-        String getStartBreak;
+        String startBreakTime;
 
         try {
             // 現在時間取得
-            getStartBreak = getNowTime();
-            System.out.println("休憩開始時刻　:　" + getStartBreak);
-            jdbcTemplate.update(sql, getStartBreak, userId);
+            startBreakTime = getNowTime();
+            System.out.println("休憩開始時刻　:　" + startBreakTime);
+            jdbcTemplate.update(sql, startBreakTime, userId);
         } catch (Exception e) {
             return false;
         }
@@ -90,16 +90,16 @@ public class AttendanceRepository {
 
     public boolean endBreak(int userId) {
 
-        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE id = ?";
-        String getEndBreak;
+        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE user_id = ?";
+        String endBreakTime;
 
         try {
             // 現在時間取得
-            getEndBreak = getNowTime();
-            System.out.println("休憩終了時刻　:　" + getEndBreak);
-            jdbcTemplate.update(sql, getEndBreak, userId);
+            endBreakTime = getNowTime();
+            System.out.println("休憩終了時刻　:　" + endBreakTime);
+            jdbcTemplate.update(sql, endBreakTime, userId);
             // 休憩時間取得しDB格納
-            getBreakTime(getEndBreak, userId);
+            getBreakTime(endBreakTime, userId);
         } catch (Exception e) {
             return false;
         }
@@ -115,33 +115,40 @@ public class AttendanceRepository {
         return sdf.format(nowDate);
     }
 
-    public void getBreakTime(String getEndBreak, int userId) {
+    public void getBreakTime(String endBreakTime, int userId) {
 
-        String getBreakTimeSql = "SELECT break_start_time FROM attendance WHERE user_id = ?";
-        String sql = "UPDATE attendance SET break_duration = ? WHERE user_id = ?";
-        String getStartTime;
-        String getBreakTime;
-        Time   BreakTime;
+        String Sql = "SELECT break_start_time FROM attendance WHERE user_id = ?";
+        String startBreakTime;
+        Time   timeBreakTime;
+        String breakTime;
 
         try {
-            getStartTime = jdbcTemplate.queryForObject(getBreakTimeSql, String.class, userId);
+            startBreakTime = jdbcTemplate.queryForObject(Sql, String.class, userId);
             // フォーマット指定,date変換
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
-            Date endBreakTime = format.parse(getEndBreak);
-            Date startBreakTime = format.parse(getStartTime);
+            Date dateEndTime = format.parse(endBreakTime);
+            Date dateStartTime = format.parse(startBreakTime);
             // 休憩開始と終了差分計算
-            long getTime = endBreakTime.getTime() - startBreakTime.getTime();
+            long breakTimeCalc = dateEndTime.getTime() - dateStartTime.getTime();
             // 差分をTime型に変換
-            BreakTime = new Time(getTime);
+            timeBreakTime = new Time(breakTimeCalc);
             // HHを満たさない場合00で埋める
-            getBreakTime = new SimpleDateFormat("HH:mm:ss").format(BreakTime);
-            getBreakTime = "00" + getBreakTime.substring(2);
+            breakTime = new SimpleDateFormat("HH:mm:ss").format(timeBreakTime);
+            breakTime = "00" + breakTime.substring(2);
 
-            System.out.println("休憩時間　　　:　" + getBreakTime);
-            jdbcTemplate.update(sql, Time.valueOf(getBreakTime), userId);
+            System.out.println("休憩時間　　　:　" + breakTime);
+            // DB格納
+            updateBreakTime(breakTime, userId);
         } catch (Exception e) {
             System.out.println("DATABASE_ERROR");
         }
+    }
+
+    public void updateBreakTime(String breakTime, int userId) {
+
+        String sql = "UPDATE attendance SET break_duration = ? WHERE user_id = ?";
+
+        jdbcTemplate.update(sql, Time.valueOf(breakTime), userId);
     }
 
     private Attendance mapToAttendance(Map<String, Object> row) {

@@ -18,9 +18,9 @@ public class AttendanceController {
     public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean Result = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
+            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
 
-            if (Result) {
+            if (isResult) {
                 session.setAttribute("working", true);
                 return "redirect:/index";
             } else {
@@ -34,9 +34,9 @@ public class AttendanceController {
     public String clockingout(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean Result = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
+            boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
 
-            if (Result) {
+            if (isResult) {
                 session.removeAttribute("working");
                 return "redirect:/index";
             } else {
@@ -49,11 +49,10 @@ public class AttendanceController {
     @PostMapping("startBreak")
     public String startBreak(HttpSession session, Model model) {
 
-
         if (session.getAttribute( "userId") != null) {
-            boolean Result = attendanceRepository.startBreak((int) session.getAttribute("userId"));
+            boolean isResult = attendanceRepository.startBreak((int) session.getAttribute("userId"));
 
-            if (Result) {
+            if (isResult) {
                 session.setAttribute("working", true);
                 return "redirect:/index";
             } else {
@@ -67,9 +66,9 @@ public class AttendanceController {
     public String endBreak(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean Result = attendanceRepository.endBreak((int) session.getAttribute("userId"));
+            boolean isResult = attendanceRepository.endBreak((int) session.getAttribute("userId"));
 
-            if (Result) {
+            if (isResult) {
                 session.setAttribute("working", true);
                 return "redirect:/index";
             } else {
