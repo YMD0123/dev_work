@@ -148,7 +148,12 @@ public class AttendanceRepository {
 
         String sql = "UPDATE attendance SET break_duration = ? WHERE user_id = ?";
 
-        jdbcTemplate.update(sql, Time.valueOf(breakTime), userId);
+        try {
+            jdbcTemplate.update(sql, Time.valueOf(breakTime), userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+        }
+
     }
 
     private Attendance mapToAttendance(Map<String, Object> row) {

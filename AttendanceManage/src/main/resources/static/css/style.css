@@ -86,28 +86,6 @@ nav a:hover {
     border-bottom:2px solid #F7CB4D;
 }
 
-.main {
-    margin-top: 50px;
-}
-
-p {
-    font-size: 20px;
-}
-
-.table-container {
-    text-align: center;
-}
-
-table {
-    display: inline-block;
-    border-collapse:  collapse;
-}
-
-th,td {
-    border: solid 1px;
-}
-
-
 /* 連絡先フォームデザイン */
 .add_form {
     max-width: 400px;
@@ -180,4 +158,59 @@ th,td {
 .workform p {
     margin: 10px 0;
     font-weight: bold;
+}
+
+/* tableデザイン */
+.main {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
+    margin-top: 50px;
+}
+
+p {
+    font-size: 20px;
+    margin-bottom: 20px;
+}
+
+.table-container {
+    overflow-x: auto;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #000;
+}
+
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #000;
+    border-right: none;
+    border-left: none;
+}
+
+.edit {
+    text-align: center;
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.edit {
+    border-right: none;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #DCDCDC;
+}
+
+.edit a {
+    text-decoration: none;
+    color: #007bff;
 }

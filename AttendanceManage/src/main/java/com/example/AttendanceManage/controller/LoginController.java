@@ -28,9 +28,9 @@ public class LoginController {
                         @RequestParam("password") String password,
                         Model model) {
 
-        boolean loginResult = userRepository.Login(userId, password);
+        boolean isloginResult = userRepository.Login(userId, password);
 
-        if (loginResult) {
+        if (isloginResult) {
 
             //User情報を取得しセッションにセットする
             User user = userRepository.getUserInfo(userId);
