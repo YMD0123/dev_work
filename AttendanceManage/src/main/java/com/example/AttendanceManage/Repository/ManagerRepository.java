@@ -35,7 +35,6 @@ public class ManagerRepository {
         return list;
     }
 
-
     public boolean insert(String username, String password, String role, String department_code) {
 
         String sql = "INSERT INTO users (username, password, role, department_code)" +
@@ -56,7 +55,7 @@ public class ManagerRepository {
         return true;
     }
 
-    public User userEdit(int userId) {
+    public User userEditDisp(int userId) {
 
         String sql = "SELECT * FROM users WHERE id = ?";
         User user = null;
@@ -70,7 +69,6 @@ public class ManagerRepository {
         return user;
     }
 
-    // TODO userのDeleteメソッド作成
     public boolean userDelete(int userId) {
 
         String sql = "DELETE FROM users WHERE id = ?";
@@ -80,7 +78,6 @@ public class ManagerRepository {
         } catch (Exception e) {
             return false;
         }
-        System.out.println("消去完了！");
         return true;
     }
 
@@ -92,6 +89,7 @@ public class ManagerRepository {
         user.setDepartmentCode((String) user_map.get("department_code"));
         return user;
     }
+
     private String getMD5Hash(String stringToHash) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");

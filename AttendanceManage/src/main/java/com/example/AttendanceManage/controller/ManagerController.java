@@ -44,8 +44,8 @@ public class ManagerController {
     }
 
     @GetMapping("/{id}")
-    public String editPage (@PathVariable int id, Model model) {
-         model.addAttribute("user", managerRepository.userEdit(id));
+    public String editPage(@PathVariable int id, Model model) {
+         model.addAttribute("user", managerRepository.userEditDisp(id));
         return "manager/user_edit";
     }
 
@@ -55,11 +55,9 @@ public class ManagerController {
         boolean isDeleteResult = managerRepository.userDelete(id);
 
         if (isDeleteResult) {
-            return "manager/user_list";
+            return "redirect:/user_list";
         } else {
-            return "manager/user_edit";
+            return "redirect:/{id}";
         }
-
-
     }
 }

@@ -11,7 +11,7 @@
 <nav>
     <ul>
         <li><a href="manager">勤怠入力</a></li>
-        <li><a href="user_list"　class="current">従業員一覧</a></li>
+        <li><a href="user_list" class="current">従業員一覧</a></li>
         <li><a href="user_add">従業員登録</a></li>
         <li><a href="#">連絡先登録</a></li>
         <li><a href="#">勤怠履歴一覧表示</a></li>
@@ -19,10 +19,10 @@
         <li><a href="login">ログアウト</a></li>
     </ul>
 </nav>
-<div class="main">
+<div class="add_form">
     <p>従業員アカウント編集</p>
+    <p>従業員ID : <span th:text="${user.id}"></span></p>
     <form action="" th:action="@{/user_add}" method="post">
-        <p>従業員ID : <span th:text="${user.id}"></span></p>
         <p>氏名</p>
         <input type="text" th:field="*{user.username}" name="username">
         <p>権限</p>
@@ -35,12 +35,11 @@
             <option value="100">100</option>
             <option value="101" selected>101</option>
         </select>
-        <input type="submit" value="更新">
-        <form action="@{/delete/{id}}" method="post">
-            <input type="submit" value="削除">
-        </form>
+        <div class="buttons">
+            <input type="submit" value="更新">
+            <a th:href="@{/delete_user/{id}(id=${user.id})}">削除</a>
+        </div>
     </form>
-    <button type="button" onclick="history.back()">前のページへ戻る</button>
 </div>
 </body>
 </html>
