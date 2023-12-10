@@ -35,14 +35,15 @@ public class ManagerRepository {
         return list;
     }
 
-    public boolean insert(String username, String password, String role, String department_code) {
+    public boolean userInsert(String username, String password, String role, String department_code) {
 
         String sql = "INSERT INTO users (username, password, role, department_code)" +
                 "VALUES (?, ?, ?, ?)";
+        String hashPassword;
 
         try {
-            password = getMD5Hash(password);
-            jdbcTemplate.update(sql, username, password, role, department_code);
+            hashPassword = getMD5Hash(password);
+            jdbcTemplate.update(sql, username, hashPassword, role, department_code);
         } catch (Exception e) {
             return false;
         }
@@ -55,13 +56,13 @@ public class ManagerRepository {
         return true;
     }
 
-    public User userEditDisp(int userId) {
+    public User userEditView(int userId) {
 
         String sql = "SELECT * FROM users WHERE id = ?";
         User user = null;
 
         try {
-            Map<String,Object> user_map = jdbcTemplate.queryForMap(sql, userId);
+            Map<String, Object> user_map = jdbcTemplate.queryForMap(sql, userId);
             user = mapToUser(user_map);
         } catch (Exception e) {
             System.out.println("DATABASE_ERROR");
@@ -78,6 +79,11 @@ public class ManagerRepository {
         } catch (Exception e) {
             return false;
         }
+        return true;
+    }
+
+    public boolean userUpdate(String username, String role, String department_code) {
+        // TODO ユーザー更新メソッド作成
         return true;
     }
 
@@ -104,4 +110,5 @@ public class ManagerRepository {
             throw new RuntimeException("MD5 hashing algorithm not found", e);
         }
     }
+
 }

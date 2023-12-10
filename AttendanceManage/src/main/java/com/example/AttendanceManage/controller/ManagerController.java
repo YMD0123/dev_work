@@ -15,28 +15,30 @@ public class ManagerController {
     private JdbcTemplate jdbcTemplate;
 
     @RequestMapping("/manager")
-    public String indexPage() {
+    public String indexView() {
         return "manager/manager_menu";
     }
+
     @RequestMapping("/user_add")
-    public String user_addPage() {
+    public String userAddView() {
         return "manager/user_add";
     }
-    @GetMapping("/user_list")
-    public String user_list(Model model) {
 
+    @GetMapping("/user_list")
+    public String usersList(Model model) {
         model.addAttribute("users", managerRepository.findAll());
         return "manager/user_list";
     }
+
     @PostMapping("/user_add")
-    public String user_add(@RequestParam("username") String username,
+    public String userAdd(@RequestParam("username") String username,
                            @RequestParam("password") String password,
                            @RequestParam("role") String role,
                            @RequestParam("department_code") String department_code, Model model){
 
-        boolean isResult = managerRepository.insert(username, password, role, department_code);
+        boolean isAddResult = managerRepository.userInsert(username, password, role, department_code);
 
-        if (isResult) {
+        if (isAddResult) {
             return "redirect:/user_add";
         }
         model.addAttribute("errorMsg","登録エラー");
@@ -44,8 +46,8 @@ public class ManagerController {
     }
 
     @GetMapping("/{id}")
-    public String editPage(@PathVariable int id, Model model) {
-         model.addAttribute("user", managerRepository.userEditDisp(id));
+    public String userEditView(@PathVariable int id, Model model) {
+        model.addAttribute("user", managerRepository.userEditView(id));
         return "manager/user_edit";
     }
 
@@ -57,6 +59,7 @@ public class ManagerController {
         if (isDeleteResult) {
             return "redirect:/user_list";
         } else {
+            model.addAttribute("errorMsg", "削除失敗");
             return "redirect:/{id}";
         }
     }
