@@ -68,4 +68,24 @@ public class UserRepository {
         user.setDepartmentCode((String) user_map.get("department_code"));
         return user;
     }
+
+    public boolean phoneAddress(int userId, String phone_number) {
+
+        String sql = "SELECT phone_number FROM users WHERE id = ?";
+        String phoneNumber;
+
+        try {
+            //getphonenumberに電話番号の情報を入れる
+            phoneNumber = phone_number;
+            //DBに格納
+            jdbcTemplate.update(sql,phoneNumber, userId);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
+
 }
+
+
+
