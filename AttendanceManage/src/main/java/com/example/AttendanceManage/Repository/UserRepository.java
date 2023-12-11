@@ -18,20 +18,20 @@ public class UserRepository {
     public boolean Login(int userId, String password) {
 
         String sql = "SELECT password FROM users WHERE id = ?";
-        String getPassword;
-        String result;
+        String userPassword;
+        String hashPassword;
 
         try {
-            result = getMD5Hash(password);
-            getPassword = jdbcTemplate.queryForObject(sql, String.class, userId);
+            hashPassword = getMD5Hash(password);
+            userPassword = jdbcTemplate.queryForObject(sql, String.class, userId);
         } catch (Exception e) {
             return false;
         }
-        System.out.println("result      : " + result);
-        System.out.println("getPassword : " + getPassword);
+        System.out.println("result      : " + hashPassword);
+        System.out.println("getPassword : " + userPassword);
 
         // passwordとpostされたgetPasswordを比較
-        if (result.equals(getPassword)) {
+        if (hashPassword.equals(userPassword)) {
             return true;
         } else {
             return false;

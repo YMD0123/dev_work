@@ -17,7 +17,7 @@ public class LoginController {
     private UserRepository userRepository;
 
     @RequestMapping("/login")
-    public String loginPage(HttpSession session) {
+    public String loginView(HttpSession session) {
         session.invalidate();
         return "login";
     }
@@ -28,9 +28,9 @@ public class LoginController {
                         @RequestParam("password") String password,
                         Model model) {
 
-        boolean loginResult = userRepository.Login(userId, password);
+        boolean isLoginResult = userRepository.Login(userId, password);
 
-        if (loginResult) {
+        if (isLoginResult) {
 
             //User情報を取得しセッションにセットする
             User user = userRepository.getUserInfo(userId);
@@ -57,7 +57,7 @@ public class LoginController {
     }
 
     @RequestMapping("/index")
-    public String indexPage(HttpSession session, Model model) {
+    public String indexView(HttpSession session, Model model) {
         boolean working = session.getAttribute("working") != null && (boolean) session.getAttribute("working");
 
         model.addAttribute("working", working);

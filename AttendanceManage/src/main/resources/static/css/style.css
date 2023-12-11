@@ -86,98 +86,112 @@ nav a:hover {
     border-bottom:2px solid #F7CB4D;
 }
 
+/* tableデザイン */
 .main {
+    max-width: 800px;
+    margin: auto;
+    padding: 20px;
     margin-top: 50px;
 }
 
 p {
     font-size: 20px;
+    margin-bottom: 20px;
 }
 
 .table-container {
-    text-align: center;
+    overflow-x: auto;
 }
 
 table {
-    display: inline-block;
-    border-collapse:  collapse;
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    border: 2px solid #000;
 }
 
-th,td {
-    border: solid 1px;
+th, td {
+    padding: 12px;
+    text-align: left;
+    border: 1px solid #000;
+    border-right: none;
+    border-left: none;
+}
+
+.edit {
+    text-align: center;
+}
+
+th {
+    background-color: #007bff;
+    color: #fff;
+}
+
+.edit {
+    border-right: none;
+    text-align: center;
+}
+
+tr:nth-child(even) {
+    background-color: #DCDCDC;
+}
+
+.edit a {
+    text-decoration: none;
+    color: #007bff;
 }
 
 
-/* 連絡先フォームデザイン */
+.add_form form {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.add_form form p {
+    text-align: left;
+    width: 100%;
+    margin-bottom: 5px;
+}
+.add_form p {
+    margin-bottom: 20px;
+}
+.add_form input[type="text"], input[type="password"], select {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+.add_form input[type="submit"] {
+    width: auto;
+    background-color: #007bff;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
 .add_form {
     max-width: 400px;
     margin: 0 auto;
     padding: 20px;
     margin-top: 50px;
 }
-
-.add_form form {
-    text-align: left;
-}
-
-.add_form p {
-    margin: 10px 0;
-    font-weight: bold;
-}
-
-.add_form input[type="text"],
-.add_form input[type="email"],
-.add_form textarea {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-}
-
-.add_form textarea {
-    height: 100px;
-}
-
-.add_form input[type="submit"] {
+.add_form a {
+    width: auto;
     background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
+    color: white;
+    padding: 10px 15px;
     border: none;
-    border-radius: 3px;
+    border-radius: 4px;
     cursor: pointer;
+    text-decoration: none;
 }
 
-.add_form input[type="submit"]:hover {
-    background-color: #3a63b4;
-}
-
-.workform {
+.buttons {
     display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin-top: 50px;
-}
-
-.workform select {
+    justify-content: space-between;
     width: 100%;
-    padding: 10px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 3px;
-    font-size: 16px;
-}
-
-.workform input[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 3px;
-    cursor: pointer;
-}
-
-.workform p {
-    margin: 10px 0;
-    font-weight: bold;
 }
