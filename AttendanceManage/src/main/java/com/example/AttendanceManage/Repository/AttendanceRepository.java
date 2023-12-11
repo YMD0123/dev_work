@@ -156,6 +156,11 @@ public class AttendanceRepository {
 
     }
 
+    public List<Attendance> getTodayWorkStatus(){
+        //TODO 出勤している日付が一致するレコードを一覧で取得する
+        return null;
+    }
+
     private Attendance mapToAttendance(Map<String, Object> row) {
         Attendance attendance = new Attendance();
         attendance.setId((Integer)row.get("id"));
