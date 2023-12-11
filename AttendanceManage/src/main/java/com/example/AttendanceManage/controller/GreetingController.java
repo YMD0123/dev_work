@@ -28,6 +28,8 @@ public class GreetingController {
 
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         model.addAttribute("name", name);
         //ログイン
         //接続確認用
@@ -37,12 +39,16 @@ public class GreetingController {
 
     @GetMapping("/manage")
     public String ManageMenu(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //管理者メイン
         return "manager_menu";
     }
 
     @GetMapping("/manage/userEdit")
     public String UserEdit(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //ユーザー編集
         //編集後の処理は何処に？
         return "user_edit";
@@ -50,6 +56,8 @@ public class GreetingController {
 
     @GetMapping("/manage/workTime")
     public String WorkTimeList(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //勤務時間一覧
         //一覧の情報を受け取って(関数名)ページ表示
         return "workers_list";
@@ -58,12 +66,16 @@ public class GreetingController {
 
     @GetMapping("/user")
     public String UserMenu(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //ユーザーメニュー
         return "user_menu";
     }
 
     @GetMapping("/user/attendanceList")
     public String WorkerList(HttpSession session,Model model){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //勤務状況一覧
         List<Attendance> list = attendanceRepository.getAllAttendance((String) session.getAttribute("department_code"));
         model.addAttribute("attendancelist", list);
@@ -72,11 +84,16 @@ public class GreetingController {
 
     @GetMapping("/user/addressChange")
     public String AddressChange(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         return "address_change";
     }
 
     @GetMapping("/user/attendance")
-    public String Attendance(){ return "index";}
+    public String Attendance(){
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        return "index";
+    }
 /*
     @PostMapping("/user")
     public String confirm(@RequestParam String message,String password,Model model) {

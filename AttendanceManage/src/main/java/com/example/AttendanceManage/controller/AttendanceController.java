@@ -17,8 +17,10 @@ public class AttendanceController {
     @PostMapping("/clockingIn")
     public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
 
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
+            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"), (String) session.getAttribute("department_code"));
 
             if (isResult) {
                 session.setAttribute("working", true);
@@ -32,6 +34,8 @@ public class AttendanceController {
 
     @PostMapping("clockingOut")
     public String clockingout(HttpSession session, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
         if (session.getAttribute( "userId") != null) {
             boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
@@ -49,6 +53,8 @@ public class AttendanceController {
     @PostMapping("startBreak")
     public String startBreak(HttpSession session, Model model) {
 
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
         if (session.getAttribute( "userId") != null) {
             boolean isResult = attendanceRepository.startBreak((int) session.getAttribute("userId"));
 
@@ -64,6 +70,8 @@ public class AttendanceController {
 
     @PostMapping("endBreak")
     public String endBreak(HttpSession session, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
         if (session.getAttribute( "userId") != null) {
             boolean isResult = attendanceRepository.endBreak((int) session.getAttribute("userId"));

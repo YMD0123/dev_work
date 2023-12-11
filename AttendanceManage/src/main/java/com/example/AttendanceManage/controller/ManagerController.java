@@ -16,16 +16,19 @@ public class ManagerController {
 
     @RequestMapping("/manager")
     public String indexView() {
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         return "manager/manager_menu";
     }
 
     @RequestMapping("/user_add")
     public String userAddView() {
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         return "manager/user_add";
     }
 
     @GetMapping("/user_list")
     public String usersList(Model model) {
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         model.addAttribute("users", managerRepository.findAll());
         return "manager/user_list";
     }
@@ -35,6 +38,8 @@ public class ManagerController {
                            @RequestParam("password") String password,
                            @RequestParam("role") String role,
                            @RequestParam("department_code") String department_code, Model model){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
         boolean isAddResult = managerRepository.userInsert(username, password, role, department_code);
 
@@ -47,12 +52,17 @@ public class ManagerController {
 
     @GetMapping("/{id}")
     public String userEditView(@PathVariable int id, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
         model.addAttribute("user", managerRepository.userEditView(id));
         return "manager/user_edit";
     }
 
     @GetMapping("delete_user/{id}")
     public String deleteUser(@PathVariable int id, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
         boolean isDeleteResult = managerRepository.userDelete(id);
 

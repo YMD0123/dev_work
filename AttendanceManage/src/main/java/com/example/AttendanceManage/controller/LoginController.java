@@ -47,6 +47,12 @@ public class LoginController {
             System.out.println("role            : " + session.getAttribute("role"));
             System.out.println("department_code : " + session.getAttribute("department_code"));
 
+            //UserのRoleがadminだったときadminメニューへ遷移
+            if(user.getRole().equals("admin")){
+                System.out.println("go admin menu");
+                return "/manager/manager_menu";
+            }
+
             // ログイン成功の場合、index.html に遷移
             return "redirect:/index";
         } else {
@@ -58,6 +64,9 @@ public class LoginController {
 
     @RequestMapping("/index")
     public String indexView(HttpSession session, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
         boolean working = session.getAttribute("working") != null && (boolean) session.getAttribute("working");
 
         model.addAttribute("working", working);
