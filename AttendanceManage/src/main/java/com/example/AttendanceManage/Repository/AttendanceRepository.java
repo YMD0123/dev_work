@@ -36,8 +36,8 @@ public class AttendanceRepository {
 
     public boolean clockingIn(String place, int userId) {
 
-        String sql = "INSERT INTO attendance (user_id, date, start_time, end_time, location) " +
-                "VALUES (?, ?, ?::time, ?::time, ?)";
+        String sql = "INSERT INTO attendance (user_id, date, start_time, location) " +
+                "VALUES (?, ?, ?::time, ?)";
         String clockInTime;
 
         // 出勤日付取得
@@ -49,7 +49,7 @@ public class AttendanceRepository {
             // 現在時間取得
             clockInTime = getNowTime();
             System.out.println("出勤時刻　　　:　" + clockInTime);
-            jdbcTemplate.update(sql, userId, days, clockInTime, clockInTime, place);
+            jdbcTemplate.update(sql, userId, days, clockInTime, place);
         } catch (Exception e) {
             return false;
         }
