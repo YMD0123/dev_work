@@ -15,32 +15,32 @@ public class UserRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public boolean Login(int userid, String password) {
+    public boolean Login(int userId, String password) {
 
         String sql = "SELECT password FROM users WHERE id = ?";
-        String getPassword;
-        String result;
+        String userPassword;
+        String hashPassword;
 
         try {
-            result = getMD5Hash(password);
-            getPassword = jdbcTemplate.queryForObject(sql, String.class, userid);
+            hashPassword = getMD5Hash(password);
+            userPassword = jdbcTemplate.queryForObject(sql, String.class, userId);
         } catch (Exception e) {
             return false;
         }
-        System.out.println("result      : " + result);
-        System.out.println("getPassword : " + getPassword);
+        System.out.println("result      : " + hashPassword);
+        System.out.println("getPassword : " + userPassword);
 
         // passwordとpostされたgetPasswordを比較
-        if (result.equals(getPassword)) {
+        if (hashPassword.equals(userPassword)) {
             return true;
         } else {
             return false;
         }
     }
 
-    public User getUserInfo(int userid){
+    public User getUserInfo(int userId) {
         String sql = "SELECT * FROM users WHERE id = ?";
-        Map<String,Object> user_map = jdbcTemplate.queryForMap(sql,userid);
+        Map<String,Object> user_map = jdbcTemplate.queryForMap(sql, userId);
         User user = mapToUser(user_map);
         return user;
     }
@@ -60,7 +60,7 @@ public class UserRepository {
         }
     }
 
-    private User mapToUser(Map user_map){
+    private User mapToUser(Map user_map) {
         User user = new User();
         user.setId((int)user_map.get("id"));
         user.setUsername((String) user_map.get("username"));

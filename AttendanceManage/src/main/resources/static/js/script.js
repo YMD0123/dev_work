@@ -12,7 +12,8 @@ function getNow() {
     var min = now.getMinutes();
     var sec = now.getSeconds();
 
-    var s = year + "/" + mon + "/" + day + " " + hour + ":" + min + ":" + sec;
+    var s = year + "/" + mon + "/" + day + " " + hour.toString().padStart(2, "0") + ":"
+    + min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2, "0");
     return s;
 }
 
@@ -44,11 +45,6 @@ function getToday() {
     const year = today.getFullYear();
     const month = today.getMonth() + 1;
     const date = today.getDate();
-//    const week = today.getDay();
-
-//    曜日表示用(実装無)
-//    const weekItems = ["日", "月", "火", "水", "木", "金", "土"];
-//    const day = weekItems[week];
 
     var days = year + "/" + month + "/" + date;
 

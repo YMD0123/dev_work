@@ -17,19 +17,20 @@ public class LoginController {
     private UserRepository userRepository;
 
     @RequestMapping("/login")
-    public String loginPage() {
+    public String loginView(HttpSession session) {
+        session.invalidate();
         return "login";
     }
 
     @PostMapping("/login")
     public String login(HttpSession session,
-                        @RequestParam("username") int userId,
+                        @RequestParam("userid") int userId,
                         @RequestParam("password") String password,
                         Model model) {
 
-        boolean loginResult = userRepository.Login(userId, password);
+        boolean isLoginResult = userRepository.Login(userId, password);
 
-        if (loginResult) {
+        if (isLoginResult) {
 
             //User情報を取得しセッションにセットする
             User user = userRepository.getUserInfo(userId);
@@ -41,7 +42,7 @@ public class LoginController {
             session.setAttribute("department_code",user.getDepartmentCode());
 
             //仮出力
-            System.out.println("userid          : " + session.getAttribute("userId"));
+            System.out.println("userId          : " + session.getAttribute("userId"));
             System.out.println("username        : " + session.getAttribute("username"));
             System.out.println("role            : " + session.getAttribute("role"));
             System.out.println("department_code : " + session.getAttribute("department_code"));
@@ -56,8 +57,14 @@ public class LoginController {
     }
 
     @RequestMapping("/index")
-    public String indexPage() {
-        // ログイン成功時の画面
+    public String indexView(HttpSession session, Model model) {
+        boolean working = session.getAttribute("working") != null && (boolean) session.getAttribute("working");
+
+        model.addAttribute("working", working);
+
+        session.removeAttribute("working");
+
+        model.addAttribute("username", session.getAttribute("username"));
         return "index";
     }
 }
