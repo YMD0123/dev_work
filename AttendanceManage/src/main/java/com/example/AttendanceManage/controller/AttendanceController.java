@@ -30,7 +30,7 @@ public class AttendanceController {
         return "redirect:/login";
     }
 
-    @PostMapping("clockingOut")
+    @PostMapping("/clockingOut")
     public String clockingout(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
@@ -46,7 +46,7 @@ public class AttendanceController {
         return "redirect:/login";
     }
 
-    @PostMapping("startBreak")
+    @PostMapping("/startBreak")
     public String startBreak(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
@@ -62,7 +62,7 @@ public class AttendanceController {
         return "redirect:/login";
     }
 
-    @PostMapping("endBreak")
+    @PostMapping("/endBreak")
     public String endBreak(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
