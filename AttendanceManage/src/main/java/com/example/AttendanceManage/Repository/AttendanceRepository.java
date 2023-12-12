@@ -34,10 +34,10 @@ public class AttendanceRepository {
         return null;
     }
 
-    public boolean clockingIn(String place, int userId) {
+    public boolean clockingIn(String place, int userId,String department_code) {
 
-        String sql = "INSERT INTO attendance (user_id, date, start_time, location) " +
-                "VALUES (?, ?, ?::time, ?)";
+        String sql = "INSERT INTO attendance (user_id, date, start_time, department_code, location) " +
+                "VALUES (?, ?, ?::time, ?, ?)";
         String clockInTime;
 
         // 出勤日付取得
@@ -49,7 +49,7 @@ public class AttendanceRepository {
             // 現在時間取得
             clockInTime = getNowTime();
             System.out.println("出勤時刻　　　:　" + clockInTime);
-            jdbcTemplate.update(sql, userId, days, clockInTime, place);
+            jdbcTemplate.update(sql, userId, days, clockInTime, department_code, place);
         } catch (Exception e) {
             return false;
         }
@@ -156,6 +156,11 @@ public class AttendanceRepository {
 
     }
 
+    public List<Attendance> getTodayWorkStatus(){
+        //TODO 出勤している日付が一致するレコードを一覧で取得する
+        return null;
+    }
+
     private Attendance mapToAttendance(Map<String, Object> row) {
         Attendance attendance = new Attendance();
         attendance.setId((Integer)row.get("id"));
@@ -165,8 +170,8 @@ public class AttendanceRepository {
         attendance.setDate(((java.sql.Date)row.get("date")).toLocalDate());
         // Time型からLocalTime型への変換
         attendance.setStartTime(((java.sql.Time)row.get("start_time")).toLocalTime());
-        attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
-        attendance.setBreakDuration((Integer)row.get("break_duration"));
+        if (row.get("end_time") != null)attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
+        if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
     }
 }
