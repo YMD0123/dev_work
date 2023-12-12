@@ -30,8 +30,12 @@
 			</tr>
 			<tr th:each="list:${attendancelist}">
 				<td th:text="${list.id}"></td>
-				<td th:text="${list.begin_time}"></td>
-				<td th:text="${list.end_time}"></td>
+				<td th:text="${list.userId}"></td>
+				<td th:text="${list.departmentCode}"></td>
+				<td th:text="${list.date}"></td>
+				<td th:text="${list.startTime}"></td>
+				<td th:text="${list.endTime}"></td>
+				<td th:text="${list.breakDuration}"></td>
 			</tr>
 		</table>
 	</div>
