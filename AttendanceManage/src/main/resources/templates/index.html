@@ -21,12 +21,11 @@
 <nav>
 	<ul>
 		<li><a href="index" class="current">勤怠入力</a></li>
-		<li><a href="#">勤務場所登録</a></li>
-		<li><a href="#">連絡先登録</a></li>
+		<li><a href="address_change">連絡先登録</a></li>
 		<li><a href="#">勤怠履歴一覧表示</a></li>
 		<li><a href="attendanceList">勤怠状況一覧表示</a></li>
 		<li><a href="login">ログアウト</a></li>
-	</ul>
+	</ul>ls
 </nav>
 <div class="admin_form">
 	<p class="clock" id="view_clock"></p>
@@ -39,7 +38,7 @@
 			<select name="place">
 				<option value="Home">自宅</option>
 				<option value="Office" selected>東京本社</option>
-				<option value="Service">営業所</option>
+				<option value="Sales">営業所</option>/
 			</select>
 		</div>
 		<button type="submit" th:formaction="@{/clockingIn}" onclick="atwork()">出勤</button>
