@@ -18,16 +18,17 @@ public class AttendanceRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Attendance> getAllAttendance(String department_code) {
-        String sql = "SELECT * FROM attendance WHERE department_code = ?;";
-        List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,department_code);
+    public List<Map<String,Object>> getTodaysAttendance(String department_code) {
+        //現在の日時
+        LocalDate today = LocalDate.now();
+        //String sql = "SELECT * FROM attendance WHERE department_code = ? AND date = ?;";
+        String sql = "SELECT a.*, u.username, u.department_code AS user_department_code, u.phone_number, u.email " +
+                "FROM attendance a " +
+                "INNER JOIN users u ON a.user_id = u.id " +
+                "WHERE a.department_code = ? AND a.date = ?";
+        List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,department_code,today);
         System.out.println(att_map);
-        List<Attendance> attendances = new ArrayList<>();
-        for(Map<String,Object> obj : att_map){
-            Attendance attendance = mapToAttendance(obj);
-            attendances.add(attendance);
-        }
-        return attendances;
+        return att_map;
     }
 
     public Attendance getAttendanceById() {
