@@ -1,6 +1,7 @@
 package com.example.AttendanceManage.controller;
 
 import com.example.AttendanceManage.Repository.AttendanceRepository;
+import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,34 +15,74 @@ public class AttendanceController {
     private AttendanceRepository attendanceRepository;
 
     @PostMapping("/clockingIn")
-    public String clockinginput(@RequestParam("place") String place, Model model) {
+    public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
 
-        int user_id = 1;
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
-        boolean Result = attendanceRepository.clockingIn(place, user_id);
+        if (session.getAttribute( "userId") != null) {
+            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"), (String) session.getAttribute("department_code"));
 
-        if (Result) {
-            return "index";
-        } else {
-            // 登録エラーメッセージアラート表示
-            model.addAttribute("errorMsg", "登録エラー");
-            return "index";
+            if (isResult) {
+                session.setAttribute("working", true);
+                return "redirect:/index";
+            } else {
+                return "redirect:/index";
+            }
         }
+        return "redirect:/login";
     }
 
     @PostMapping("clockingOut")
-    public String clockingout(Model model) {
+    public String clockingout(HttpSession session, Model model) {
 
-        int user_id = 1;
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
-        boolean Result = attendanceRepository.clockingOut(user_id);
+        if (session.getAttribute( "userId") != null) {
+            boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
 
-        if (Result) {
-            model.addAttribute("ClockOutMsg", "本日もお疲れ様でした!");
-            return "index";
-        } else {
-            model.addAttribute("errorMsg", "登録エラー");
-            return "index";
+            if (isResult) {
+                session.removeAttribute("working");
+                return "redirect:/index";
+            } else {
+                return "redirect:/index";
+            }
         }
+        return "redirect:/login";
+    }
+
+    @PostMapping("startBreak")
+    public String startBreak(HttpSession session, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
+        if (session.getAttribute( "userId") != null) {
+            boolean isResult = attendanceRepository.startBreak((int) session.getAttribute("userId"));
+
+            if (isResult) {
+                session.setAttribute("working", true);
+                return "redirect:/index";
+            } else {
+                return "redirect:/index";
+            }
+        }
+        return "redirect:/login";
+    }
+
+    @PostMapping("endBreak")
+    public String endBreak(HttpSession session, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
+        if (session.getAttribute( "userId") != null) {
+            boolean isResult = attendanceRepository.endBreak((int) session.getAttribute("userId"));
+
+            if (isResult) {
+                session.setAttribute("working", true);
+                return "redirect:/index";
+            } else {
+                return "redirect:/index";
+            }
+        }
+        return "redirect:/login";
     }
 }

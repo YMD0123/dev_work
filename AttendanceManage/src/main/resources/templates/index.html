@@ -6,16 +6,6 @@
 	<title>勤怠</title>
 	<link rel="stylesheet" th:href="@{/css/index.css}">
 	<script th:src="@{/js/script.js}"></script>
-	<script th:inline="javascript">
-			const errorMsg = /*[[${errorMsg}]]*/"";
-		if (errorMsg != null) {
-        	alert(errorMsg);
-		}
-			const outMsg = /*[[${ClockOutMsg}]]*/"";
-		if (outMsg != null) {
-        	alert(outMsg);
-		}
-	</script>
 </head>
 <body>
 <nav>
@@ -30,8 +20,11 @@
 <div class="admin_form">
 	<p class="clock" id="view_clock"></p>
 	<div class="user_status">
-		<p class="status">状態：<span>未出勤</span></p>
-		<p class="name"><span>こんにちは、</span>〇〇<span>さん</span></p>
+		<p class="status">状態：
+			<span th:if="${working == null or !working}">未出勤</span>
+			<span th:if="${working}">出勤中</span>
+		</p>
+		<p class="name">こんにちは、<span th:text="${username}"></span>さん</p>
 	</div>
 	<form action=""  method="post">
 		<div class="place">
@@ -43,8 +36,8 @@
 		</div>
 		<button type="submit" th:formaction="@{/clockingIn}" onclick="atwork()">出勤</button>
 		<button type="submit" th:formaction="@{/clockingOut}" onclick="lework()">退勤</button>
-		<button type="submit" th:formaction="@{#}" onclick="start()">休憩開始</button>
-		<button type="submit" th:formaction="@{#}" onclick="end()">休憩終了</button>
+		<button type="submit" th:formaction="@{/startBreak}" onclick="start()">休憩開始</button>
+		<button type="submit" th:formaction="@{/endBreak}" onclick="end()">休憩終了</button>
 	</form>
 </div>
 </body>
