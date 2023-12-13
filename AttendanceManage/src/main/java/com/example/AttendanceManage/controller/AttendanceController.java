@@ -34,8 +34,8 @@ public class AttendanceController {
     public String clockingOut(HttpSession session, Model model) {
 // TODO isWorkingStatusがnullだった時の処理作成
         if (session.getAttribute( "userId") != null) {
-            String isWorkingStatus = attendanceRepository.attendanceStatusById((int) session.getAttribute("userId"));
-            System.out.println("状態  :" + isWorkingStatus);
+//            String isWorkingStatus = attendanceRepository.attendanceStatusById((int) session.getAttribute("userId"));
+//            System.out.println("状態  :" + isWorkingStatus);
 
 //            if (isWorkingStatus.equals("出勤中")) {
                 boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
