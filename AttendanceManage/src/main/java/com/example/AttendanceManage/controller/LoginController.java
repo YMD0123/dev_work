@@ -17,7 +17,7 @@ public class LoginController {
     private UserRepository userRepository;
 
     @RequestMapping("/login")
-    public String loginPage(HttpSession session) {
+    public String loginView(HttpSession session) {
         session.invalidate();
         return "login";
     }
@@ -28,9 +28,9 @@ public class LoginController {
                         @RequestParam("password") String password,
                         Model model) {
 
-        boolean loginResult = userRepository.Login(userId, password);
+        boolean isLoginResult = userRepository.Login(userId, password);
 
-        if (loginResult) {
+        if (isLoginResult) {
 
             //User情報を取得しセッションにセットする
             User user = userRepository.getUserInfo(userId);
@@ -47,6 +47,12 @@ public class LoginController {
             System.out.println("role            : " + session.getAttribute("role"));
             System.out.println("department_code : " + session.getAttribute("department_code"));
 
+            //UserのRoleがadminだったときadminメニューへ遷移
+            if(user.getRole().equals("admin")){
+                System.out.println("go admin menu");
+                return "/manager/manager_menu";
+            }
+
             // ログイン成功の場合、index.html に遷移
             return "redirect:/index";
         } else {
@@ -57,7 +63,10 @@ public class LoginController {
     }
 
     @RequestMapping("/index")
-    public String indexPage(HttpSession session, Model model) {
+    public String indexView(HttpSession session, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+
         boolean working = session.getAttribute("working") != null && (boolean) session.getAttribute("working");
 
         model.addAttribute("working", working);

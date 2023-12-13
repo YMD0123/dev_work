@@ -18,26 +18,25 @@ public class AttendanceRepository {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public List<Attendance> getAllAttendance(String department_code) {
-        String sql = "SELECT * FROM attendance WHERE department_code = ?;";
-        List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,department_code);
+    public List<Map<String,Object>> getTodaysAttendance(String department_code) {
+        //現在の日時
+        LocalDate today = LocalDate.now();
+        //String sql = "SELECT * FROM attendance WHERE department_code = ? AND date = ?;";
+        String sql = "SELECT a.*, u.username, u.department_code AS user_department_code, u.phone_number, u.email " +
+                "FROM attendance a " +
+                "INNER JOIN users u ON a.user_id = u.id " +
+                "WHERE a.department_code = ? AND a.date = ?";
+        List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,department_code,today);
         System.out.println(att_map);
-        List<Attendance> attendances = new ArrayList<>();
-        for(Map<String,Object> obj : att_map){
-            Attendance attendance = mapToAttendance(obj);
-            attendances.add(attendance);
-        }
-        return attendances;
+        return att_map;
     }
 
-    public Attendance getAttendanceById() {
-        return null;
-    }
 
-    public boolean clockingIn(String place, int userId) {
 
-        String sql = "INSERT INTO attendance (user_id, date, start_time, end_time, location, status) " +
-                "VALUES (?, ?, ?::time, ?::time, ?, '出勤中')";
+    public boolean clockingIn(String place, int userId,String department_code) {
+
+        String sql = "INSERT INTO attendance (user_id, date, start_time, department_code, location) " +
+                "VALUES (?, ?, ?::time, ?, ?)";
         String clockInTime;
 
         // 出勤日付取得
@@ -49,7 +48,7 @@ public class AttendanceRepository {
             // 現在時間取得
             clockInTime = getNowTime();
             System.out.println("出勤時刻　　　:　" + clockInTime);
-            jdbcTemplate.update(sql, userId, days, clockInTime, clockInTime, place);
+            jdbcTemplate.update(sql, userId, days, clockInTime, department_code, place);
         } catch (Exception e) {
             return false;
         }
@@ -58,14 +57,14 @@ public class AttendanceRepository {
 
     public boolean clockingOut(int userId) {
 
-        String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
+        String sql = "UPDATE attendance SET end_time = ?::time WHERE user_id = ?";
+        //String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
         String clockOutTime;
 
         try {
             // 現在時間取得
             clockOutTime = getNowTime();
             System.out.println("退勤時刻　　　:　" + clockOutTime);
-            updateAttendanceStatus("未出勤",userId);
             jdbcTemplate.update(sql, clockOutTime, userId);
         } catch (Exception e) {
             return false;
@@ -75,14 +74,13 @@ public class AttendanceRepository {
 
     public boolean startBreak(int userId) {
 
-        String sql = "UPDATE attendance SET break_start_time = ?::time WHERE id = ?";
+        String sql = "UPDATE attendance SET break_start_time = ?::time WHERE user_id = ?";
         String startBreakTime;
 
         try {
             // 現在時間取得
             startBreakTime = getNowTime();
             System.out.println("休憩開始時刻　:　" + startBreakTime);
-            updateAttendanceStatus("休憩中",userId);
             jdbcTemplate.update(sql, startBreakTime, userId);
         } catch (Exception e) {
             return false;
@@ -92,14 +90,13 @@ public class AttendanceRepository {
 
     public boolean endBreak(int userId) {
 
-        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE id = ?";
+        String sql = "UPDATE attendance SET break_end_time = ?::time WHERE user_id = ?";
         String endBreakTime;
 
         try {
             // 現在時間取得
             endBreakTime = getNowTime();
             System.out.println("休憩終了時刻　:　" + endBreakTime);
-            updateAttendanceStatus("出勤中",userId);
             jdbcTemplate.update(sql, endBreakTime, userId);
             // 休憩時間取得しDB格納
             getBreakTime(endBreakTime, userId);
@@ -120,7 +117,7 @@ public class AttendanceRepository {
 
     public void getBreakTime(String endBreakTime, int userId) {
 
-        String Sql = "SELECT break_start_time FROM attendance WHERE id = ?";
+        String Sql = "SELECT break_start_time FROM attendance WHERE user_id = ?";
         String startBreakTime;
         Time   timeBreakTime;
         String breakTime;
@@ -149,35 +146,20 @@ public class AttendanceRepository {
 
     public void updateBreakTime(String breakTime, int userId) {
 
-        String sql = "UPDATE attendance SET break_duration = ? WHERE id = ?";
-
-        jdbcTemplate.update(sql, Time.valueOf(breakTime), userId);
-    }
-
-    public void updateAttendanceStatus (String status, int userId) {
-
-        String sql = "UPDATE attendance SET status = ? WHERE id = ?";
+        String sql = "UPDATE attendance SET break_duration = ? WHERE user_id = ?";
 
         try {
-            // 呼び出し元によってstatusの値は異なる
-            jdbcTemplate.update(sql, status, userId);
+            jdbcTemplate.update(sql, Time.valueOf(breakTime), userId);
         } catch (Exception e) {
             System.out.println("DATABASE_ERROR");
         }
+
     }
 
-//    public String attendanceStatusById (int userId) {
-//// 出勤されてないときはuserStatusにnullが入るのでその対応
-//        String sql = "SELECT status FROM attendance WHERE id = ?";
-//        String userStatus = null;
-//
-//        try {
-//            userStatus =  jdbcTemplate.queryForObject(sql, String.class, userId);
-//        } catch (Exception e) {
-//            System.out.println("DATABASE_ERROR");
-//        }
-//        return userStatus;
-//    }
+    public List<Attendance> getTodayWorkStatus(){
+        //TODO 出勤している日付が一致するレコードを一覧で取得する
+        return null;
+    }
 
     private Attendance mapToAttendance(Map<String, Object> row) {
         Attendance attendance = new Attendance();
@@ -188,8 +170,15 @@ public class AttendanceRepository {
         attendance.setDate(((java.sql.Date)row.get("date")).toLocalDate());
         // Time型からLocalTime型への変換
         attendance.setStartTime(((java.sql.Time)row.get("start_time")).toLocalTime());
-        attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
-        attendance.setBreakDuration((Integer)row.get("break_duration"));
+        if (row.get("end_time") != null)attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
+        if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
+    }
+
+    private int findAttendanceIdByUser(int userId){
+        //TODO　今日の日付取得
+        //TODO  UserIdと日付を条件にAttendanceテーブルのレコードからIDを取得する
+        //TODO  結果をint型で返す。該当ない場合は、0を返す
+        return 0;
     }
 }

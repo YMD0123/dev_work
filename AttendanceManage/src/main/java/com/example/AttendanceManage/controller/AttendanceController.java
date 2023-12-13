@@ -18,7 +18,7 @@ public class AttendanceController {
     public String clockingInput(HttpSession session, @RequestParam("place") String place, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
+            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"), (String) session.getAttribute("department_code"));
 
             if (isResult) {
                 session.setAttribute("working", true);
