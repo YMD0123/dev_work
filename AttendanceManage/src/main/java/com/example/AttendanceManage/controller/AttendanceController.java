@@ -18,12 +18,24 @@ public class AttendanceController {
     public String clockingInput(HttpSession session, @RequestParam("place") String place, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"), (String) session.getAttribute("department_code"));
 
-            if (isResult) {
-                session.setAttribute("working", true);
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+
+            if (attendanceId == 0) {
+                boolean isResult = attendanceRepository.clockingIn(place, attendanceId,
+                        (String) session.getAttribute("department_code"));
+
+                if (isResult) {
+                    session.setAttribute("working", true);
+                    return "redirect:/index";
+                } else {
+                    return "redirect:/index";
+                }
+            } else if (attendanceId == -1) {
+                System.out.println("error");
                 return "redirect:/index";
             } else {
+                model.addAttribute("errorMsg", "出勤済みです。");
                 return "redirect:/index";
             }
         }
@@ -32,23 +44,30 @@ public class AttendanceController {
 
     @PostMapping("clockingOut")
     public String clockingOut(HttpSession session, Model model) {
-// TODO isWorkingStatusがnullだった時の処理作成
+
         if (session.getAttribute( "userId") != null) {
-//            String isWorkingStatus = attendanceRepository.attendanceStatusById((int) session.getAttribute("userId"));
-//            System.out.println("状態  :" + isWorkingStatus);
 
-//            if (isWorkingStatus.equals("出勤中")) {
-                boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
 
-                if (isResult) {
-                    session.removeAttribute("working");
-                } else {
-                    return "redirect:/index";
+            if (attendanceId != 0) {
+                String isWorkingStatus = attendanceRepository.attendanceStatusById(attendanceId);
+                System.out.println("状態  :" + isWorkingStatus);
+
+                if (isWorkingStatus.equals("出勤中")) {
+                    boolean isResult = attendanceRepository.clockingOut(attendanceId);
+                    if (isResult) {
+                        session.removeAttribute("working");
+                    } else {
+                        return "redirect:/index";
+                    }
+                } else if (isWorkingStatus.equals("休憩中")) {
+                    model.addAttribute("errorMsg", "休憩中です。");
+                    return "index";
                 }
-//            } else if (isWorkingStatus.equals("未出勤") || isWorkingStatus.equals("休憩中")) {
-//                model.addAttribute("errorMsg", "未出勤または休憩中です。");
-//                return "index";
-//            }
+            } else {
+                model.addAttribute("errorMsg", "未出勤です。");
+                return "redirect:/index";
+            }
         }
         return "redirect:/login";
     }
@@ -57,11 +76,28 @@ public class AttendanceController {
     public String startBreak(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.startBreak((int) session.getAttribute("userId"));
 
-            if (isResult) {
-                session.setAttribute("working", true);
-                return "redirect:/index";
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+
+            if (attendanceId != 0) {
+                String isWorkingStatus = attendanceRepository.attendanceStatusById(attendanceId);
+                System.out.println("状態  :" + isWorkingStatus);
+                if (isWorkingStatus.equals("出勤中")) {
+                    boolean isResult = attendanceRepository.startBreak((int) session.getAttribute("userId"));
+
+                    if (isResult) {
+                        session.setAttribute("working", true);
+                        return "redirect:/index";
+                    } else {
+                        return "redirect:/index";
+                    }
+                } else if (isWorkingStatus.equals("未出勤")) {
+                    System.out.println("すでに休憩中です。");
+                } else if (isWorkingStatus.equals("休憩中")) {
+                    System.out.println("未出勤状態です。");
+                } else {
+                    return "redirect:/index";
+                }
             } else {
                 return "redirect:/index";
             }

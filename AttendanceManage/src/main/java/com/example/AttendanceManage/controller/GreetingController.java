@@ -83,7 +83,7 @@ public class GreetingController {
 
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //当日の同部署コードの勤務状況一覧
-        List<Map<String,Object>> list = attendanceRepository.getTodaysAttendance((String) session.getAttribute("department_code"));
+        List<Map<String,Object>> list = attendanceRepository.getTodayAttendance((String) session.getAttribute("department_code"));
         model.addAttribute("attendancelist", list);
         return "attendance_list";
     }
