@@ -31,9 +31,7 @@ public class AttendanceRepository {
         return att_map;
     }
 
-    public Attendance getAttendanceById() {
-        return null;
-    }
+
 
     public boolean clockingIn(String place, int userId,String department_code) {
 
@@ -60,6 +58,7 @@ public class AttendanceRepository {
     public boolean clockingOut(int userId) {
 
         String sql = "UPDATE attendance SET end_time = ?::time WHERE user_id = ?";
+        //String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
         String clockOutTime;
 
         try {
@@ -174,5 +173,12 @@ public class AttendanceRepository {
         if (row.get("end_time") != null)attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
         if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
+    }
+
+    private int findAttendanceIdByUser(int userId){
+        //TODO　今日の日付取得
+        //TODO  UserIdと日付を条件にAttendanceテーブルのレコードからIDを取得する
+        //TODO  結果をint型で返す。該当ない場合は、0を返す
+        return 0;
     }
 }
