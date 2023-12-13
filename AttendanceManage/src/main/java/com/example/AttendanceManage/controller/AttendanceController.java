@@ -15,7 +15,7 @@ public class AttendanceController {
     private AttendanceRepository attendanceRepository;
 
     @PostMapping("/clockingIn")
-    public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
+    public String clockingInput(HttpSession session, @RequestParam("place") String place, Model model) {
 
         if (session.getAttribute( "userId") != null) {
             boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"));
@@ -31,17 +31,24 @@ public class AttendanceController {
     }
 
     @PostMapping("clockingOut")
-    public String clockingout(HttpSession session, Model model) {
-
+    public String clockingOut(HttpSession session, Model model) {
+// TODO isWorkingStatusがnullだった時の処理作成
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
+            String isWorkingStatus = attendanceRepository.attendanceStatusById((int) session.getAttribute("userId"));
+            System.out.println("状態  :" + isWorkingStatus);
 
-            if (isResult) {
-                session.removeAttribute("working");
-                return "redirect:/index";
-            } else {
-                return "redirect:/index";
-            }
+//            if (isWorkingStatus.equals("出勤中")) {
+                boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
+
+                if (isResult) {
+                    session.removeAttribute("working");
+                } else {
+                    return "redirect:/index";
+                }
+//            } else if (isWorkingStatus.equals("未出勤") || isWorkingStatus.equals("休憩中")) {
+//                model.addAttribute("errorMsg", "未出勤または休憩中です。");
+//                return "index";
+//            }
         }
         return "redirect:/login";
     }
