@@ -2,6 +2,7 @@ package com.example.AttendanceManage.Repository;
 
 import com.example.AttendanceManage.model.Attendance;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -175,10 +176,53 @@ public class AttendanceRepository {
         return attendance;
     }
 
-    private int findAttendanceIdByUser(int userId){
-        //TODO　今日の日付取得
-        //TODO  UserIdと日付を条件にAttendanceテーブルのレコードからIDを取得する
-        //TODO  結果をint型で返す。該当ない場合は、0を返す
-        return 0;
+    public int findAttendanceIdByUser(int userId){
+        //現在の日時
+        LocalDate today = LocalDate.now();
+        String sql = "SELECT id FROM attendance WHERE user_id = ? AND date = ?";
+        List<Integer> attendanceList;
+        int attendanceId;
+        //抽出処理
+        try {
+            attendanceList = jdbcTemplate.queryForList(sql, Integer.class, userId, today);
+            System.out.println("Attendance ID : " + attendanceList);
+        }catch(Exception e){
+            return -1;
+        }
+        //複数件抽出
+        if(attendanceList.size() > 1){
+            attendanceId = -1;
+        //抽出結果無し
+        }else if(attendanceList.isEmpty()){
+            attendanceId = 0;
+        }else{
+            attendanceId=  attendanceList.get(0);
+        }
+        return attendanceId;
+    }
+    public String attendanceStatusById (int attendanceId) {
+
+        // 出勤されてないときはuserStatusにnullが入るのでその対応
+        String sql = "SELECT status FROM attendance WHERE id = ?";
+        String userStatus = null;
+
+        try {
+            userStatus =  jdbcTemplate.queryForObject(sql, String.class, attendanceId);
+            System.out.println("Status : " + userStatus);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+        }
+        return userStatus;
+    }
+    private void updateAttendanceStatus (String status, int userId) {
+
+        String sql = "UPDATE attendance SET status = ? WHERE id = ?";
+
+        try {
+            // 呼び出し元によってstatusの値は異なる
+            jdbcTemplate.update(sql, status, userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+        }
     }
 }

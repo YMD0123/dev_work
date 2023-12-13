@@ -18,7 +18,8 @@ public class AttendanceController {
     public String clockingInput(HttpSession session, @RequestParam("place") String place, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"), (String) session.getAttribute("department_code"));
+            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"),
+                    (String) session.getAttribute("department_code"));
 
             if (isResult) {
                 session.setAttribute("working", true);
@@ -71,6 +72,12 @@ public class AttendanceController {
 
     @PostMapping("endBreak")
     public String endBreak(HttpSession session, Model model) {
+
+        //test
+        int at_id = attendanceRepository.findAttendanceIdByUser((Integer) session.getAttribute("userId"));
+        System.out.println("ctrl attendance ID : " + at_id);
+        String status = attendanceRepository.attendanceStatusById(at_id);
+        System.out.println("ctrl attendance status : " + status);
 
         if (session.getAttribute( "userId") != null) {
             boolean isResult = attendanceRepository.endBreak((int) session.getAttribute("userId"));
