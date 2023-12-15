@@ -2,14 +2,12 @@ package com.example.AttendanceManage.Repository;
 
 import com.example.AttendanceManage.model.Attendance;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +30,7 @@ public class AttendanceRepository {
         return att_map;
     }
 
-    public boolean clockingIn(String place, int attendanceId, String department_code) {
+    public boolean clockingIn(String place, int userId, String department_code) {
 
         String sql = "INSERT INTO attendance (user_id, date, start_time, department_code, location, status) " +
                 "VALUES (?, ?, ?::time, ?, ?, '出勤中')";
@@ -47,7 +45,7 @@ public class AttendanceRepository {
             // 現在時間取得
             clockInTime = getNowTime();
             System.out.println("出勤時刻　　　:　" + clockInTime);
-            jdbcTemplate.update(sql, attendanceId, days, clockInTime, department_code, place);
+            jdbcTemplate.update(sql, userId, days, clockInTime, department_code, place);
         } catch (Exception e) {
             return false;
         }
@@ -57,15 +55,15 @@ public class AttendanceRepository {
     public boolean clockingOut(int attendanceId) {
 
         String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
-        //String sql = "UPDATE attendance SET end_time = ?::time WHERE id = ?";
         String clockOutTime;
 
         try {
             // 現在時間取得
             clockOutTime = getNowTime();
             System.out.println("退勤時刻　　　:　" + clockOutTime);
-            updateAttendanceStatus("未出勤",attendanceId);
+            updateAttendanceStatus("未出勤", attendanceId);
             jdbcTemplate.update(sql, clockOutTime, attendanceId);
+            getWorkTime(clockOutTime, attendanceId);
         } catch (Exception e) {
             return false;
         }
@@ -81,7 +79,7 @@ public class AttendanceRepository {
             // 現在時間取得
             startBreakTime = getNowTime();
             System.out.println("休憩開始時刻　:　" + startBreakTime);
-            updateAttendanceStatus("休憩中",attendanceId);
+            updateAttendanceStatus("休憩中", attendanceId);
             jdbcTemplate.update(sql, startBreakTime, attendanceId);
         } catch (Exception e) {
             return false;
@@ -98,7 +96,7 @@ public class AttendanceRepository {
             // 現在時間取得
             endBreakTime = getNowTime();
             System.out.println("休憩終了時刻　:　" + endBreakTime);
-            updateAttendanceStatus("出勤中",attendanceId);
+            updateAttendanceStatus("出勤中", attendanceId);
             jdbcTemplate.update(sql, endBreakTime, attendanceId);
             // 休憩時間取得しDB格納
             getBreakTime(endBreakTime, attendanceId);
@@ -108,24 +106,46 @@ public class AttendanceRepository {
         return true;
     }
 
-    public String getNowTime() {
+    public void getWorkTime(String clockOutTime, int attendanceId) {
 
-        Date nowDate = new Date();
-        // フォーマット指定
-        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+        String sql = "SELECT start_time FROM attendance WHERE id = ?";
+        String clockInTime;
+        Time   timeWorkTime;
+        String workTime;
 
-        return sdf.format(nowDate);
+        try {
+            clockInTime = jdbcTemplate.queryForObject(sql, String.class, attendanceId);
+            // フォーマット指定,date変換
+            SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
+            Date dateEndTime = format.parse(clockOutTime);
+            Date dateStartTime = format.parse(clockInTime);
+            // 合計労働時間計算
+            long breakTimeCalc = dateEndTime.getTime() - dateStartTime.getTime();
+            // 差分をTime型に変換
+            timeWorkTime = new Time(breakTimeCalc);
+            // HHを満たさない場合00で埋める
+            workTime = new SimpleDateFormat("HH:mm:ss").format(timeWorkTime);
+            workTime = "00" + workTime.substring(2);
+
+            System.out.println("合計出勤時間  　　　:　" + workTime);
+            // DB格納
+            updateWorkTime(workTime, attendanceId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            e.printStackTrace();
+        }
     }
 
     public void getBreakTime(String endBreakTime, int attendanceId) {
 
-        String Sql = "SELECT break_start_time FROM attendance WHERE id = ?";
+        String sql = "SELECT break_start_time FROM attendance WHERE id = ?";
         String startBreakTime;
         Time   timeBreakTime;
         String breakTime;
 
         try {
-            startBreakTime = jdbcTemplate.queryForObject(Sql, String.class, attendanceId);
+            startBreakTime = jdbcTemplate.queryForObject(sql, String.class, attendanceId);
+            System.out.println("startBreakTime   :" + startBreakTime);
             // フォーマット指定,date変換
             SimpleDateFormat format = new SimpleDateFormat("HH:mm:ss");
             Date dateEndTime = format.parse(endBreakTime);
@@ -158,6 +178,17 @@ public class AttendanceRepository {
 
     }
 
+    public void updateWorkTime(String workTime, int attendanceId) {
+
+        String sql = "UPDATE attendance SET total_work_time = ? WHERE id = ?";
+
+        try {
+            jdbcTemplate.update(sql, Time.valueOf(workTime), attendanceId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+        }
+    }
+
     public void updateAttendanceStatus (String status, int attendanceId) {
 
         String sql = "UPDATE attendance SET status = ? WHERE id = ?";
@@ -174,11 +205,10 @@ public class AttendanceRepository {
 
         // 出勤されてないときはuserStatusにnullが入るのでその対応
         String sql = "SELECT status FROM attendance WHERE id = ?";
-        String userStatus = null;
+        String userStatus = "未出勤";
 
         try {
             userStatus =  jdbcTemplate.queryForObject(sql, String.class, attendanceId);
-            System.out.println("Status : " + userStatus);
         } catch (Exception e) {
             System.out.println("DATABASE_ERROR");
         }
@@ -188,20 +218,6 @@ public class AttendanceRepository {
     public List<Attendance> getTodayWorkStatus(){
         //TODO 出勤している日付が一致するレコードを一覧で取得する
         return null;
-    }
-
-    private Attendance mapToAttendance(Map<String, Object> row) {
-        Attendance attendance = new Attendance();
-        attendance.setId((Integer)row.get("id"));
-        attendance.setUserId((Integer)row.get("user_id"));
-        attendance.setDepartmentCode((String)row.get("department_code"));
-        // Date型からLocalDate型への変換
-        attendance.setDate(((java.sql.Date)row.get("date")).toLocalDate());
-        // Time型からLocalTime型への変換
-        attendance.setStartTime(((java.sql.Time)row.get("start_time")).toLocalTime());
-        if (row.get("end_time") != null)attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
-        if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
-        return attendance;
     }
 
     public int findAttendanceIdByUser(int userId){
@@ -220,7 +236,7 @@ public class AttendanceRepository {
         //複数件抽出
         if(attendanceList.size() > 1){
             attendanceId = -1;
-            //抽出結果無し
+        //抽出結果無し
         }else if(attendanceList.isEmpty()){
             attendanceId = 0;
         }else{
@@ -228,4 +244,28 @@ public class AttendanceRepository {
         }
         return attendanceId;
     }
+
+    private String getNowTime() {
+
+        Date nowDate = new Date();
+        // フォーマット指定
+        SimpleDateFormat sdf = new SimpleDateFormat("HH:mm:ss");
+
+        return sdf.format(nowDate);
+    }
+
+    private Attendance mapToAttendance(Map<String, Object> row) {
+        Attendance attendance = new Attendance();
+        attendance.setId((Integer)row.get("id"));
+        attendance.setUserId((Integer)row.get("user_id"));
+        attendance.setDepartmentCode((String)row.get("department_code"));
+        // Date型からLocalDate型への変換
+        attendance.setDate(((java.sql.Date)row.get("date")).toLocalDate());
+        // Time型からLocalTime型への変換
+        attendance.setStartTime(((java.sql.Time)row.get("start_time")).toLocalTime());
+        if (row.get("end_time") != null)attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
+        if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
+        return attendance;
+    }
+
 }
