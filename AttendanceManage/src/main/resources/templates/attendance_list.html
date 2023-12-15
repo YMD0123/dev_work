@@ -24,16 +24,20 @@
 		<table border="1">
 			<tr>
 				<th>氏名</th>
-				<th>勤務開始時間</th>
-				<th>勤務終了時間</th>
 				<th>ステータス</th>
+				<th>勤務場所</th>
+				<th>電話番号</th>
+				<th>メールアドレス</th>
 			</tr>
-			<tr th:each="list:${attendancelist}">
-				<td th:text="${list.id}"></td>
-				<td th:text="${list.begin_time}"></td>
-				<td th:text="${list.end_time}"></td>
+			<tr th:each="row : ${attendancelist}">
+				<td th:text="${row['username'] != null ? row['username'] : ''}"></td>
+				<td th:text="${row['status'] != null ? row['status'] : ''}"></td>
+				<td th:text="${row['location'] != null ? row['location'] : ''}"></td>
+				<td th:text="${row['phone_number'] != null ? row['phone_number'] : ''}"></td>
+				<td th:text="${row['email'] != null ? row['email'] : ''}"></td>
 			</tr>
 		</table>
+
 	</div>
 </div>
 </body>
