@@ -24,14 +24,18 @@ public class LoginController {
                         @RequestParam("password") String password,
                         Model model) {
 
-        boolean loginResult = userRepository.Login(userId, password);
+        if (userId != 0 && password != null) {
 
-        if (loginResult) {
-            return "redirect:/index";
-        } else {
-            model.addAttribute("error", "ユーザー名またはパスワードが違います。");
-            return "login";
+            boolean loginResult = userRepository.Login(userId, password);
+
+            if (loginResult) {
+                return "index";
+            } else {
+                model.addAttribute("error", "ユーザー名またはパスワードが違います。");
+                return "login";
+            }
         }
+        return "login";
     }
 
     @RequestMapping("/index")
