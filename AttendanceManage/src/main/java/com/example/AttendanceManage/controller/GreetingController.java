@@ -1,6 +1,8 @@
 package com.example.AttendanceManage.controller;
 import com.example.AttendanceManage.Repository.AttendanceRepository;
+import com.example.AttendanceManage.Repository.UserRepository;
 import com.example.AttendanceManage.model.Attendance;
+import com.example.AttendanceManage.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -11,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 // http://localhost:8080/
 // http://localhost:8080/
@@ -25,6 +28,9 @@ public class GreetingController {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -76,8 +82,8 @@ public class GreetingController {
     public String WorkerList(HttpSession session,Model model){
 
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
-        //勤務状況一覧
-        List<Attendance> list = attendanceRepository.getAllAttendance((String) session.getAttribute("department_code"));
+        //当日の同部署コードの勤務状況一覧
+        List<Map<String,Object>> list = attendanceRepository.getTodayAttendance((String) session.getAttribute("department_code"));
         model.addAttribute("attendancelist", list);
         return "attendance_list";
     }

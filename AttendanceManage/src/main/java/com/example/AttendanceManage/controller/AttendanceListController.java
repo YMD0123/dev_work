@@ -22,8 +22,8 @@ public class AttendanceListController {
 
     @GetMapping("/attendanceList")
     public String index(Model model){
-        List<Attendance> list = attendanceRepository.getAllAttendance("100");
-        model.addAttribute("attendancelist", list);
+//        List<Attendance> list = attendanceRepository.getTodaysAttendance("100");
+//        model.addAttribute("attendancelist", list);
         return "attendance_list";
     }
 

@@ -15,74 +15,155 @@ public class AttendanceController {
     private AttendanceRepository attendanceRepository;
 
     @PostMapping("/clockingIn")
-    public String clockinginput(HttpSession session, @RequestParam("place") String place, Model model) {
+    public String clockingInput(HttpSession session, @RequestParam("place") String place, Model model) {
 
-        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
-
+        // ログイン済だったらtrue
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingIn(place, (int)session.getAttribute( "userId"), (String) session.getAttribute("department_code"));
 
-            if (isResult) {
-                session.setAttribute("working", true);
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+
+            if (attendanceId == 0) {
+                boolean isClockingResult = attendanceRepository.clockingIn(place,
+                        (int) session.getAttribute("userId"),
+                        (String) session.getAttribute("department_code"));
+
+                if (!isClockingResult) {
+                    System.out.println("登録エラー");
+                    return "redirect:/index";
+                }
+                return "redirect:/index";
+            } else if (attendanceId == -1) {
+                System.out.println("DBError");
                 return "redirect:/index";
             } else {
+//                model.addAttribute("errorMsg", "出勤済みです。");
+                System.out.println("状態  : " + "すでに出勤済み");
                 return "redirect:/index";
             }
         }
-        return "redirect:/login";
+        return "login";
     }
 
     @PostMapping("clockingOut")
-    public String clockingout(HttpSession session, Model model) {
-
-        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+    public String clockingOut(HttpSession session, Model model) {
 
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.clockingOut((int) session.getAttribute("userId"));
 
-            if (isResult) {
-                session.removeAttribute("working");
-                return "redirect:/index";
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+
+            if (attendanceId != 0) {
+                String workingStatus = attendanceRepository.attendanceStatusById(attendanceId);
+                if (workingStatus.equals("出勤中")) {
+                    boolean isClockingResult = attendanceRepository.clockingOut(attendanceId);
+                    if (!isClockingResult) {
+                        System.out.println("登録エラー");
+                        return "redirect:/index";
+                    }
+                    return "redirect:/index";
+                } else if (workingStatus.equals("休憩中")) {
+//                    model.addAttribute("errorMsg", "休憩中です。");
+                    System.out.println("状態  : " + "現在休憩中です。休憩を終了してから退勤してください。");
+                    return "redirect:/index";
+                }
             } else {
+//                model.addAttribute("errorMsg", "未出勤です。");
+                System.out.println("状態  : " + "未出勤");
                 return "redirect:/index";
             }
         }
-        return "redirect:/login";
+        return "login";
     }
 
     @PostMapping("startBreak")
     public String startBreak(HttpSession session, Model model) {
 
-        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
-
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.startBreak((int) session.getAttribute("userId"));
 
-            if (isResult) {
-                session.setAttribute("working", true);
-                return "redirect:/index";
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+
+            if (attendanceId != 0) {
+                String isWorkingStatus = attendanceRepository.attendanceStatusById(attendanceId);
+                if (isWorkingStatus.equals("出勤中")) {
+                    boolean isResult = attendanceRepository.startBreak(attendanceId);
+
+                    if (!isResult) {
+                        System.out.println("登録エラー");
+                        return "redirect:/index";
+                    }
+                        return "redirect:/index";
+                } else if (isWorkingStatus.equals("未出勤")) {
+
+                    return "redirect:/index";
+                } else if (isWorkingStatus.equals("休憩中")) {
+                    System.out.println("すでに休憩中です。");
+                    return "redirect:/index";
+                } else {
+                    return "redirect:/index";
+                }
             } else {
                 return "redirect:/index";
             }
         }
-        return "redirect:/login";
+        return "login";
     }
 
     @PostMapping("endBreak")
     public String endBreak(HttpSession session, Model model) {
 
-        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
-
         if (session.getAttribute( "userId") != null) {
-            boolean isResult = attendanceRepository.endBreak((int) session.getAttribute("userId"));
 
-            if (isResult) {
-                session.setAttribute("working", true);
-                return "redirect:/index";
+            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+
+            if (attendanceId != 0) {
+                String isWorkingStatus = attendanceRepository.attendanceStatusById(attendanceId);
+                if (isWorkingStatus.equals("休憩中")) {
+                    boolean isResult = attendanceRepository.endBreak(attendanceId);
+                    if (!isResult) {
+                        System.out.println("登録エラー");
+                        return "redirect:/index";
+                    }
+                        return "redirect:/index";
+                } else if (isWorkingStatus.equals("出勤中")) {
+                    System.out.println("状態  : " + "現在出勤中です。休憩を開始してください。");
+                    return "redirect:/index";
+                }
             } else {
                 return "redirect:/index";
             }
         }
-        return "redirect:/login";
+        return "login";
     }
+
+//    @PostMapping("/tset")
+//    public String attendanc(HttpSession session,
+//                            @RequestParam("place") String place,
+//                            Model model) {
+//
+//        if (session.getAttribute("userId") != null) {
+//            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
+//            if (attendanceId == 0) {
+//                boolean isClokingResult = attendanceRepository.clockingIn(place,
+//                        (int) session.getAttribute("userId"),
+//                        (String) session.getAttribute("department_code"));
+//
+//            } else {
+//                String isWorkingStatus = attendanceRepository.attendanceStatusById(attendanceId);
+//                if (isWorkingStatus.equals("出勤中")) {
+//                    if () {
+//                        boolean isResult = attendanceRepository.startBreak(attendanceId);
+//                        return "index";
+//                    } else if () {
+//                        boolean isResult = attendanceRepository.clockingOut(attendanceId);
+//                        return "index";
+//                    }
+//                } else if (isWorkingStatus.equals("休憩中")) {
+//                    boolean isResult = attendanceRepository.endBreak(attendanceId);
+//                    return "index";
+//                } else {
+//                    return "index";
+//                }
+//            }
+//        }
+//        return "login";
+//    }
 }

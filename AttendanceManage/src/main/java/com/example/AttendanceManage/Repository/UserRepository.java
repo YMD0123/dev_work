@@ -38,6 +38,19 @@ public class UserRepository {
         }
     }
 
+    public String findUserNameById(int userId) {
+        String sql = "SELECT username from users WHERE id = ?";
+        String userName = null;
+
+        try {
+            userName = jdbcTemplate.queryForObject(sql, String.class, userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            e.printStackTrace();
+        }
+        return userName;
+    }
+
     public User getUserInfo(int userId) {
         String sql = "SELECT * FROM users WHERE id = ?";
         Map<String,Object> user_map = jdbcTemplate.queryForMap(sql, userId);
@@ -68,4 +81,5 @@ public class UserRepository {
         user.setDepartmentCode((String) user_map.get("department_code"));
         return user;
     }
+
 }
