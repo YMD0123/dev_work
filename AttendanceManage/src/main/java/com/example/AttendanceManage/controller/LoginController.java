@@ -1,5 +1,6 @@
 package com.example.AttendanceManage.controller;
 
+import com.example.AttendanceManage.Repository.AttendanceRepository;
 import com.example.AttendanceManage.Repository.UserRepository;
 import com.example.AttendanceManage.model.User;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ public class LoginController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AttendanceRepository attendanceRepository;
 
     @RequestMapping("/login")
     public String loginView(HttpSession session) {
@@ -47,6 +50,12 @@ public class LoginController {
             System.out.println("role            : " + session.getAttribute("role"));
             System.out.println("department_code : " + session.getAttribute("department_code"));
 
+            //UserのRoleがadminだったときadminメニューへ遷移
+            if(user.getRole().equals("admin")){
+                System.out.println("go admin menu");
+                return "/manager/manager_menu";
+            }
+
             // ログイン成功の場合、index.html に遷移
             return "redirect:/index";
         } else {
@@ -58,13 +67,20 @@ public class LoginController {
 
     @RequestMapping("/index")
     public String indexView(HttpSession session, Model model) {
-        boolean working = session.getAttribute("working") != null && (boolean) session.getAttribute("working");
 
-        model.addAttribute("working", working);
+        // ログイン中ユーザー表示＆ステータス表示
+        String userStatus =  attendanceRepository.attendanceStatusById(
+                attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId")));
+        String userName = userRepository.findUserNameById((int) session.getAttribute("userId"));
 
-        session.removeAttribute("working");
+        model.addAttribute("userStatus", userStatus);
+        model.addAttribute("username", userName);
 
-        model.addAttribute("username", session.getAttribute("username"));
+        System.out.println("********LoginUser********");
+        System.out.println("Status   : " + userStatus);
+        System.out.println("Username : " + userName);
+        System.out.println("*************************");
+
         return "index";
     }
 }
