@@ -84,6 +84,15 @@ public class ManagerRepository {
 
     public boolean userUpdate(String username, String role, String department_code) {
         // TODO ユーザー更新メソッド作成
+        String sql = "UPDATE users SET username = ? role = ? department_code = ?";
+
+        try {
+            jdbcTemplate.update(sql, username, role, department_code);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            return false;
+        }
+        System.out.println("更新完了");
         return true;
     }
 

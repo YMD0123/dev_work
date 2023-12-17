@@ -53,7 +53,7 @@ public class LoginController {
             //UserのRoleがadminだったときadminメニューへ遷移
             if(user.getRole().equals("admin")){
                 System.out.println("go admin menu");
-                return "/manager/manager_menu";
+                return "redirect:/manager_menu";
             }
 
             // ログイン成功の場合、index.html に遷移
@@ -74,7 +74,7 @@ public class LoginController {
         String userName = userRepository.findUserNameById((int) session.getAttribute("userId"));
 
         model.addAttribute("userStatus", userStatus);
-        model.addAttribute("username", userName);
+        model.addAttribute("userName", userName);
 
         System.out.println("********LoginUser********");
         System.out.println("Status   : " + userStatus);

@@ -22,11 +22,8 @@
 <div class="admin_form">
     <p class="clock" id="view_clock"></p>
     <div class="user_status">
-        <p class="status">状態：
-            <span th:if="${working == null or !working}">未出勤</span>
-            <span th:if="${working}">出勤中</span>
-        </p>
-        <p class="name">こんにちは、<span th:text="${username}"></span>さん</p>
+        <p class="status">状態：<span th:text="${userStatus}"></span></p>
+        <p class="name">こんにちは、<span th:text="${userName}"></span>さん</p>
     </div>
     <form action=""  method="post">
         <div class="place">
