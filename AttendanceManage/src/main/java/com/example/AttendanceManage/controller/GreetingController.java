@@ -1,14 +1,17 @@
 package com.example.AttendanceManage.controller;
+
 import com.example.AttendanceManage.Repository.AttendanceRepository;
+import com.example.AttendanceManage.Repository.UserRepository;
 import com.example.AttendanceManage.model.Attendance;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
@@ -25,6 +28,9 @@ public class GreetingController {
 
     @Autowired
     private AttendanceRepository attendanceRepository;
+
+    @Autowired
+    private UserRepository userRepository;
 
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
@@ -102,5 +108,19 @@ public class GreetingController {
         return"user_menu";
     }
 */
+    @RequestMapping("/test")
+    public String testView(){
+        return "test";
+    }
+    @PostMapping("/test")
+    public String testInput(HttpSession session,
+                            @RequestParam("email") String email,
+                            @RequestParam("phonenumber") String phonenumber,
+                            Model model){
+
+        boolean isTestResult = userRepository.phoneAddress((int)session.getAttribute( "userId"),email, phonenumber);
+
+        return "test";
+    }
 }
 

@@ -69,16 +69,13 @@ public class UserRepository {
         return user;
     }
 
-    public boolean phoneAddress(int userId, String phone_number) {
+    public boolean phoneAddress(int userId, String email, String phonenumber) {
 
-        String sql = "SELECT phone_number FROM users WHERE id = ?";
-        String phoneNumber;
+        String sql ="UPDATE users SET phone_number = ?, email = ? WHERE id = ?";
 
         try {
-            //getphonenumberに電話番号の情報を入れる
-            phoneNumber = phone_number;
             //DBに格納
-            jdbcTemplate.update(sql,phoneNumber, userId);
+            jdbcTemplate.update(sql,phonenumber,email,userId);
         } catch (Exception e) {
             return false;
         }
@@ -86,6 +83,3 @@ public class UserRepository {
     }
 
 }
-
-
-

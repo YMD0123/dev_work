@@ -1,0 +1,18 @@
+<!doctype html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+</head>
+<body>
+<form th:action="@{/test}" method="post">
+  <p class="fsize">連絡先登録</p>
+  <input type="email" name="email" autocomplete="off" placeholder="email"/>
+  <input type="text" name="phonenumber" autocomplete="off" placeholder="phonenumber"/>
+  <button type="submit">Login</button>
+</form>
+</body>
+</html>
