@@ -1,5 +1,6 @@
 package com.example.AttendanceManage.controller;
 
+import com.example.AttendanceManage.Repository.AttendanceRepository;
 import com.example.AttendanceManage.Repository.UserRepository;
 import com.example.AttendanceManage.model.User;
 import jakarta.servlet.http.HttpSession;
@@ -15,6 +16,8 @@ public class LoginController {
 
     @Autowired
     private UserRepository userRepository;
+    @Autowired
+    private AttendanceRepository attendanceRepository;
 
     @RequestMapping("/login")
     public String loginView(HttpSession session) {
@@ -65,15 +68,19 @@ public class LoginController {
     @RequestMapping("/index")
     public String indexView(HttpSession session, Model model) {
 
-        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        // ログイン中ユーザー表示＆ステータス表示
+        String userStatus =  attendanceRepository.attendanceStatusById(
+                attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId")));
+        String userName = userRepository.findUserNameById((int) session.getAttribute("userId"));
 
-        boolean working = session.getAttribute("working") != null && (boolean) session.getAttribute("working");
+        model.addAttribute("userStatus", userStatus);
+        model.addAttribute("username", userName);
 
-        model.addAttribute("working", working);
+        System.out.println("********LoginUser********");
+        System.out.println("Status   : " + userStatus);
+        System.out.println("Username : " + userName);
+        System.out.println("*************************");
 
-        session.removeAttribute("working");
-
-        model.addAttribute("username", session.getAttribute("username"));
         return "index";
     }
 }
