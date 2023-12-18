@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>連絡先登録</title>
-    <link rel="stylesheet" th:href="@{/css/index.css}">
+<!--    <link rel="stylesheet" th:href="@{/css/index.css}">-->
     <script th:src="@{/js/script.js}"></script>
     <script th:inline="javascript">
 			const errorMsg = /*[[${errorMsg}]]*/"";
@@ -25,12 +25,15 @@
     </ul>
 </nav>
 <div class="contact">
-    <form th:action="" method="post">
+    aaaa
+    <form th:action="@{/test}" method="post">
+
         <p><label>メールアドレス：<input type="email" name="email" placeholder="info@example.com"></label></p>
         <p><label>電話番号：<input type="tel" name="telephone" placeholder="000-0000-0000"></label></p>
-        <p><labeilb>備考：<input type="text" name="remark" placeholder="備考を入力してください"></labeilb></p>
+        <p><label>備考：<textarea  name="remark" placeholder="備考を入力してください"></textarea></label></p>
         <button type="submit">登録</button>
     </form>
+
 </div>
 </body>
 </html>
