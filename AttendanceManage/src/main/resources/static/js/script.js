@@ -12,7 +12,7 @@ function getNow() {
     var min = now.getMinutes();
     var sec = now.getSeconds();
 
-    var s = year + "/" + mon + "/" + day + " " + hour.toString().padStart(2, "0") + ":"
+    var s = year + "/" + mon + "/" + day + " " + hour.toString().padStart(1, "0") + ":"
     + min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2, "0");
     return s;
 }

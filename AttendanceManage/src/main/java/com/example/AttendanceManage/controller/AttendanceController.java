@@ -37,7 +37,7 @@ public class AttendanceController {
                 return "redirect:/index";
             } else {
 //                model.addAttribute("errorMsg", "出勤済みです。");
-                System.out.println("状態  : " + "すでに出勤済み");
+                System.out.println("状態  : " + "退勤済");
                 return "redirect:/index";
             }
         }
@@ -124,7 +124,7 @@ public class AttendanceController {
                     }
                         return "redirect:/index";
                 } else if (isWorkingStatus.equals("出勤中")) {
-                    System.out.println("状態  : " + "現在出勤中です。休憩を開始してください。");
+                    System.out.println("状態  : " + "現在出勤中です。");
                     return "redirect:/index";
                 }
             } else {

@@ -30,7 +30,6 @@ public class UserRepository {
         System.out.println("result      : " + hashPassword);
         System.out.println("getPassword : " + userPassword);
 
-        // passwordとpostされたgetPasswordを比較
         if (hashPassword.equals(userPassword)) {
             return true;
         } else {
