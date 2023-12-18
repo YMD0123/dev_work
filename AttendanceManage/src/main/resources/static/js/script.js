@@ -50,3 +50,25 @@ function getToday() {
 
     return days;
 }
+
+document.addEventListener("DOMContentLoaded", function () {
+    buttonColor(status);
+});
+
+function buttonColor() {
+    var clockingIn = document.getElementById('clockingIn');
+        var endBreak = document.getElementById('endBreak');
+
+    if (status == '出勤中') {
+        clockingIn.style.backgroundColor = '#EEEEEE';
+        endBreak.style.backgroundColor = '#EEEEEE';
+    } else if (status == '未出勤') {
+        clockingOut.style.backgroundColor = '#EEEEEE';
+        startBreak.style.backgroundColor = '#EEEEEE';
+        endBreak.style.backgroundColor = '#EEEEEE';
+    } else if (status == '休憩中') {
+        clockingOut.style.backgroundColor = '#EEEEEE';
+        startBreak.style.backgroundColor = '#EEEEEE';
+        clockingIn.style.backgroundColor = '#EEEEEE';
+    }
+}
