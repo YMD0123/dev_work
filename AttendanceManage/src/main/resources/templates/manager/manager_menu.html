@@ -6,6 +6,9 @@
     <title>管理者画面TOP</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
     <script th:src="@{/js/script.js}"></script>
+    <script th:inline="javascript">
+        var status = /*[[${userStatus}]]*/ '';
+    </script>
 </head>
 <body>
 <nav>
@@ -33,10 +36,10 @@
                 <option value="Service">営業所</option>
             </select>
         </div>
-        <button type="submit" th:formaction="@{/clockingIn}" onclick="atwork()">出勤</button>
-        <button type="submit" th:formaction="@{/clockingOut}" onclick="lework()">退勤</button>
-        <button type="submit" th:formaction="@{/startBreak}" onclick="start()">休憩開始</button>
-        <button type="submit" th:formaction="@{/endBreak}" onclick="end()">休憩終了</button>
+        <button type="submit" th:formaction="@{/clockingIn}" onclick="atwork()" id="clockingIn">出勤</button>
+        <button type="submit" th:formaction="@{/clockingOut}" onclick="lework()" id="clockingOut">退勤</button>
+        <button type="submit" th:formaction="@{/startBreak}" onclick="start()" id="startBreak">休憩開始</button>
+        <button type="submit" th:formaction="@{/endBreak}" onclick="end()" id="endBreak">休憩終了</button>
     </form>
 </div>
 </body>

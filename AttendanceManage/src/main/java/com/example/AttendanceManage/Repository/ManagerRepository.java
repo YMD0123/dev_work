@@ -82,12 +82,12 @@ public class ManagerRepository {
         return true;
     }
 
-    public boolean userUpdate(String username, String role, String department_code) {
+    public boolean userUpdate(String username, String role, String department_code, int id) {
         // TODO ユーザー更新メソッド作成
-        String sql = "UPDATE users SET username = ? role = ? department_code = ?";
+        String sql = "UPDATE users SET username = ? role = ? department_code = ?  WHERE id = ?";
 
         try {
-            jdbcTemplate.update(sql, username, role, department_code);
+            jdbcTemplate.update(sql, username, role, department_code, id);
         } catch (Exception e) {
             System.out.println("DATABASE_ERROR");
             return false;
