@@ -12,7 +12,7 @@ function getNow() {
     var min = now.getMinutes();
     var sec = now.getSeconds();
 
-    var s = year + "/" + mon + "/" + day + " " + hour.toString().padStart(2, "0") + ":"
+    var s = year + "/" + mon + "/" + day + " " + hour.toString().padStart(1, "0") + ":"
     + min.toString().padStart(2, "0") + ":" + sec.toString().padStart(2, "0");
     return s;
 }
@@ -49,4 +49,26 @@ function getToday() {
     var days = year + "/" + month + "/" + date;
 
     return days;
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+    buttonColor(status);
+});
+
+function buttonColor() {
+    var clockingIn = document.getElementById('clockingIn');
+        var endBreak = document.getElementById('endBreak');
+
+    if (status == '出勤中') {
+        clockingIn.style.backgroundColor = '#EEEEEE';
+        endBreak.style.backgroundColor = '#EEEEEE';
+    } else if (status == '未出勤') {
+        clockingOut.style.backgroundColor = '#EEEEEE';
+        startBreak.style.backgroundColor = '#EEEEEE';
+        endBreak.style.backgroundColor = '#EEEEEE';
+    } else if (status == '休憩中') {
+        clockingOut.style.backgroundColor = '#EEEEEE';
+        startBreak.style.backgroundColor = '#EEEEEE';
+        clockingIn.style.backgroundColor = '#EEEEEE';
+    }
 }
