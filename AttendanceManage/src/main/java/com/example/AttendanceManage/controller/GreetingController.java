@@ -102,6 +102,11 @@ public class GreetingController {
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         return "index";
     }
+
+    @RequestMapping("/test")
+    public String test(){
+        return "address_change";
+    }
 /*
     @PostMapping("/user")
     public String confirm(@RequestParam String message,String password,Model model) {
