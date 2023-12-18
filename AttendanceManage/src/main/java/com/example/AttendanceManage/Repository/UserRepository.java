@@ -30,11 +30,25 @@ public class UserRepository {
         System.out.println("result      : " + hashPassword);
         System.out.println("getPassword : " + userPassword);
 
+        // passwordとpostされたgetPasswordを比較
         if (hashPassword.equals(userPassword)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public String findUserNameById(int userId) {
+        String sql = "SELECT username from users WHERE id = ?";
+        String userName = null;
+
+        try {
+            userName = jdbcTemplate.queryForObject(sql, String.class, userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            e.printStackTrace();
+        }
+        return userName;
     }
 
     public User getUserInfo(int userId) {
@@ -80,5 +94,4 @@ public class UserRepository {
         }
         return true;
     }
-
 }
