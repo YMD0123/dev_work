@@ -36,7 +36,6 @@ public class AttendanceController {
                 System.out.println("DBError");
                 return "redirect:/index";
             } else {
-//                model.addAttribute("errorMsg", "出勤済みです。");
                 System.out.println("状態  : " + "すでに出勤済み");
                 return "redirect:/index";
             }
