@@ -11,7 +11,6 @@
 		if (errorMsg != null) {
         	alert(errorMsg);
 		}
-
 	</script>
 </head>
 <body>
@@ -25,15 +24,12 @@
     </ul>
 </nav>
 <div class="contact">
-    aaaa
-    <form th:action="@{/test}" method="post">
-
+    <form th:action="@{/address_change}" method="post">
         <p><label>メールアドレス：<input type="email" name="email" placeholder="info@example.com"></label></p>
         <p><label>電話番号：<input type="tel" name="phonenumber" placeholder="000-0000-0000"></label></p>
         <p><label>備考：<textarea  name="remark" placeholder="備考を入力してください"></textarea></label></p>
         <button type="submit">登録</button>
     </form>
-
 </div>
 </body>
 </html>

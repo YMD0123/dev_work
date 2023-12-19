@@ -2,8 +2,6 @@ package com.example.AttendanceManage.controller;
 
 import com.example.AttendanceManage.Repository.AttendanceRepository;
 import com.example.AttendanceManage.Repository.UserRepository;
-import com.example.AttendanceManage.model.Attendance;
-import com.example.AttendanceManage.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
@@ -103,10 +101,6 @@ public class GreetingController {
         return "index";
     }
 
-    @RequestMapping("/test")
-    public String test(){
-        return "address_change";
-    }
 /*
     @PostMapping("/user")
     public String confirm(@RequestParam String message,String password,Model model) {
@@ -115,11 +109,11 @@ public class GreetingController {
         return"user_menu";
     }
 */
-    @RequestMapping("/test")
+    @RequestMapping("/address_change")
     public String testView(){
-        return "test";
+        return "address_change";
     }
-    @PostMapping("/test")
+    @PostMapping("/address_change")
     public String testInput(HttpSession session,
                             @RequestParam("email") String email,
                             @RequestParam("phonenumber") String phonenumber,
@@ -127,7 +121,7 @@ public class GreetingController {
 
         boolean isTestResult = userRepository.phoneAddress((int)session.getAttribute( "userId"),email, phonenumber);
 
-        return "test";
+        return "address_change";
     }
 }
 
