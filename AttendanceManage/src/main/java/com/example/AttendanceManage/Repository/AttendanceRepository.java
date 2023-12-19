@@ -178,7 +178,7 @@ public class AttendanceRepository {
 
     }
 
-    public void updateWorkTime(String workTime, int attendanceId) {
+    private void updateWorkTime(String workTime, int attendanceId) {
 
         String sql = "UPDATE attendance SET total_work_time = ? WHERE id = ?";
 
