@@ -104,10 +104,10 @@ public class ManagerController {
     @GetMapping("/user_edit")
     public String userEdit(@RequestParam("username") String usernem,
                            @RequestParam("role") String role,
-                           @RequestParam("department_code") String deoartment_code,
+                           @RequestParam("department_code") String department_code,
                            @PathVariable int id) {
 
-        boolean isEditResult = managerRepository.userUpdate(usernem, role, deoartment_code, id);
+        boolean isEditResult = managerRepository.userUpdate(usernem, role, department_code, id);
         return "redirect:/{id}";
     }
 }
