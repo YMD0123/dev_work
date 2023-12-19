@@ -22,7 +22,7 @@
 <div class="add_form">
     <p>従業員アカウント編集</p>
     <p>従業員ID : <span th:text="${user.id}"></span></p>
-    <form action="" th:action="@{/user_add}" method="post">
+    <form action="" th:action="@{/user_edit}" method="post">
         <p>氏名</p>
         <input type="text" th:field="*{user.username}" name="username">
         <p>権限</p>

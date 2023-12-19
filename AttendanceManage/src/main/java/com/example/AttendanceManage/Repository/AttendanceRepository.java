@@ -178,7 +178,7 @@ public class AttendanceRepository {
 
     }
 
-    public void updateWorkTime(String workTime, int attendanceId) {
+    private void updateWorkTime(String workTime, int attendanceId) {
 
         String sql = "UPDATE attendance SET total_work_time = ? WHERE id = ?";
 
@@ -267,5 +267,4 @@ public class AttendanceRepository {
         if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
     }
-
 }
