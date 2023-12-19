@@ -267,5 +267,4 @@ public class AttendanceRepository {
         if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
     }
-
 }
