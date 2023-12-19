@@ -6,6 +6,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Time;
+import java.time.YearMonth;
 import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.util.Date;
@@ -215,11 +216,6 @@ public class AttendanceRepository {
         return userStatus;
     }
 
-    public List<Attendance> getTodayWorkStatus(){
-        //TODO 出勤している日付が一致するレコードを一覧で取得する
-        return null;
-    }
-
     public int findAttendanceIdByUser(int userId){
         //現在の日時
         LocalDate today = LocalDate.now();
@@ -266,5 +262,17 @@ public class AttendanceRepository {
         if (row.get("end_time") != null)attendance.setEndTime(((java.sql.Time)row.get("end_time")).toLocalTime());
         if (row.get("break_duration") != null) attendance.setEndTime(((java.sql.Time)row.get("break_duration")).toLocalTime());
         return attendance;
+    }
+
+    public List<Map<String,Object>> getAttendanceHistory(int userId){
+        //userIdでAttendanceテーブルの値を取得する
+        YearMonth currentYearMonth = YearMonth.now();
+        // 現在の月の最初の日と最後の日を取得
+        LocalDate firstDayOfMonth = currentYearMonth.atDay(1);
+        LocalDate lastDayOfMonth = currentYearMonth.atEndOfMonth();
+        String sql = "SELECT * FROM attendance WHERE user_id = ? AND date >= ?::date AND date <= ?::date;";
+        List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,userId,firstDayOfMonth,lastDayOfMonth);
+        System.out.println(att_map);
+        return att_map;
     }
 }
