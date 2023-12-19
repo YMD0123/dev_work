@@ -8,37 +8,55 @@
     <script th:src="@{/js/script.js}"></script>
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="manager_menu">勤怠入力</a></li>
-        <li><a href="user_list" class="current">従業員一覧</a></li>
-        <li><a href="user_add">従業員登録</a></li>
-        <li><a href="#">連絡先登録</a></li>
-        <li><a href="#">勤怠履歴一覧表示</a></li>
-        <li><a href="attendanceList">勤怠状況一覧表示</a></li>
-        <li><a href="login">ログアウト</a></li>
-    </ul>
-</nav>
-<div class="main">
-    <p>従業員一覧</p>
-    <div class="table-container">
-        <table border="1">
-            <tr>
-                <th>従業員番号</th>
-                <th>氏名</th>
-                <th>権利</th>
-                <th>所属部署</th>
-                <th></th>
-            </tr>
-            <tr class="cnt" th:each="user:${users}">
-                <td th:text="${user.id}"></td>
-                <td th:text="${user.username}"></td>
-                <td th:text="${user.role}"></td>
-                <td th:text="${user.departmentCode}"></td>
-                <td class="edit"><a th:href="@{/{id}(id=${user.id})}">編集</a></td>
-            </tr>
-        </table>
+    <nav>
+        <ul>
+            <li><a href="manager_menu">勤怠入力</a></li>
+            <li><a href="user_list" class="current">従業員一覧</a></li>
+            <li><a href="user_add">従業員登録</a></li>
+            <li><a href="#">連絡先登録</a></li>
+            <li><a href="#">勤怠履歴一覧表示</a></li>
+            <li><a href="attendanceList">勤怠状況一覧表示</a></li>
+            <li><a href="login">ログアウト</a></li>
+        </ul>
+    </nav>
+    <div class="main">
+<!--        <p>従業員検索</p>-->
+<!--        <form action="" th:action="@{/user_search}" method="get">-->
+<!--            <p>従業員ID</p>-->
+<!--            <input type="text" name="userid">-->
+<!--            <p>氏名</p>-->
+<!--            <input type="text" name="username">-->
+<!--            <p>権限</p>-->
+<!--            <select name="role">-->
+<!--                <option value="admin">admin</option>-->
+<!--                <option value="user" selected>user</option>-->
+<!--            </select>-->
+<!--            <p>部署</p>-->
+<!--            <select name="department_code">-->
+<!--                <option value="100">100</option>-->
+<!--                <option value="101" selected>101</option>-->
+<!--            </select>-->
+<!--            <input type="submit" value="検索">-->
+<!--        </form>-->
+        <p>従業員一覧</p>
+        <div class="table-container">
+            <table border="1">
+                <tr>
+                    <th>従業員番号</th>
+                    <th>氏名</th>
+                    <th>権利</th>
+                    <th>所属部署</th>
+                    <th></th>
+                </tr>
+                <tr class="cnt" th:each="user:${users}">
+                    <td th:text="${user.id}"></td>
+                    <td th:text="${user.username}"></td>
+                    <td th:text="${user.role}"></td>
+                    <td th:text="${user.departmentCode}"></td>
+                    <td class="edit"><a th:href="@{edit/{id}(id=${user.id})}">編集</a></td>
+                </tr>
+            </table>
+        </div>
     </div>
-</div>
 </body>
 </html>

@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>変更</title>
+    <title>編集</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script th:src="@{/js/script.js}"></script>
 </head>
@@ -22,7 +22,7 @@
 <div class="add_form">
     <p>従業員アカウント編集</p>
     <p>従業員ID : <span th:text="${user.id}"></span></p>
-    <form action="" th:action="@{/user_edit}" method="post">
+    <form action="" th:action="@{'/user_edit/' + ${user.id}}" method="post">
         <p>氏名</p>
         <input type="text" th:field="*{user.username}" name="username">
         <p>権限</p>
