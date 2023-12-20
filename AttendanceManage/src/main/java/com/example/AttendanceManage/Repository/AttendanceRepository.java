@@ -278,7 +278,23 @@ public class AttendanceRepository {
         }catch(Exception e){
             e.printStackTrace();
         }
-
         return att_map;
+    }
+
+    public int getMonthlyWorkTime(List<Map<String,Object>> attendance_map){
+        int totalWorkMinutes = 0;
+        for(Map<String, Object> attendance : attendance_map){
+            Object workTimeObj = attendance.get("total_work_time");
+            if(workTimeObj != null){
+                Time workTime = (Time)workTimeObj;
+                totalWorkMinutes += workTime.getHours() * 60 + workTime.getMinutes();
+                System.out.println("totalWorkMinutes : " + totalWorkMinutes);
+            }
+        }
+        return totalWorkMinutes;
+    }
+    public int getMonthlyWorkCount(List<Map<String,Object>> attendance_map){
+        int size = attendance_map.size();
+        return size;
     }
 }

@@ -20,8 +20,9 @@
 </nav>
 <div class="main">
   <p>勤怠履歴一覧  <span id="view_days"></span></p>
+  <td th:text="${errorMsg != null ? errorMsg : ''}"></td>
   <div class="table-container">
-    <table border="1">
+    <table>
       <tr>
         <th>日付</th>
         <th>勤務場所</th>
@@ -37,9 +38,28 @@
         <td th:text="${row['end_time'] != null ? row['end_time'] : ''}"></td>
         <td th:text="${row['break_duration'] != null ? row['break_duration'] : ''}"></td>
         <td th:text="${row['total_work_time'] != null ? row['total_work_time'] : ''}"></td>
-      </tr>
+        <tr>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th></th>
+          <th>総出勤日数</th>
+          <th>総勤務時間</th>
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td></td>
+          <td th:text="${total_work_cnt != null ? total_work_cnt : ''}"></td>
+          <td th:text="${monthly_work_time != null ? monthly_work_time : ''}"></td>
+        </tr>
+        </tr>
     </table>
   </div>
+  <table>
+
+  </table>
 </div>
 </body>
 </html>

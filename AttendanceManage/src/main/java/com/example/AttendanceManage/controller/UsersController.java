@@ -105,11 +105,15 @@ public class UsersController {
     public String attendanceHistory(HttpSession session, Model model){
         List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
         if(attendanceList != null){
+            int monthlyWorkMinutes = attendanceRepository.getMonthlyWorkTime(attendanceList);
+            String monthlyWorkMinutesStr = String.valueOf(monthlyWorkMinutes / 60) + " 時間　" +  String.valueOf(monthlyWorkMinutes % 60) + " 分";
+            int monthlyWorkCount = attendanceRepository.getMonthlyWorkCount(attendanceList);
             model.addAttribute("attendancelist",attendanceList);
+            model.addAttribute("total_work_cnt",Integer.valueOf(monthlyWorkCount).toString() + " 日");
+            model.addAttribute("monthly_work_time",monthlyWorkMinutesStr);
         }else{
             model.addAttribute("errorMsg","エラーが発生しました。");
         }
-
         return "attendance_history";
     }
 /*
