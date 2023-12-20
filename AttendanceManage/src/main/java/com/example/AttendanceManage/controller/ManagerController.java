@@ -129,7 +129,7 @@ public class ManagerController {
         return "redirect:/user_list";
     }
 
-    @GetMapping("/attendanceHistory")
+    @GetMapping("/attendanceHistory/{id}")
     public String attendanceHistory(@PathVariable int id, Model model){
         List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory(id);
         if(attendanceList != null){
