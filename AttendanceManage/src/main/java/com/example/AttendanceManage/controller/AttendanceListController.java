@@ -20,12 +20,12 @@ public class AttendanceListController {
     @Autowired
     private AttendanceRepository attendanceRepository;
 
-    @GetMapping("/attendanceList")
-    public String index(Model model){
-//        List<Attendance> list = attendanceRepository.getTodaysAttendance("100");
-//        model.addAttribute("attendancelist", list);
-        return "attendance_list";
-    }
+//    @GetMapping("/attendanceList")
+//    public String index(Model model){
+////        List<Attendance> list = attendanceRepository.getTodaysAttendance("100");
+////        model.addAttribute("attendancelist", list);
+//        return "attendance_list";
+//    }
 
 
 }
