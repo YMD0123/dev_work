@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class ManagerController {
 
@@ -124,6 +127,18 @@ public class ManagerController {
         model.addAttribute("users", managerRepository.userSearch(userId, userName, role, departmentCode));
 
         return "redirect:/user_list";
+    }
+
+    @GetMapping("/attendanceHistory")
+    public String attendanceHistory(@PathVariable int id, Model model){
+        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory(id);
+        if(attendanceList != null){
+            model.addAttribute("attendancelist",attendanceList);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+
+        return "attendance_history";
     }
 
 

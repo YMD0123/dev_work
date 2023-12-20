@@ -14,8 +14,10 @@ public class Attendance {
     private int userId;
     private String departmentCode;
     private LocalDate date;
+    private String location;
     private LocalTime startTime;
     private LocalTime endTime;
     private int breakDuration;
+
 
 }
