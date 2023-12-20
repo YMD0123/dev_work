@@ -126,6 +126,5 @@ public class ManagerController {
         return "redirect:/user_list";
     }
 
-    @GetMapping("/user/atteendaceHisoty")
-    public String
+
 }

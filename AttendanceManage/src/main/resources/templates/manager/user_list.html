@@ -54,7 +54,7 @@
                     <td th:text="${user.username}"></td>
                     <td th:text="${user.role}"></td>
                     <td th:text="${user.departmentCode}"></td>
-                    <td class="edit"><a th:href="@{attendaceHistory/{id}(id=${user.id})}">勤怠履歴</a></td>
+                    <td class="edit"><a th:href="@{attendanceHistory/{id}(id=${user.id})}">勤怠履歴</a></td>
                     <td class="edit"><a th:href="@{edit/{id}(id=${user.id})}">編集</a></td>
                 </tr>
             </table>
