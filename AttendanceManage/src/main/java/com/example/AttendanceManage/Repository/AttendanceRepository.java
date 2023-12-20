@@ -270,9 +270,15 @@ public class AttendanceRepository {
         // 現在の月の最初の日と最後の日を取得
         LocalDate firstDayOfMonth = currentYearMonth.atDay(1);
         LocalDate lastDayOfMonth = currentYearMonth.atEndOfMonth();
-        String sql = "SELECT * FROM attendance WHERE user_id = ? AND date >= ?::date AND date <= ?::date;";
-        List<Map<String,Object>> att_map = jdbcTemplate.queryForList(sql,userId,firstDayOfMonth,lastDayOfMonth);
-        System.out.println(att_map);
+        List<Map<String,Object>> att_map = null;
+        try{
+            String sql = "SELECT * FROM attendance WHERE user_id = ? AND date >= ?::date AND date <= ?::date;";
+            att_map = jdbcTemplate.queryForList(sql,userId,firstDayOfMonth,lastDayOfMonth);
+            System.out.println(att_map);
+        }catch(Exception e){
+            e.printStackTrace();
+        }
+
         return att_map;
     }
 }

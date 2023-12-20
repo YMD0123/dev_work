@@ -1,12 +1,8 @@
 package com.example.AttendanceManage.controller;
 import com.example.AttendanceManage.Repository.AttendanceRepository;
 import com.example.AttendanceManage.Repository.UserRepository;
-import com.example.AttendanceManage.model.Attendance;
-import com.example.AttendanceManage.model.User;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -21,7 +17,7 @@ import java.util.Map;
 
 //error時の動き決めて無いっけ？
 @Controller
-public class GreetingController {
+public class UsersController {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -84,7 +80,11 @@ public class GreetingController {
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //当日の同部署コードの勤務状況一覧
         List<Map<String,Object>> list = attendanceRepository.getTodayAttendance((String) session.getAttribute("department_code"));
-        model.addAttribute("attendancelist", list);
+        if(list != null){
+            model.addAttribute("attendancelist", list);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
         return "attendance_list";
     }
 
@@ -99,6 +99,18 @@ public class GreetingController {
     public String Attendance(){
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         return "index";
+    }
+
+    @GetMapping("/user/attendanceHistory")
+    public String attendanceHistory(HttpSession session, Model model){
+        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
+        if(attendanceList != null){
+            model.addAttribute("attendancelist",attendanceList);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+
+        return "attendance_history";
     }
 /*
     @PostMapping("/user")

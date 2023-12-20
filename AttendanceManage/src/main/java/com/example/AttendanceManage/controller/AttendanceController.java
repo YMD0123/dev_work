@@ -140,14 +140,6 @@ public class AttendanceController {
         return "login";
     }
 
-    @GetMapping("/historyTest")
-    public String attendanceHistory(HttpSession session, Model model){
-        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("useId"));
-        //List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory(2);
-        model.addAttribute("attendancelist",attendanceList);
-        return "attendance_history";
-    }
-
 //    @PostMapping("/tset")
 //    public String attendanc(HttpSession session,
 //                            @RequestParam("place") String place,
