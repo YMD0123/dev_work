@@ -39,27 +39,24 @@
         <td th:text="${row['break_duration'] != null ? row['break_duration'] : ''}"></td>
         <td th:text="${row['total_work_time'] != null ? row['total_work_time'] : ''}"></td>
         <tr>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th></th>
-          <th>総出勤日数</th>
+          <th class="empty"></th>
+          <th class="empty"></th>
+          <th class="empty"></th>
+          <th class="empty"></th>
+          <th class="empty_sub">総出勤日数</th>
           <th>総勤務時間</th>
         </tr>
         <tr>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td></td>
-          <td th:text="${total_work_cnt != null ? total_work_cnt : ''}"></td>
+          <td class="empty"></td>
+          <td class="empty"></td>
+          <td class="empty"></td>
+          <td class="empty"></td>
+          <td class="empty_sub" th:text="${total_work_cnt != null ? total_work_cnt : ''}"></td>
           <td th:text="${monthly_work_time != null ? monthly_work_time : ''}"></td>
         </tr>
         </tr>
     </table>
   </div>
-  <table>
-
-  </table>
 </div>
 </body>
 </html>

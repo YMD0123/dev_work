@@ -195,3 +195,14 @@ tr:nth-child(even) {
     justify-content: space-between;
     width: 100%;
 }
+
+.empty {
+    text-align: left;
+    background-color: #f7f7f7;
+    border: none;
+    padding: 0;
+}
+
+.empty_sub {
+  border-left: 2px solid #000;
+}
