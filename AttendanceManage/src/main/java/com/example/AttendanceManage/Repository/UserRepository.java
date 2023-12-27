@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Map;
 
 @Repository
@@ -36,6 +37,24 @@ public class UserRepository {
         } else {
             return false;
         }
+    }
+
+    public boolean updatePassword(String newPassword, int userId) {
+
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+
+        String newHashPassWord = getMD5Hash(newPassword);
+
+        try {
+            System.out.println("newPassword : " + newHashPassWord);
+            jdbcTemplate.update(sql, newHashPassWord, userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
     }
 
     public String findUserNameById(int userId) {

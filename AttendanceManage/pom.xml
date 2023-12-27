@@ -52,6 +52,12 @@
             <artifactId>lombok</artifactId>
 			<scope>provided</scope>
         </dependency>
+		<!--		jquery		-->
+		<dependency>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.7.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>
