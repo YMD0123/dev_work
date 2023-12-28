@@ -34,13 +34,13 @@ public class LoginController {
                         Model model) {
 
         if (userId == null || password == null) {
-            System.out.println("入力無");
+            model.addAttribute("errorMsg", "IDまたはパスワードが空白");
             return "login";
         } else if (userId == null) {
-            System.out.println("userIdを入力してください。");
+            model.addAttribute("errorMsg","IDが空白");
             return "login";
         } else if (password == null) {
-            System.out.println("passwordを入力してください。");
+            model.addAttribute("errorMsg", "パスワードが空白");¢
             return "login";
         }
 
