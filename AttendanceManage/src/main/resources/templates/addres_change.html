@@ -33,10 +33,10 @@
 <div class="contact">
     <form th:action="@{/}" method="post">
         <p>
-            <label>メールアドレス：<input type="email" name="email" placeholder="info@example.com"></label>
+            <label>メールアドレス：<input type="email" th:field="*{userAddress.email}" name="email" placeholder="info@example.com"></label>
         </p>
         <p>
-            <label>電話番号：<input type="tel" name="telephone" placeholder="000-0000-0000"></label>
+            <label>電話番号：<input type="tel" th:field="*{userAddress.phoneNumber}" name="telephone" placeholder="000-0000-0000"></label>
         </p>
         <p>
             <label>備考：<textarea  name="remark" placeholder="備考を入力してください"></textarea></label>

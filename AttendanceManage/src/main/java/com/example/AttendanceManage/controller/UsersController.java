@@ -25,7 +25,9 @@ public class UsersController {
     }
 
     @RequestMapping("/addres_change")
-    public String addresChangeView() {
+    public String addresChangeView(Model model, HttpSession session) {
+
+        model.addAttribute("userAddress", userRepository.findUserAddressById((int)session.getAttribute("userId")));
 
         return "addres_change";
     }

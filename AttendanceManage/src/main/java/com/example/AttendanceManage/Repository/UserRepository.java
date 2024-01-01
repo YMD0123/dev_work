@@ -77,6 +77,16 @@ public class UserRepository {
         return user;
     }
 
+    public User findUserAddressById(int userId) {
+
+        String sql = "SELECT phone_number, email FROM users WHERE id = ?";
+        Map<String, Object> user_map = jdbcTemplate.queryForMap(sql, userId);
+        User user = mapToAddress(user_map);
+        return user;
+
+    }
+
+
     private String getMD5Hash(String stringToHash) {
         try {
             MessageDigest md = MessageDigest.getInstance("MD5");
@@ -90,6 +100,13 @@ public class UserRepository {
         } catch (NoSuchAlgorithmException e) {
             throw new RuntimeException("MD5 hashing algorithm not found", e);
         }
+    }
+
+    private User mapToAddress(Map user_map) {
+        User user = new User();
+        user.setPhoneNumber((String) user_map.get("phone_number"));
+        user.setEmail((String) user_map.get("email"));
+        return user;
     }
 
     private User mapToUser(Map user_map) {

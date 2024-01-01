@@ -24,6 +24,11 @@ public class User {
         this.departmentCode = department_code;
     }
 
+    public User(String phoneNumber, String email) {
+        this.phoneNumber = phoneNumber;
+        this.email = email;
+    }
+
     public User() {
 
     }
