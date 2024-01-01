@@ -17,23 +17,6 @@ function getNow() {
     return s;
 }
 
-// アラート処理
-function  atwork() {
-    alert("出勤しますか？");
-}
-
-function  lework() {
-    alert("退勤しますか？");
-}
-
-function  start() {
-    alert("休憩を開始しますか？");
-}
-
-function  end() {
-    alert("休憩を終了しますか？");
-}
-
 daysID = setInterval('days()',500);
 function days() {
     document.getElementById("view_days").innerHTML = getToday();

@@ -93,6 +93,7 @@ public class LoginController {
 
         model.addAttribute("userStatus", loginUserStatus);
         model.addAttribute("username", loginUserName);
+        model.addAttribute("userId", session.getAttribute("userId"));
 
         System.out.println("********LoginUser********");
         System.out.println("Status   : " + loginUserStatus);
