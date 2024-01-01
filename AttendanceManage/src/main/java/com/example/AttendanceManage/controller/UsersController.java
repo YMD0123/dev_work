@@ -67,7 +67,7 @@ public class UsersController {
     @PostMapping("/updateaddres")
     public String updateChange() {
 
-        return "redirect:/addres_change";
+        return "redirect:/address_change";
     }
 
     @GetMapping("/")
