@@ -92,7 +92,7 @@ public class LoginController {
         String loginUserName = userRepository.findUserNameById((int) session.getAttribute("userId"));
 
         model.addAttribute("userStatus", loginUserStatus);
-        model.addAttribute("username", loginUserName);
+        model.addAttribute("userName", loginUserName);
         model.addAttribute("userId", session.getAttribute("userId"));
 
         System.out.println("********LoginUser********");
