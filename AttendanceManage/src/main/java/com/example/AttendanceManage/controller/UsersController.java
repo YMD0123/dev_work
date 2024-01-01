@@ -21,8 +21,13 @@ public class UsersController {
 
     @RequestMapping("/userPassChange")
     public String ChangePageView(HttpSession session, Model model) {
-
         return "password_change";
+    }
+
+    @RequestMapping("/addres_change")
+    public String addresChangeView() {
+
+        return "addres_change";
     }
 
     @PostMapping("/passChange")
@@ -51,5 +56,11 @@ public class UsersController {
         model.addAttribute("errorMsg", "パスワードが一致しません。");
 
         return "password_change";
+    }
+
+    @PostMapping("/updateaddres")
+    public String updateChange() {
+
+        return "redirect:/addres_change";
     }
 }
