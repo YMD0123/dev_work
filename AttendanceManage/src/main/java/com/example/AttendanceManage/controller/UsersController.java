@@ -6,9 +6,13 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
+import java.util.Map;
 
 @Controller
 public class UsersController {
@@ -64,5 +68,90 @@ public class UsersController {
     public String updateChange() {
 
         return "redirect:/addres_change";
+    }
+
+    @GetMapping("/")
+    public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        model.addAttribute("name", name);
+        //ログイン
+        //接続確認用
+        //System.out.println("test");
+        return "login";
+    }
+
+    @GetMapping("/manage")
+    public String ManageMenu(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        //管理者メイン
+        return "manager_menu";
+    }
+
+    @GetMapping("/manage/userEdit")
+    public String UserEdit(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        //ユーザー編集
+        //編集後の処理は何処に？
+        return "user_edit";
+    }
+
+    @GetMapping("/manage/workTime")
+    public String WorkTimeList(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        //勤務時間一覧
+        //一覧の情報を受け取って(関数名)ページ表示
+        return "workers_list";
+
+    }
+
+    @GetMapping("/user")
+    public String UserMenu(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        //ユーザーメニュー
+        return "user_menu";
+    }
+
+    @GetMapping("/attendanceList")
+    public String WorkerList(HttpSession session, Model model){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        //当日の同部署コードの勤務状況一覧
+        List<Map<String,Object>> list = attendanceRepository.getTodayAttendance((String) session.getAttribute("department_code"));
+        if(list != null){
+            model.addAttribute("attendancelist", list);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+        return "attendance_list";
+    }
+
+    @GetMapping("/user/addressChange")
+    public String AddressChange(){
+
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        return "address_change";
+    }
+
+    @GetMapping("/user/attendance")
+    public String Attendance(){
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        return "index";
+    }
+
+    @GetMapping("/user/attendanceHistory")
+    public String attendanceHistory(HttpSession session, Model model){
+        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
+        if(attendanceList != null){
+            model.addAttribute("attendancelist",attendanceList);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+
+        return "attendance_history";
     }
 }

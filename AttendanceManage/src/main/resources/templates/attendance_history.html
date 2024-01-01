@@ -13,8 +13,8 @@
     <li><a href="index">勤怠入力</a></li>
     <li><a href="#">勤務場所登録</a></li>
     <li><a href="#">連絡先登録</a></li>
-    <li><a href="#">勤怠履歴一覧表示</a></li>
-    <li><a href="attendanceList" class="current">勤怠状況一覧表示</a></li>
+    <li><a href="/user/attendanceHistory">勤怠履歴一覧表示</a></li>
+    <li><a href="/user/attendanceList">勤怠状況一覧表示</a></li>
     <li><a href="login">ログアウト</a></li>
   </ul>
 </nav>
@@ -23,7 +23,6 @@
   <div class="table-container">
     <table border="1">
       <tr>
-        <th>ID</th>
         <th>日付</th>
         <th>勤務場所</th>
         <th>出勤時間</th>
@@ -32,11 +31,12 @@
         <th>勤務時間</th>
       </tr>
       <tr th:each="row : ${attendancelist}">
-        <td th:text="${row[''] != null ? row[''] : ''}"></td>
-        <td th:text="${row[''] != null ? row[''] : ''}"></td>
-        <td th:text="${row[''] != null ? row[''] : ''}"></td>
-        <td th:text="${row[''] != null ? row[''] : ''}"></td>
-        <td th:text="${row[''] != null ? row[''] : ''}"></td>
+        <td th:text="${row['date'] != null ? row['date'] : ''}"></td>
+        <td th:text="${row['location'] != null ? row['location'] : ''}"></td>
+        <td th:text="${row['start_time'] != null ? row['start_time'] : ''}"></td>
+        <td th:text="${row['end_time'] != null ? row['end_time'] : ''}"></td>
+        <td th:text="${row['break_duration'] != null ? row['break_duration'] : ''}"></td>
+        <td th:text="${row['total_work_time'] != null ? row['total_work_time'] : ''}"></td>
       </tr>
     </table>
   </div>

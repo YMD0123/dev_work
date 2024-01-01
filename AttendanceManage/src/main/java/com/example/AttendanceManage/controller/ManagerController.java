@@ -10,6 +10,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @Controller
 public class ManagerController {
 
@@ -61,7 +64,7 @@ public class ManagerController {
                            @RequestParam("TwoPassword") String TwoPassword,
                            @RequestParam("role") String role,
                            @RequestParam("department_code") String department_code,
-                          Model model){
+                          Model model) {
 
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
@@ -77,7 +80,7 @@ public class ManagerController {
         return  "redirect:/user_add";
     }
 
-    @GetMapping("/{id}")
+    @GetMapping("edit/{id}")
     public String userEditView(@PathVariable int id, Model model) {
 
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
@@ -101,13 +104,42 @@ public class ManagerController {
         }
     }
 
-    @GetMapping("/user_edit")
-    public String userEdit(@RequestParam("username") String usernem,
+    @PostMapping("/user_edit/{id}")
+    public String userEdit(@RequestParam("username") String username,
                            @RequestParam("role") String role,
-                           @RequestParam("department_code") String deoartment_code,
+                           @RequestParam("departmentCode") String department_code,
                            @PathVariable int id) {
 
-        boolean isEditResult = managerRepository.userUpdate(usernem, role, deoartment_code, id);
-        return "redirect:/{id}";
+        boolean isEditResult = managerRepository.userUpdate(username, role, department_code, id);
+        if (isEditResult) {
+            return "redirect:/user_list";
+        }
+        return "redirect:/edit/{id}";
     }
+
+    @GetMapping("/user_search")
+    public String userSearch(@RequestParam("userid") int userId,
+                             @RequestParam("username") String userName,
+                             @RequestParam("role") String role,
+                             @RequestParam("department_code") String departmentCode,
+                             Model model) {
+
+        model.addAttribute("users", managerRepository.userSearch(userId, userName, role, departmentCode));
+
+        return "redirect:/user_list";
+    }
+
+    @GetMapping("/attendanceHistory/{id}")
+    public String attendanceHistory(@PathVariable int id, Model model){
+        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory(id);
+        if(attendanceList != null){
+            model.addAttribute("attendancelist",attendanceList);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+
+        return "attendance_history";
+    }
+
+
 }
