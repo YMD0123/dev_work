@@ -31,6 +31,12 @@ public class LoginController {
                         @RequestParam(name = "password", required = false) String password,
                         Model model) {
 
+        if (userId == null || password == null) {
+            // ログイン失敗の場合、ログイン画面にエラーメッセージを表示
+            model.addAttribute("error", "ユーザー名またはパスワードが違います。");
+            return "login";
+        }
+
         if (userId != 0 && password != null) {
 
             boolean isLoginResult = userRepository.Login(userId, password);
@@ -65,22 +71,8 @@ public class LoginController {
                 model.addAttribute("error", "ユーザー名またはパスワードが違います。");
                 return "login";
             }
-        } else {
-            // ログイン失敗の場合、ログイン画面にエラーメッセージを表示
-            model.addAttribute("error", "ユーザー名またはパスワードが違います。");
-            if (userId == null || password == null) {
-                System.out.println("入力無");
-                return "login";
-            } else if (userId == null) {
-                System.out.println("userIdを入力してください。");
-                return "login";
-            } else if (password == null) {
-                System.out.println("passwordを入力してください。");
-                return "login";
-            }
-
-            return "login";
         }
+        return "login";
     }
 
     @RequestMapping("/index")
