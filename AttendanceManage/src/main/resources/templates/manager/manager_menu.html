@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>管理者画面TOP</title>
     <link rel="stylesheet" th:href="@{/css/index.css}">
+    <link rel="stylesheet" th:href="@{/css/userpage.css}">
     <script th:src="@{/js/script.js}"></script>
     <script th:inline="javascript">
         var status = /*[[${userStatus}]]*/ '';
@@ -19,14 +20,23 @@
         <li><a href="#">連絡先登録</a></li>
         <li><a href="/user/attendanceHistory">勤怠履歴一覧表示</a></li>
         <li><a href="/user/attendanceList">勤怠状況一覧表示</a></li>
-        <li><a href="login">ログアウト</a></li>
+        <li><a class="openbtn">アカウント</a></li>
     </ul>
+</nav>
+<nav id="g-nav">
+    <div id="g-nav-list">
+        <p>従業員ID : <span th:text="${userId}"></span></p>
+        <p>名前 : <span th:text="${userName}"></span></p>
+        <a href="userPassChange">パスワード変更</a>
+        <a href="addres_change">連絡先変更</a></br>
+        <a href="login">ログアウト</a>
+    </div>
 </nav>
 <div class="admin_form">
     <p class="clock" id="view_clock"></p>
     <div class="user_status">
         <p class="status">状態：<span th:text="${userStatus}"></span></p>
-        <p class="name">こんにちは、<span th:text="${username}"></span>さん</p>
+        <p class="name">こんにちは、<span th:text="${userName}"></span>さん</p>
     </div>
 </div>
     <form action=""  method="post">
@@ -43,5 +53,7 @@
         <button type="submit" th:formaction="@{/endBreak}" onclick="end()" id="endBreak">休憩終了</button>
     </form>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script th:src="@{/js/userPage.js}"></script>
 </body>
 </html>
