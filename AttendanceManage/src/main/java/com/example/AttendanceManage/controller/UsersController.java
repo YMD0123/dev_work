@@ -116,7 +116,7 @@ public class UsersController {
         return "user_menu";
     }
 
-    @GetMapping("/attendanceList")
+    @GetMapping("/user/attendanceList")
     public String WorkerList(HttpSession session, Model model){
 
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する

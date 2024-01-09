@@ -140,6 +140,29 @@ public class ManagerController {
 
         return "attendance_history";
     }
+    @GetMapping("/manager/attendanceList")
+    public String WorkerList(HttpSession session, Model model){
 
+        //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
+        //当日の同部署コードの勤務状況一覧
+        List<Map<String,Object>> list = attendanceRepository.getTodayAttendance((String) session.getAttribute("department_code"));
+        if(list != null){
+            model.addAttribute("attendancelist", list);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+        return "manager/manager_attendance_list";
+    }
 
+    @GetMapping("/manager/attendanceHistory")
+    public String attendanceHistory(HttpSession session, Model model){
+        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
+        if(attendanceList != null){
+            model.addAttribute("attendancelist",attendanceList);
+        }else{
+            model.addAttribute("errorMsg","エラーが発生しました。");
+        }
+
+        return "manager/manager_attendance_history";
+    }
 }

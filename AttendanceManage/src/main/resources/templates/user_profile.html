@@ -13,10 +13,10 @@
 <body>
     <nav>
         <ul>
-            <li><a href="index" class="current">勤怠入力</a></li>
+            <li><a href="/index" class="current">勤怠入力</a></li>
             <li><a href="#">連絡先登録</a></li>
-            <li><a href="#">勤怠履歴一覧表示</a></li>
-            <li><a href="attendanceList">勤怠状況一覧表示</a></li>
+            <li><a href="/user/attendanceHistory">勤怠履歴一覧表示</a></li>
+            <li><a href="/user/attendanceList">勤怠状況一覧表示</a></li>
             <li><a class="openbtn">アカウント</a></li>
         </ul>
     </nav>
@@ -24,8 +24,8 @@
     <div id="g-nav-list">
         <p>ID : <span th:text="${userId}"></span></p>
         <p>名前 : <span th:text="${username}"></span></p>
-        <a href="#">パスワード変更</a>
-        <a href="login">ログアウト</a>
+        <a href="/userPassChange">パスワード変更</a>
+        <a href="/login">ログアウト</a>
     </div>
 </nav>
 <div class="admin_form">
