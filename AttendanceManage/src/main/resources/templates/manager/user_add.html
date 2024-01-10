@@ -14,8 +14,8 @@
         <li><a href="user_list">従業員一覧</a></li>
         <li><a href="user_add" class="current">従業員登録</a></li>
         <li><a href="#">連絡先登録</a></li>
-        <li><a href="#">勤怠履歴一覧表示</a></li>
-        <li><a href="attendanceList">勤怠状況一覧表示</a></li>
+        <li><a href="/user/attendanceHistory">勤怠履歴一覧表示</a></li>
+        <li><a href="/user/attendanceList">勤怠状況一覧表示</a></li>
         <li><a href="login">ログアウト</a></li>
     </ul>
 </nav>
@@ -25,7 +25,9 @@
         <p>氏名</p>
         <input type="text" name="username">
         <p>パスワード</p>
-        <input type="password" name="password" id="">
+        <input type="password" name="password" id="password">
+        <p>※パスワード確認</p>
+        <input type="password" name="TwoPassword" id="TwoPassword">
         <p>権限</p>
         <select name="role">
             <option value="admin">admin</option>

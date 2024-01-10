@@ -49,9 +49,13 @@
             <artifactId>lombok</artifactId>
 			<scope>provided</scope>
         </dependency>
+
+		<!--		jquery		-->
 		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+			<groupId>org.webjars</groupId>
+			<artifactId>jquery</artifactId>
+			<version>3.7.0</version>
+
 		</dependency>
 	</dependencies>
 
@@ -63,5 +67,6 @@
 			</plugin>
 		</plugins>
 	</build>
+
 
 </project>

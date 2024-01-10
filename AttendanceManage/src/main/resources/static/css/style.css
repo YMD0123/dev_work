@@ -85,6 +85,11 @@ nav a:hover {
     color:#F7CB4D;
     border-bottom:2px solid #F7CB4D;
 }
+/* nav li a {
+    display: block;
+    height: 100%;
+    width: 100%
+} */
 
 /* tableデザイン */
 .main {

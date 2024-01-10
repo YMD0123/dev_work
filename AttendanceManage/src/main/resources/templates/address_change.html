@@ -5,40 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>連絡先登録</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
+
     <script th:src="@{/js/script.js}"></script>
     <script th:inline="javascript">
-			const errorMsg = /*[[${errorMsg}]]*/"";
-		if (errorMsg != null) {
-        	alert(errorMsg);
-		}
 
-	</script>
+    </script>
+
 </head>
 <body>
 <nav>
     <ul>
-        <li><a href="index" class="current">勤怠入力</a></li>
-        <li><a href="address_change">連絡先登録</a></li>
+
+        <li><a href="index" >勤怠入力</a></li>
+        <li><a href="address_change"class="current">連絡先登録</a></li>
         <li><a href="">勤怠履歴一覧表示</a></li>
         <li><a href="attendanceList">勤怠状況一覧表示</a></li>
         <li><a href="login">ログアウト</a></li>
     </ul>
 </nav>
+<nav id="g-nav">
+    <div id="g-nav-list">
+        <p>従業員ID : <span th:text="${userId}"></span></p>
+        <p>名前 : <span th:text="${userName}"></span></p>
+        <a href="userPassChange">パスワード変更</a>
+        <a href="addres_change">連絡先変更</a></br>
+        <a href="login">ログアウト</a>
+    </div>
+</nav>
 <div class="contact">
-
-    <form th:action="@{/test}" method="post">
-        <label>メールアドレス</label><input type="email" name="email" placeholder="info@example.com"></label>
-        <label>電話番号<input type="tel" name="telephone" placeholder="000-0000-0000"></label>
-        <label>備考</label><textarea  name="remark" placeholder="備考を入力してください"></textarea>
+    <form th:action="@{/}" method="post">
+        <p>
+            <label>メールアドレス：<input type="email" th:field="*{userAddress.email}" name="email" placeholder="info@example.com"></label>
+        </p>
+        <p>
+            <label>電話番号：<input type="tel" th:field="*{userAddress.phoneNumber}" name="telephone" placeholder="000-0000-0000"></label>
+        </p>
+        <p>
+            <label>備考：<textarea  name="remark" placeholder="備考を入力してください"></textarea></label>
+        </p>
         <button type="submit">登録</button>
-
-
-        <!--        <p><label>メールアドレス：<input type="email" name="email" placeholder="info@example.com"></label></p>-->
-<!--        <p><label>電話番号：<input type="tel" name="telephone" placeholder="000-0000-0000"></label></p>-->
-<!--        <p><label>備考：<textarea  name="remark" placeholder="備考を入力してください"></textarea></label></p>-->
-<!--        <button type="submit">登録</button>-->
     </form>
-
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script th:src="@{/js/userPage.js}"></script>
+
 </body>
 </html>

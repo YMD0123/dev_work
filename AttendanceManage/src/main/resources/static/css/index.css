@@ -36,12 +36,18 @@ nav a {
 }
 nav a.current {
     color: #007bff;
-    border-bottom:2px solid #007bff;
+    border-bottom: 2px solid #007bff;
 }
 nav a:hover {
     color:#F7CB4D;
     border-bottom:2px solid #F7CB4D;
 }
+
+/* nav li a {
+    display: block;
+    height: 100%;
+    width: 100%
+} */
 
 /* 時計表示 */
 .clock {

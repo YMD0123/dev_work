@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>変更</title>
+    <title>編集</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
     <script th:src="@{/js/script.js}"></script>
 </head>
@@ -14,15 +14,15 @@
         <li><a href="user_list" class="current">従業員一覧</a></li>
         <li><a href="user_add">従業員登録</a></li>
         <li><a href="#">連絡先登録</a></li>
-        <li><a href="#">勤怠履歴一覧表示</a></li>
-        <li><a href="attendanceList">勤怠状況一覧表示</a></li>
+        <li><a href="/user/attendanceHistory">勤怠履歴一覧表示</a></li>
+        <li><a href="/user/attendanceList">勤怠状況一覧表示</a></li>
         <li><a href="login">ログアウト</a></li>
     </ul>
 </nav>
 <div class="add_form">
     <p>従業員アカウント編集</p>
     <p>従業員ID : <span th:text="${user.id}"></span></p>
-    <form action="" th:action="@{/user_add}" method="post">
+    <form action="" th:action="@{'/user_edit/' + ${user.id}}" method="post">
         <p>氏名</p>
         <input type="text" th:field="*{user.username}" name="username">
         <p>権限</p>

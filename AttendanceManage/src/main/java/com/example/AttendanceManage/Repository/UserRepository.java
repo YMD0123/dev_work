@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.sql.SQLException;
 import java.util.Map;
 
 @Repository
@@ -30,12 +31,42 @@ public class UserRepository {
         System.out.println("result      : " + hashPassword);
         System.out.println("getPassword : " + userPassword);
 
-        // passwordとpostされたgetPasswordを比較
         if (hashPassword.equals(userPassword)) {
             return true;
         } else {
             return false;
         }
+    }
+
+    public boolean updatePassword(String newPassword, int userId) {
+
+        String sql = "UPDATE users SET password = ? WHERE id = ?";
+
+        String newHashPassWord = getMD5Hash(newPassword);
+
+        try {
+            System.out.println("newPassword : " + newHashPassWord);
+            jdbcTemplate.update(sql, newHashPassWord, userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            e.printStackTrace();
+            return false;
+        }
+
+        return true;
+    }
+
+    public String findUserNameById(int userId) {
+        String sql = "SELECT username from users WHERE id = ?";
+        String userName = null;
+
+        try {
+            userName = jdbcTemplate.queryForObject(sql, String.class, userId);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            e.printStackTrace();
+        }
+        return userName;
     }
 
     public User getUserInfo(int userId) {
@@ -44,6 +75,16 @@ public class UserRepository {
         User user = mapToUser(user_map);
         return user;
     }
+
+    public User findUserAddressById(int userId) {
+
+        String sql = "SELECT phone_number, email FROM users WHERE id = ?";
+        Map<String, Object> user_map = jdbcTemplate.queryForMap(sql, userId);
+        User user = mapToAddress(user_map);
+        return user;
+
+    }
+
 
     private String getMD5Hash(String stringToHash) {
         try {
@@ -60,6 +101,13 @@ public class UserRepository {
         }
     }
 
+    private User mapToAddress(Map user_map) {
+        User user = new User();
+        user.setPhoneNumber((String) user_map.get("phone_number"));
+        user.setEmail((String) user_map.get("email"));
+        return user;
+    }
+
     private User mapToUser(Map user_map) {
         User user = new User();
         user.setId((int)user_map.get("id"));
@@ -68,4 +116,5 @@ public class UserRepository {
         user.setDepartmentCode((String) user_map.get("department_code"));
         return user;
     }
+
 }

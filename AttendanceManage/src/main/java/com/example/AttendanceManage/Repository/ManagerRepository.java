@@ -20,7 +20,7 @@ public class ManagerRepository {
     private JdbcTemplate jdbcTemplate;
 
     public List<User> findAll() {
-        String sql = "SELECT * FROM users";
+        String sql = "SELECT * FROM users ORDER BY id ASC";
         List<User> list = new ArrayList<>();
         List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql);
         for (int i = 0; i < mapList.size(); i++) {
@@ -82,9 +82,36 @@ public class ManagerRepository {
         return true;
     }
 
-    public boolean userUpdate(String username, String role, String department_code) {
+    public boolean userUpdate(String username, String role, String department_code, int id) {
         // TODO ユーザー更新メソッド作成
+        String sql = "UPDATE users SET username = ?, role = ?, department_code = ? WHERE id = ?";
+
+        try {
+            jdbcTemplate.update(sql, username, role, department_code, id);
+        } catch (Exception e) {
+            System.out.println("DATABASE_ERROR");
+            return false;
+        }
+        System.out.println("更新完了");
         return true;
+    }
+
+    public List<User> userSearch(int userId, String userName, String role, String departmentCode) {
+
+        String sql = "";
+
+        List<User> list = new ArrayList<>();
+        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql, userId, userName, role, departmentCode);
+        for (int i = 0; i < mapList.size(); i++) {
+            Map<String, Object> map = mapList.get(i);
+            User user = new User (
+                    Integer.parseInt(map.get("id").toString()),
+                    map.get("username").toString(),
+                    map.get("role").toString(),
+                    map.get("department_code").toString());
+            list.add(user);
+        }
+        return list;
     }
 
     private User mapToUser(Map user_map) {
@@ -110,5 +137,4 @@ public class ManagerRepository {
             throw new RuntimeException("MD5 hashing algorithm not found", e);
         }
     }
-
 }
