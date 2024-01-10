@@ -155,11 +155,11 @@ public class UsersController {
         return "attendance_history";
     }
 
-    @RequestMapping("/address_change")
+    @RequestMapping("/user/address_change")
     public String testView(){
         return "address_change";
     }
-    @PostMapping("/address_change")
+    @PostMapping("/user/address_change")
     public String testInput(HttpSession session,
                             @RequestParam("email") String email,
                             @RequestParam("phonenumber") String phonenumber,
