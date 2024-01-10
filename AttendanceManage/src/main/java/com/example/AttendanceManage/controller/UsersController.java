@@ -144,14 +144,29 @@ public class UsersController {
     }
 
     @GetMapping("/user/attendanceHistory")
-    public String attendanceHistory(HttpSession session, Model model){
-        List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
-        if(attendanceList != null){
-            model.addAttribute("attendancelist",attendanceList);
-        }else{
-            model.addAttribute("errorMsg","エラーが発生しました。");
+    public String attendanceHistory(HttpSession session, Model model) {
+        List<Map<String, Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
+        if (attendanceList != null) {
+            model.addAttribute("attendancelist", attendanceList);
+        } else {
+            model.addAttribute("errorMsg", "エラーが発生しました。");
         }
 
         return "attendance_history";
+    }
+
+    @RequestMapping("/address_change")
+    public String testView(){
+        return "address_change";
+    }
+    @PostMapping("/address_change")
+    public String testInput(HttpSession session,
+                            @RequestParam("email") String email,
+                            @RequestParam("phonenumber") String phonenumber,
+                            Model model){
+
+        boolean isTestResult = userRepository.phoneAddress((int)session.getAttribute( "userId"),email, phonenumber);
+
+        return "address_change";
     }
 }
