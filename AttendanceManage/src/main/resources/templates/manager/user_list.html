@@ -10,8 +10,8 @@
 <body>
     <nav>
         <ul>
-            <li><a href="/manager" class="current">勤怠入力</a></li>
-            <li><a href="/user_list">従業員一覧</a></li>
+            <li><a href="/manager">勤怠入力</a></li>
+            <li><a href="/user_list" class="current">従業員一覧</a></li>
             <li><a href="/user_add">従業員登録</a></li>
             <li><a href="#">連絡先登録</a></li>
             <li><a href="/manager/attendanceHistory">勤怠履歴一覧表示</a></li>
@@ -20,24 +20,6 @@
         </ul>
     </nav>
     <div class="main">
-<!--        <p>従業員検索</p>-->
-<!--        <form action="" th:action="@{/user_search}" method="get">-->
-<!--            <p>従業員ID</p>-->
-<!--            <input type="text" name="userid">-->
-<!--            <p>氏名</p>-->
-<!--            <input type="text" name="username">-->
-<!--            <p>権限</p>-->
-<!--            <select name="role">-->
-<!--                <option value="admin">admin</option>-->
-<!--                <option value="user" selected>user</option>-->
-<!--            </select>-->
-<!--            <p>部署</p>-->
-<!--            <select name="department_code">-->
-<!--                <option value="100">100</option>-->
-<!--                <option value="101" selected>101</option>-->
-<!--            </select>-->
-<!--            <input type="submit" value="検索">-->
-<!--        </form>-->
         <p>従業員一覧</p>
         <div class="table-container">
             <table border="1">
