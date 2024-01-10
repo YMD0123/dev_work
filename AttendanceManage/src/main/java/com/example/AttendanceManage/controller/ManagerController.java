@@ -24,7 +24,7 @@ public class ManagerController {
     UserRepository userRepository;
     private JdbcTemplate jdbcTemplate;
 
-    @RequestMapping("/manager_menu")
+    @RequestMapping("/manager")
     public String indexView(HttpSession session, Model model) {
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
 
@@ -138,7 +138,7 @@ public class ManagerController {
             model.addAttribute("errorMsg","エラーが発生しました。");
         }
 
-        return "attendance_history";
+        return "manager/manager_attendance_history";
     }
     @GetMapping("/manager/attendanceList")
     public String WorkerList(HttpSession session, Model model){
