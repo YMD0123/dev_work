@@ -61,7 +61,7 @@ public class LoginController {
                 //UserのRoleがadminだったときadminメニューへ遷移
                 if (user.getRole().equals("admin")) {
                     System.out.println("go admin menu");
-                    return "/manager/manager_menu";
+                    return "redirect:/manager";
                 }
 
                 // ログイン成功の場合、index.html に遷移

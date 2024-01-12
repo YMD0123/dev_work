@@ -28,12 +28,12 @@ public class UsersController {
         return "password_change";
     }
 
-    @RequestMapping("/addres_change")
+    @RequestMapping("/address_edit")
     public String addresChangeView(Model model, HttpSession session) {
 
         model.addAttribute("userAddress", userRepository.findUserAddressById((int)session.getAttribute("userId")));
 
-        return "addres_change";
+        return "address_edit";
     }
 
     @PostMapping("/passChange")
@@ -116,7 +116,7 @@ public class UsersController {
         return "user_menu";
     }
 
-    @GetMapping("/attendanceList")
+    @GetMapping("/user/attendanceList")
     public String WorkerList(HttpSession session, Model model){
 
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
