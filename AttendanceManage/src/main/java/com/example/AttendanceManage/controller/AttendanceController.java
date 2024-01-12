@@ -1,18 +1,13 @@
 package com.example.AttendanceManage.controller;
 
 import com.example.AttendanceManage.Repository.AttendanceRepository;
-import com.example.AttendanceManage.model.Attendance;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.Banner;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
-import java.util.List;
-import java.util.Map;
 
 @Controller
 public class AttendanceController {
@@ -139,37 +134,4 @@ public class AttendanceController {
         }
         return "login";
     }
-
-//    @PostMapping("/tset")
-//    public String attendanc(HttpSession session,
-//                            @RequestParam("place") String place,
-//                            Model model) {
-//
-//        if (session.getAttribute("userId") != null) {
-//            int attendanceId = attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId"));
-//            if (attendanceId == 0) {
-//                boolean isClokingResult = attendanceRepository.clockingIn(place,
-//                        (int) session.getAttribute("userId"),
-//                        (String) session.getAttribute("department_code"));
-//
-//            } else {
-//                String isWorkingStatus = attendanceRepository.attendanceStatusById(attendanceId);
-//                if (isWorkingStatus.equals("出勤中")) {
-//                    if () {
-//                        boolean isResult = attendanceRepository.startBreak(attendanceId);
-//                        return "index";
-//                    } else if () {
-//                        boolean isResult = attendanceRepository.clockingOut(attendanceId);
-//                        return "index";
-//                    }
-//                } else if (isWorkingStatus.equals("休憩中")) {
-//                    boolean isResult = attendanceRepository.endBreak(attendanceId);
-//                    return "index";
-//                } else {
-//                    return "index";
-//                }
-//            }
-//        }
-//        return "login";
-//    }
 }

@@ -7,7 +7,6 @@ import org.springframework.stereotype.Repository;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.sql.SQLException;
 import java.util.Map;
 
 @Repository
@@ -117,4 +116,16 @@ public class UserRepository {
         return user;
     }
 
+    public boolean phoneAddress(int userId, String email, String phonenumber) {
+
+        String sql ="UPDATE users SET phone_number = ?, email = ? WHERE id = ?";
+
+        try {
+            //DBに格納
+            jdbcTemplate.update(sql,phonenumber,email,userId);
+        } catch (Exception e) {
+            return false;
+        }
+        return true;
+    }
 }
