@@ -119,6 +119,14 @@ public class UsersController {
     @GetMapping("/user/attendanceList")
     public String WorkerList(HttpSession session, Model model){
 
+        String loginUserStatus = attendanceRepository.attendanceStatusById(
+                attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId")));
+        String loginUserName = userRepository.findUserNameById((int) session.getAttribute("userId"));
+
+        model.addAttribute("userStatus", loginUserStatus);
+        model.addAttribute("userName", loginUserName);
+        model.addAttribute("userId", session.getAttribute("userId"));
+
         //TODO session idが空の時ログインにリダイレクトを行いURLでのアクセスを禁止する
         //当日の同部署コードの勤務状況一覧
         List<Map<String,Object>> list = attendanceRepository.getTodayAttendance((String) session.getAttribute("department_code"));
@@ -145,6 +153,15 @@ public class UsersController {
 
     @GetMapping("/user/attendanceHistory")
     public String attendanceHistory(HttpSession session, Model model) {
+
+        String loginUserStatus = attendanceRepository.attendanceStatusById(
+                attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId")));
+        String loginUserName = userRepository.findUserNameById((int) session.getAttribute("userId"));
+
+        model.addAttribute("userStatus", loginUserStatus);
+        model.addAttribute("userName", loginUserName);
+        model.addAttribute("userId", session.getAttribute("userId"));
+
         List<Map<String, Object>> attendanceList = attendanceRepository.getAttendanceHistory((Integer) session.getAttribute("userId"));
         if (attendanceList != null) {
             model.addAttribute("attendancelist", attendanceList);

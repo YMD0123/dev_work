@@ -5,6 +5,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>勤怠状況一覧</title>
 	<link rel="stylesheet" th:href="@{/css/style.css}">
+	<link rel="stylesheet" th:href="@{/css/userpage.css}">
 	<script th:src="@{/js/script.js}"></script>
 </head>
 <body>
@@ -13,9 +14,18 @@
 		<li><a href="/index">勤怠入力</a></li>
 		<li><a href="#">連絡先登録</a></li>
 		<li><a href="/user/attendanceHistory">勤怠履歴一覧表示</a></li>
-		<li><a href="/user/attendanceList">勤怠状況一覧表示</a></li>
-		<li><a href="/login">ログアウト</a></li>
+		<li><a href="/user/attendanceList" class="current">勤怠状況一覧表示</a></li>
+		<li><a class="openbtn">アカウント</a></li>
 	</ul>
+</nav>
+<nav id="g-nav">
+	<div id="g-nav-list">
+		<p>従業員ID : <span th:text="${userId}"></span></p>
+		<p>名前 : <span th:text="${userName}"></span></p>
+		<a href="/userPassChange">パスワード変更</a>
+		<a href="/address_edit">連絡先変更</a></br>
+		<a href="/login">ログアウト</a>
+	</div>
 </nav>
 <div class="main">
 	<p>勤怠状況一覧  <span id="view_days"></span></p>
@@ -36,8 +46,9 @@
 				<td th:text="${row['email'] != null ? row['email'] : ''}"></td>
 			</tr>
 		</table>
-
 	</div>
 </div>
+<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script th:src="@{/js/userPage.js}"></script>
 </body>
 </html>
