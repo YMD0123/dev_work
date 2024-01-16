@@ -5,9 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>連絡先登録</title>
     <link rel="stylesheet" th:href="@{/css/style.css}">
-    <link rel="stylesheet" th:href="@{/css/userpage.css}">
     <script th:src="@{/js/script.js}"></script>
-
     <script th:inline="javascript"></script>
 </head>
 <body>
@@ -20,22 +18,13 @@
         <li><a class="openbtn">アカウント</a></li>
     </ul>
 </nav>
-<nav id="g-nav">
-    <div id="g-nav-list">
-        <p>従業員ID : <span th:text="${userId}"></span></p>
-        <p>名前 : <span th:text="${userName}"></span></p>
-        <a href="/userPassChange">パスワード変更</a>
-        <a href="/address_edit">連絡先変更</a></br>
-        <a href="/login">ログアウト</a>
-    </div>
-</nav>
 <div class="contact">
     <form th:action="@{/user/address_change}" method="post">
         <p>
             <label>メールアドレス：<input type="email"  name="email" placeholder="info@example.com"></label>
         </p>
         <p>
-            <label>電話番号：<input type="tel" name="phonenumber" placeholder="000-0000-0000"></label>
+            <label>電話番号：<input type="tel" name="telephone" placeholder="000-0000-0000"></label>
         </p>
         <p>
             <label>備考：<textarea  name="remark" placeholder="備考を入力してください"></textarea></label>
@@ -43,8 +32,5 @@
         <button type="submit">登録</button>
     </form>
 </div>
-<script src="https://code.jquery.com/jquery-3.4.1.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
-<script th:src="@{/js/userPage.js}"></script>
-
 </body>
 </html>
