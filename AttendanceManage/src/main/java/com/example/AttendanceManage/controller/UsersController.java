@@ -31,6 +31,14 @@ public class UsersController {
     @RequestMapping("/address_edit")
     public String addresChangeView(Model model, HttpSession session) {
 
+        String loginUserStatus = attendanceRepository.attendanceStatusById(
+                attendanceRepository.findAttendanceIdByUser((int) session.getAttribute("userId")));
+        String loginUserName = userRepository.findUserNameById((int) session.getAttribute("userId"));
+
+        model.addAttribute("userStatus", loginUserStatus);
+        model.addAttribute("userName", loginUserName);
+        model.addAttribute("userId", session.getAttribute("userId"));
+
         model.addAttribute("userAddress", userRepository.findUserAddressById((int)session.getAttribute("userId")));
 
         return "address_edit";
