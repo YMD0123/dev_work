@@ -96,24 +96,6 @@ public class ManagerRepository {
         return true;
     }
 
-    public List<User> userSearch(int userId, String userName, String role, String departmentCode) {
-
-        String sql = "";
-
-        List<User> list = new ArrayList<>();
-        List<Map<String, Object>> mapList = jdbcTemplate.queryForList(sql, userId, userName, role, departmentCode);
-        for (int i = 0; i < mapList.size(); i++) {
-            Map<String, Object> map = mapList.get(i);
-            User user = new User (
-                    Integer.parseInt(map.get("id").toString()),
-                    map.get("username").toString(),
-                    map.get("role").toString(),
-                    map.get("department_code").toString());
-            list.add(user);
-        }
-        return list;
-    }
-
     private User mapToUser(Map user_map) {
         User user = new User();
         user.setId((int)user_map.get("id"));
