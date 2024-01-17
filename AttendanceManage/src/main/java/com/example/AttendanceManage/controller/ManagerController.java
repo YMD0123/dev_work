@@ -117,18 +117,6 @@ public class ManagerController {
         return "redirect:/edit/{id}";
     }
 
-    @GetMapping("/user_search")
-    public String userSearch(@RequestParam("userid") int userId,
-                             @RequestParam("username") String userName,
-                             @RequestParam("role") String role,
-                             @RequestParam("department_code") String departmentCode,
-                             Model model) {
-
-        model.addAttribute("users", managerRepository.userSearch(userId, userName, role, departmentCode));
-
-        return "redirect:/user_list";
-    }
-
     @GetMapping("/attendanceHistory/{id}")
     public String attendanceHistory(@PathVariable int id, Model model){
         List<Map<String,Object>> attendanceList = attendanceRepository.getAttendanceHistory(id);

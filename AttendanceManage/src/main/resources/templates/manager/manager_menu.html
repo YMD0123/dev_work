@@ -37,10 +37,10 @@
                 <option value="Service">営業所</option>
             </select>
         </div>
-        <button type="submit" th:formaction="@{/clockingIn}" onclick="atwork()" id="clockingIn">出勤</button>
-        <button type="submit" th:formaction="@{/clockingOut}" onclick="lework()" id="clockingOut">退勤</button>
-        <button type="submit" th:formaction="@{/startBreak}" onclick="start()" id="startBreak">休憩開始</button>
-        <button type="submit" th:formaction="@{/endBreak}" onclick="end()" id="endBreak">休憩終了</button>
+        <button type="submit" th:formaction="@{/clockingIn}" id="clockingIn">出勤</button>
+        <button type="submit" th:formaction="@{/clockingOut}" id="clockingOut">退勤</button>
+        <button type="submit" th:formaction="@{/startBreak}" id="startBreak">休憩開始</button>
+        <button type="submit" th:formaction="@{/endBreak}" id="endBreak">休憩終了</button>
     </form>
 </div>
 </body>

@@ -230,6 +230,7 @@ tr:nth-child(even) {
     margin-bottom: 10px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    resize: none;
 }
 .contact button[type="submit"] {
     width: auto;
