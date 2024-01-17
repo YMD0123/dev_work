@@ -72,12 +72,6 @@ public class UsersController {
         return "password_change";
     }
 
-    @PostMapping("/updateaddres")
-    public String updateChange() {
-
-        return "redirect:/address_change";
-    }
-
     @GetMapping("/")
     public String greeting(@RequestParam(name="name", required=false, defaultValue="World") String name, Model model) {
 
@@ -193,6 +187,21 @@ public class UsersController {
 
         return "address_change";
     }
+
+    @PostMapping("/user/addressEdit")
+    public String upDateAddress(HttpSession session,
+                                @RequestParam("email") String email,
+                                @RequestParam("phonenumber") String phonenumber,
+                                Model model){
+
+        System.out.println(email);
+        System.out.println(phonenumber);
+
+        boolean isTestResult = userRepository.phoneAddress((int)session.getAttribute( "userId"), email, phonenumber);
+
+        return "address_edit";
+    }
+
     @PostMapping("/user/address_change")
     public String testInput(HttpSession session,
                             @RequestParam("email") String email,
