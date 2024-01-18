@@ -18,7 +18,7 @@
 		<p class="fsize">Login</p>
 		<input type="text" name="userid" autocomplete="off" placeholder="UserId"/>
 		<input type="password" name="password" autocomplete="off" placeholder="Password"/>
-		<p th:text="${errorMsg}"></p>
+		<p class="errorMsg" th:utext="${#strings.replace(errorMsg, '\n', '<\br>')}"></p>
 		<button type="submit">Login</button>
 	</form>
 </div>

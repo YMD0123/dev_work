@@ -256,3 +256,7 @@ tr:nth-child(even) {
     text-decoration: none;
 }
 
+.errorMsg{
+    font-size: 15px;
+    color: red;
+}
