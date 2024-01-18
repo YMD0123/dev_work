@@ -154,9 +154,13 @@ public class ManagerController {
         return "manager/manager_attendance_history";
     }
 
+
     @RequestMapping("/manager/address_change")
     public String testView(){
-        return "address_change";
+
+
+
+        return "/manager/manager_address_change";
     }
     @PostMapping("/manager/address_change")
     public String testInput(HttpSession session,
@@ -166,6 +170,6 @@ public class ManagerController {
 
         boolean isTestResult = userRepository.phoneAddress((int)session.getAttribute( "userId"),email, phonenumber);
 
-        return "address_change";
+        return "manager/manager_address_change";
     }
 }
